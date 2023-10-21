@@ -1,9 +1,26 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+var TLocation = new mongoose.Schema({
+    latitude: {
+        required: true, 
+        type: Number
+    },
+    longitude: {
+        required: true, 
+        type: Number
+    },
+    Address: {
+        required: true, 
+        type: String
+    }
+});
+
 
 const dataSchema = new mongoose.Schema({
     id: {
         required: true,
-        type: String
+        type: Schema.Types.ObjectId
     },
     title: {
         required: true,
@@ -20,6 +37,14 @@ const dataSchema = new mongoose.Schema({
     link: {
         required: true,
         type: String
+    },
+    date: {
+        required: true,
+        type: Date
+    },
+    location: {
+        required: true,
+        type: TLocation
     }
 })
 
