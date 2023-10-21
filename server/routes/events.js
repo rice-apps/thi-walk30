@@ -1,6 +1,7 @@
 const express = require("express");
 const Event = require("../models/events");
 const router = express.Router();
+const Event = require('../models/events');
 
 router.post("/create", async (req, res, next) {
     const event = new Event({
