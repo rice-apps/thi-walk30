@@ -1,37 +1,34 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
 const TLocation = require("./location");
-
-
 
 const dataSchema = new mongoose.Schema({
     id: {
-        required: true,
-        type: Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     },
     title: {
-        required: true,
-        type: String
+        type: String,
+        required: true
     },
     description: {
-        required: true,
-        type: String
+        type: String,
+        required: true
     },
     featured_img: {
-        required: true,
-        type: String
+        type: String,
+        required: true
     },
     link: {
-        required: true,
-        type: String
+        type: String,
+        required: true
     },
     date: {
-        required: true,
-        type: Date
+        type: Date,
+        default: Date.now()
     },
     location: {
-        required: true,
-        type: TLocation
+        type: TLocation.schema,
+        required: true
     }
 })
 

@@ -1,5 +1,9 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config();
+const express = require('express');
+const routes = require("./routes");
+const cors = require('cors');
+
 
 const uri = "mongodb+srv://" + process.env.MONGO_ADMIN_USERNAME + ":" + process.env.MONGO_ADMIN_PASSWORD + "@thi-cluster.hppzt17.mongodb.net/?retryWrites=true&w=majority";
 
@@ -19,6 +23,15 @@ async function run() {
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        const app = express();
+
+        app.use(express.json());
+        app.use(cors());
+        app.use('/api', routes);
+
+        app.listen(3000, () => {
+            console.log(`Server started at ${3000}`);
+        })
     } finally {
         // Ensures that the client will close when you finish/error
         await client.close();

@@ -1,10 +1,9 @@
 const express = require("express");
 const Event = require("../models/events");
 const router = express.Router();
-const Event = require('../models/events');
 
 // Create new event
-router.post("/create", async (req, res, next) {
+router.post("/create", async (req, res, next) => {
     const event = new Event({
         id: req.body.id,
         title: req.body.title,
@@ -24,7 +23,7 @@ router.post("/create", async (req, res, next) {
 });
 
 // Find event by id and delete
-router.delete("/delete-event/:id", async (req, res, next) {
+router.delete("/delete-event/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
         const event = Event.findByIdAndDelete(id);
@@ -35,7 +34,7 @@ router.delete("/delete-event/:id", async (req, res, next) {
 });
 
 // Find event by id and update
-router.patch("/updateEvent/:id", async (req, res, next) {
+router.patch("/updateEvent/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
         const updateData = req.body;
@@ -49,7 +48,7 @@ router.patch("/updateEvent/:id", async (req, res, next) {
 });
 
 // Get event by id and update
-router.get("/getEvent/:id", async (req, res, next) {
+router.get("/getEvent/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
         const event = Event.findById(id);
@@ -59,4 +58,4 @@ router.get("/getEvent/:id", async (req, res, next) {
     }
 });
 
-module.export = router;
+module.exports = router;
