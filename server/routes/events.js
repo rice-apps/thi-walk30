@@ -2,6 +2,7 @@ const express = require("express");
 const Event = require("../models/events");
 const router = express.Router();
 const mongodb = require('mongodb');
+const morgan = require("morgan");
 
 // Create new event
 router.post("/create", async (req, res, next) => {

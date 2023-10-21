@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const routes = require("./routes");
 const cors = require('cors');
+const morgan = require("morgan");
 
 
 const uri = "mongodb+srv://" + process.env.MONGO_ADMIN_USERNAME + ":" + process.env.MONGO_ADMIN_PASSWORD + "@thi-cluster.hppzt17.mongodb.net/?retryWrites=true&w=majority";
@@ -27,6 +28,7 @@ async function run() {
 
         app.use(express.json());
         app.use(cors());
+        app.use(morgan("tiny"));
         app.use('/api', routes);
 
         app.listen(3000, () => {
