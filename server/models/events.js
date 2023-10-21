@@ -2,9 +2,8 @@ const mongoose = require("mongoose");
 const TLocation = require("./location");
 
 const dataSchema = new mongoose.Schema({
-    id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+    _id: {
+        type: mongoose.Schema.Types.ObjectId
     },
     title: {
         type: String,

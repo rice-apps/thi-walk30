@@ -1,11 +1,12 @@
 const express = require("express");
 const Event = require("../models/events");
 const router = express.Router();
+const mongodb = require('mongodb');
 
 // Create new event
 router.post("/create", async (req, res, next) => {
     const event = new Event({
-        id: req.body.id,
+        _id: new mongodb.ObjectId(),
         title: req.body.title,
         description: req.body.description,
         featured_img: req.body.featured_img,
@@ -13,13 +14,13 @@ router.post("/create", async (req, res, next) => {
         location: req.body.location
     });
 
+
     try {
         const savedData = await event.save();
         res.status(200).json(savedData);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-
 });
 
 // Find event by id and delete

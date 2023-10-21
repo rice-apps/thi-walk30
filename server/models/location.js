@@ -9,7 +9,7 @@ const TLocation = new mongoose.Schema({
         required: true, 
         type: Number
     },
-    Address: {
+    address: {
         required: true, 
         type: String
     }
