@@ -3,6 +3,7 @@ const Event = require("../models/events");
 const router = express.Router();
 const Event = require('../models/events');
 
+// Create new event
 router.post("/create", async (req, res, next) {
     const event = new Event({
         id: req.body.id,
@@ -10,7 +11,7 @@ router.post("/create", async (req, res, next) {
         description: req.body.description,
         featured_img: req.body.featured_img,
         link: req.body.link
-    })
+    });
 
     try {
         const savedData = await event.save();
@@ -21,21 +22,35 @@ router.post("/create", async (req, res, next) {
 
 });
 
+// Find event by id and delete
 router.delete("/delete-event/:id", async (req, res, next) {
     try {
-        const id = req.params.id
+        const id = req.params.id;
         const event = Event.findByIdAndDelete(id);
         res.send("Event `${event.name}` has been deleted");
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
-router.patch("/update", async (req, res, next) {
-    
-});
-router.get("/get-event-by-id", async (req, res, next) {
+
+// Find event by id and update
+router.patch("/updateEvent/:id", async (req, res, next) {
     try {
-        const id = req.params.id
+        const id = req.params.id;
+        const updateData = req.body;
+        const options = { new: true };
+
+        const result = await Event.findByIdAndUpdate(id, updateData, options);
+        res.send(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// Get event by id and update
+router.get("/getEvent/:id", async (req, res, next) {
+    try {
+        const id = req.params.id;
         const event = Event.findById(id);
         res.json(event);
     } catch (error) {
