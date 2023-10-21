@@ -67,3 +67,16 @@ router.post('/getActivityTime/', async(req,res) =>{
     }
 
 })
+
+router.delete('/deleteUser/', async(req,res) =>{
+    try{
+        const id = req.params.id;
+
+        const data = await User.findByIdAndDelete(id);
+
+        res.send(`User '${data.name}' (id ${id}) has been deleted.`);
+
+    }catch(error){
+        res.status(400).json({message:error.message})
+    }
+})
