@@ -13,8 +13,7 @@ router.post("/create", async (req, res, next) => {
         link: req.body.link,
         location: req.body.location
     });
-
-
+    console.log("Created event");
     try {
         const savedData = await event.save();
         res.status(200).json(savedData);
@@ -59,4 +58,7 @@ router.get("/getEvent/:id", async (req, res, next) => {
     }
 });
 
+router.get("/test", async (req, res, next) => {
+    res.send("connected");
+});
 module.exports = router;
