@@ -1,20 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const TLocation = require("./location");
 
-var TLocation = new mongoose.Schema({
-    latitude: {
-        required: true, 
-        type: Number
-    },
-    longitude: {
-        required: true, 
-        type: Number
-    },
-    Address: {
-        required: true, 
-        type: String
-    }
-});
 
 
 const dataSchema = new mongoose.Schema({

@@ -10,7 +10,8 @@ router.post("/create", async (req, res, next) {
         title: req.body.title,
         description: req.body.description,
         featured_img: req.body.featured_img,
-        link: req.body.link
+        link: req.body.link,
+        location: req.body.location
     });
 
     try {
