@@ -9,7 +9,7 @@ const organizationSchema = moongose.Schema({
         type: String
     },
     img: {
-        required: true,
+        required: false,
         type: String
     }
 })
