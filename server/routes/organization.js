@@ -39,4 +39,8 @@ router.delete("/delete/:id", async (req, res, next) => {
     }
 }) 
 
+router.get("/test", async (req, res, next) => {
+    res.send("sucess");
+});
+
 module.exports = router;
