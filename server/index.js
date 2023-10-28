@@ -1,5 +1,6 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config();
+require("express");
 
 const uri = "mongodb+srv://" + process.env.MONGO_ADMIN_USERNAME + ":" + process.env.MONGO_ADMIN_PASSWORD + "@thi-cluster.hppzt17.mongodb.net/?retryWrites=true&w=majority";
 
