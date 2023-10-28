@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const organizationSchema = moongose.Schema({
+const organizationSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId
     },
