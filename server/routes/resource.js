@@ -1,6 +1,6 @@
 const express = require('express')
 
-const User = require('../models/resource')
+const Resource = require('../models/resource')
 
 const router = express.Router()
 
