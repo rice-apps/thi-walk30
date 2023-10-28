@@ -9,7 +9,9 @@ let event1: EventData = {
   description: "Come pick pumpkins!",
   featureImage: 'https://picsum.photos/id/80/3888/2592',
   link: 'https://bozourl.com',
-  date: new Date("2023-10-27"),
+  date: new Date(2023, 10, 24),
+  startTime: "9:00 AM",
+  endTime: "8:00 PM",
   location: {
     latitude: 1,
     longitude: 1,
@@ -24,6 +26,8 @@ let event2: EventData = {
   featureImage: 'https://picsum.photos/id/237/200/300',
   link: 'https://morebozourl.com',
   date: new Date(),
+  startTime: "12:00 AM",
+  endTime: "12:00 PM",
   location: {
     latitude: 2,
     longitude: 2,
