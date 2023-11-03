@@ -6,6 +6,7 @@ const morgan = require("morgan");
 
 // Create new event
 router.post("/create", async (req, res, next) => {
+    console.log(req)
     const event = new Event({
         _id: new mongodb.ObjectId(),
         title: req.body.title,
@@ -52,7 +53,7 @@ router.patch("/updateEvent/:id", async (req, res, next) => {
 router.get("/getEvent/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
-        const event = Event.findById(id);
+        const event = await Event.findById(id);
         res.json(event);
     } catch (error) {
         res.status(500).json({ message: error.message });
