@@ -28,8 +28,8 @@ router.post("/create", async (req, res, next) => {
 router.delete("/delete-event/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
-        const event = Event.findByIdAndDelete(id);
-        res.send("Event `${event.name}` has been deleted");
+        const event = await Event.findByIdAndDelete(id);
+        res.send(`Event ${event.title} has been deleted`);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
