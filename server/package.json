@@ -6,7 +6,8 @@
     "mongodb": "^6.2.0",
     "mongoose": "^7.6.3",
     "morgan": "^1.10.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "twilio": "^4.19.0"
   },
   "scripts": {
     "start": "nodemon index.js"
