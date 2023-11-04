@@ -17,7 +17,7 @@ router.post("/create", async (req, res, next) => {
     }
 })
 
-router.patch("/modify/:id", async (req, res, next) => {
+router.patch("/:id", async (req, res, next) => {
     const id = req.params.id;
     const updateData = req.body;
     const options = { new: true }
@@ -29,7 +29,7 @@ router.patch("/modify/:id", async (req, res, next) => {
     }
 })
 
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
     const id = req.params.id;
     try {
         const result = await Organization.findByIdAndDelete(id);
