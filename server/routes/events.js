@@ -7,7 +7,6 @@ const morgan = require("morgan");
 
 // Create new event
 router.post("/create", async (req, res, next) => {
-    console.log(req)
     const event = new Event({
         _id: new mongodb.ObjectId(),
         title: req.body.title,
@@ -25,36 +24,37 @@ router.post("/create", async (req, res, next) => {
 });
 
 // Find event by id and delete
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
         const event = await Event.findByIdAndDelete(id);
-        res.send(`Event ${event.title} has been deleted`);
+        if (!event) res.send("No such event to delete");
+        else res.send(`Event ${event.title} has been deleted`);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
 
 // Find event by id and update
-router.patch("/update/:id", async (req, res, next) => {
+router.patch("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
         const updateData = req.body;
         const options = { new: true };
 
         const result = await Event.findByIdAndUpdate(id, updateData, options);
-        res.send(result);
+        if (!result) res.send("No such event to update");
+        else res.send(result);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
 
 // Get event by id and update
-router.get("/get/:id", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
         const event = await Event.findById(id);
-        console.log(id);
         res.json(event);
     } catch (error) {   
         res.status(500).json({ message: error.message });
