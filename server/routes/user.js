@@ -6,11 +6,11 @@ const User = require('../models/user')
 
 const router = express.Router()
 
+router.use("/user", User);
+
 module.exports = router
 
-
-
-router.post('/createUser', async (req,res)=> {
+router.post('/create', async (req,res)=> {
     const data = new User({
         name: req.body.name,
         ID: req.body.ID,
@@ -18,18 +18,17 @@ router.post('/createUser', async (req,res)=> {
         dailyActivities: req.body.dailyActivities,
         upcomingEvents: req.body.upcomingEvents,
         dateJoined: req.body.dateJoined
-        
     });
 
     try{
         const dataToSave = await data.save();
         res.status(200).json(dataToSave)
-    } catch(error){
+    } catch(error) {
         res.status(400).json({message: error.message})
     }
 });
 
-router.patch('/updateUser/:id', async(req,res) =>{
+router.patch('/update/:id', async(req,res) =>{
     try {
         const id = req.params.id;
         const updateUser = req.body
@@ -43,10 +42,9 @@ router.patch('/updateUser/:id', async(req,res) =>{
         res.status(400).json({message:error.message})
     }
 
-    
 });
 
-router.post('/getUser/', async(req,res) =>{
+router.get('/:id', async(req,res) =>{
     try{
         const data = await User.findById(req.params.id);
         res.json(data);
@@ -55,28 +53,28 @@ router.post('/getUser/', async(req,res) =>{
     }
 })
 
-router.post('/getActivityTime/', async(req,res) =>{
+router.get('/:id', async(req,res) =>{
     try{
         const data = await User.findById(req.params.id);
         const result = data.dailyActivities.filter(function (dailyActivity){
             return req.params.after <= dailyActivity.date <= req.params.before
         })
         res.json(result);
-    } catch(error){
+    } catch(error) {
         res.status(500).json({ message: error.message })
     }
 
 })
 
-router.delete('/deleteUser/', async(req,res) =>{
-    try{
+router.delete('/delete/:id', async(req,res) =>{
+    try {
         const id = req.params.id;
 
         const data = await User.findByIdAndDelete(id);
 
         res.send(`User '${data.name}' (id ${id}) has been deleted.`);
 
-    }catch(error){
+    } catch(error){
         res.status(400).json({message:error.message})
     }
 })

@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
         type: ObjectId
 
     },
-    imageID: {
+    imgURL: {
         required: true,
         type: String
     },
@@ -33,6 +33,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         type: Date
     },
+
+    adminStatus: {
+        required: true,
+        type: Boolean
+    }
 
 
 })
