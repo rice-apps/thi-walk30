@@ -1,4 +1,4 @@
-import React from 'react';
+import React = require('react');
 import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 

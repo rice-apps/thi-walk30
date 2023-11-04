@@ -1,4 +1,4 @@
-import React from "react";
+import React = require('react');
 import { Card } from 'react-native-paper'
 import { StyleSheet, Text, View } from 'react-native';
 import { EventData } from "../../types/EventData";
@@ -6,26 +6,26 @@ import { EventData } from "../../types/EventData";
 const EventCard = (props: { eventData: EventData }) => {
     const styles = StyleSheet.create({
         eventCard: {
-            width: 300,
+            width: "100%",
             flexWrap: 'wrap',
             flexDirection: 'row',
-            margin: 15,
+            padding: "4%",
         },
 
         eventTitle: {
-            width: 240,
+            width: "75%",
         },
 
         eventDate: {
-            width: 60,
+            width: "25%"
         },
 
         eventLocation: {
-            width: 150,
+            width: "58%"
         },
 
         eventTime: {
-            width: 150,
+            width: "42%"
         }
     });
 
@@ -46,7 +46,7 @@ const EventCard = (props: { eventData: EventData }) => {
                         numberOfLines={1}
                         style={{ fontSize: 20, textAlign: 'right' }}
                     >
-                        {props.eventData.date.getMonth()}/{props.eventData.date.getDay()}
+                        {props.eventData.date.getMonth()+1}/{props.eventData.date.getDate()}
                     </Text>
                 </View>
                 <View style={styles.eventLocation}>
