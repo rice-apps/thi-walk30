@@ -1,19 +1,17 @@
-import React = require('react');
 import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 
-// import EventCard from './EventCard'
-import { ResourceData } from "../../types/ResourceData";
+import ResourceCard from './ResourceCard'
+import { ResourceData } from "../types/ResourceData";
 
-const ResourceList = (props: { eventList: EventData[] }) => {
+const ResourceList = (props: { resourceList: ResourceData[] }) => {
     return (
         <ScrollView>
-            <Text variant="titleLarge">Upcoming Events</Text>
-            {props.eventList.map(event => {
-                return <EventCard eventData={event} key={event.id}/>
+            {props.resourceList.map(event => {
+                return <ResourceCard resourceData={event} key={event.title}/>
             })}
         </ScrollView>
     )
 }
 
-export default EventList;
+export default ResourceList;
