@@ -6,11 +6,11 @@ const router = express.Router()
 
 module.exports = router
 
-router.post('/createResource', async (req, res)=> {
+router.post('/create', async (req, res)=> {
     const data = new Resource ({
         title: req.body.title,
         link: req.body.link,
-        featureImage: req.body.featureImage,
+        ft_img: req.body.ft_img,
         organization: req.body.organization
     })
 
@@ -22,7 +22,7 @@ router.post('/createResource', async (req, res)=> {
     }
 });
 
-router.patch('/updateResource/:link', async(req,res) =>{
+router.patch('/:link', async(req,res) =>{
     try {
         const filter = { link: req.params.link };
         const updateResource = req.body
@@ -31,17 +31,19 @@ router.patch('/updateResource/:link', async(req,res) =>{
         const result = await Resource.findOneAndUpdate(
             filter, updateResource, options
         )
-        res.send(result)
+        res.json(result)
     } catch(error) {
         res.status(400).json({message:error.message})
     }
 });
 
-router.delete('deleteResource/:link', async(req, res) => {
+router.delete('/:link', async(req, res) => {
     try{
         const filter = { link: req.params.link };
-        const data = await Resource.findOneAndDelete(filter)
-        res.send(`Resource '${data.title}' (link ${link}) has been deleted.`)
+        const data = await Resource.findOneAndDelete(filter);
+        if (!data) {
+            res.send("No resource with such link");
+        } else res.send(`Resource '${data.title}' (link ${data.link}) has been deleted.`)
     } catch(error) {
         res.status(400).json({message:error.message})
     }
