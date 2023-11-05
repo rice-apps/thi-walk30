@@ -1,50 +1,53 @@
-const express = require('express')
+const express = require("express");
 
-const Resource = require('../models/resource')
+const Resource = require("../models/resource");
+const Organization = require("../models/organization");
 
-const router = express.Router()
+const router = express.Router();
 
-module.exports = router
+module.exports = router;
 
-router.post('/create', async (req, res)=> {
-    const data = new Resource ({
-        title: req.body.title,
-        link: req.body.link,
-        ft_img: req.body.ft_img,
-        organization: req.body.organization
-    })
-
-    try {
-        const dataToSave = await data.save();
-        res.status(200).json(dataToSave)
-    } catch(error) {
-        res.status(400).json({message: error.message})
-    }
+router.post("/create", async (req, res, next) => {
+  try {
+    const organization = await Organization.findById(req.body.organization._id);
+    if (!organization) throw new Error("No such organization");
+    const data = new Resource({
+      title: req.body.title,
+      link: req.body.link,
+      featured_img: req.body.featured_img,
+      organization: organization,
+    });
+    const dataToSave = await data.save();
+    res.status(200).json(dataToSave);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
-router.patch('/:link', async(req,res) =>{
-    try {
-        const filter = { link: req.params.link };
-        const updateResource = req.body
-        const options = { new:true};
-        
-        const result = await Resource.findOneAndUpdate(
-            filter, updateResource, options
-        )
-        res.json(result)
-    } catch(error) {
-        res.status(400).json({message:error.message})
-    }
+router.patch("/:id", async (req, res) => {
+  const id = req.params.id;
+  const updateData = req.body;
+  const options = { new: true };
+  try {
+    updateData.organization = await Organization.findById(
+      updateData.organization._id
+    );
+    if (!updateData.organization) delete updateData["organization"];
+
+    const result = await Resource.findByIdAndUpdate(id, updateData, options);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
-router.delete('/:link', async(req, res) => {
-    try{
-        const filter = { link: req.params.link };
-        const data = await Resource.findOneAndDelete(filter);
-        if (!data) {
-            res.send("No resource with such link");
-        } else res.send(`Resource '${data.title}' (link ${data.link}) has been deleted.`)
-    } catch(error) {
-        res.status(400).json({message:error.message})
-    }
-})
+router.delete("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Resource.findByIdAndDelete(id);
+    if (!data) throw new Error("No resource with such id");
+    res.send(`Resource '${data.title}' (id ${data.id}) has been deleted.`);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
