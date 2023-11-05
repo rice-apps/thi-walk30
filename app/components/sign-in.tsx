@@ -1,13 +1,29 @@
+<<<<<<< HEAD
+import { useState } from 'react';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+=======
+>>>>>>> 3799a0a1ae022420ff10b334a2d7723c12090d77
 
 
 function Example() {
   // `value` will be the parsed phone number in E.164 format.
   // Example: "+12133734253".
+<<<<<<< HEAD
+  const [value, setValue] = useState()
+=======
   const [value, setValue] = useState("1")
+>>>>>>> 3799a0a1ae022420ff10b334a2d7723c12090d77
   return (
     <PhoneInput
       placeholder="Enter phone number"
       value={value}
+<<<<<<< HEAD
+      onChange={setValue}/>
+  )
+}
+export default Example;
+=======
       onChange={() =>setValue("2")}/>
   )
 }
@@ -49,3 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 */
+>>>>>>> 3799a0a1ae022420ff10b334a2d7723c12090d77
