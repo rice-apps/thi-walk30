@@ -1,6 +1,7 @@
-import React = require('react');
+import React from 'react';
 import { Card } from 'react-native-paper'
 import { StyleSheet, Text, View } from 'react-native';
+
 import { EventData } from "../../types/EventData";
 
 const EventCard = (props: { eventData: EventData }) => {
