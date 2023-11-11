@@ -1,10 +1,20 @@
 import react from 'react';
 import {Text, View} from 'react-native';
 import WelcomePage from './WelcomePage';
+import EventList from "./event/EventList"
+import { EventData } from "../types/EventData";
+import React from "react"
+
 
 type props = {
     profile: string,
     image: string,
+}
+
+function getEvents(): EventData[] {
+    fetch("https://localhost:3000/api/events")
+    .then(data => {return data.()});
+    return [];
 }
 
 function ProfilePage(props: props) { 
@@ -16,8 +26,8 @@ function ProfilePage(props: props) {
                 <Text>Imagine we have an activity card here</Text>
             </View>
             <View>
-                {/*Put Event List Component here*/}
-                <Text>Imagine we have an event list here</Text>
+
+                <EventList eventList = {[]}></EventList>
             </View>
       </View>
     )

@@ -2,6 +2,7 @@ import {EventPage} from './eventpage/eventpage';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import ProfilePage from './components/ProfilePage';
+import React from 'react'
 
 /* Hard coding default values, these will be retrieved from DB later */
 const profile_name: string = "Evan Stegall"
