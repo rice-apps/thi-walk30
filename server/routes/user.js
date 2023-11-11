@@ -4,6 +4,8 @@ const express = require('express')
 
 const User = require('../models/user')
 
+const DailyActivity = require('../models/dailyActivity')
+
 const router = express.Router()
 
 router.use("/user", User);
@@ -53,13 +55,14 @@ router.get('/:id', async(req,res) =>{
     }
 })
 
-router.get('/:id', async(req,res) =>{
+router.get('/getActivityByDate/:id', async(req,res) =>{
     try{
         const data = await User.findById(req.params.id);
-        const result = data.dailyActivities.filter(function (dailyActivity){
-            return req.params.after <= dailyActivity.date <= req.params.before
+        const result = data.dailyActivities.filter(function (dailyActivityID) {
+            const dailyActivity = DailyActivity.findById(dailyActivityID)
+            return req.params.after <= dailyActivity.date && dailyActivity.date <= req.params.before
         })
-        res.json(result);
+        res.json(data);
     } catch(error) {
         res.status(500).json({ message: error.message })
     }
@@ -74,7 +77,7 @@ router.delete('/delete/:id', async(req,res) =>{
 
         res.send(`User '${data.name}' (id ${id}) has been deleted.`);
 
-    } catch(error){
+    } catch(error) {
         res.status(400).json({message:error.message})
     }
 })

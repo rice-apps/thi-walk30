@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const DailyActivity = require('./dailyActivity');
+const Event = require('./events')
 
 
 
@@ -16,10 +17,10 @@ const userSchema = new mongoose.Schema({
     },
 
     dailyActivities: {
-        type: [DailyActivity.ID]
+        type: [DailyActivity]
     },
     upcomingEvents: {
-        type: [DailyActivity.ID]
+        type: [Event.ID]
     },
 
     dateJoined: {

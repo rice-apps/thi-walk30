@@ -3,10 +3,6 @@ const mongoose = require('mongoose')
 
 
 const DailyActivity = new mongoose.Schema({
-    ID: {
-        required: true,
-        type: ObjectId,
-    },
     step: {
         required: true,
         type: Number
