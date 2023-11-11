@@ -1,21 +1,26 @@
-require('dotenv').config;
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
+// Download the helper library from https://www.twilio.com/docs/node/install
+// Set environment variables for your credentials
+// Read more at http://twil.io/secure
+const accountSid = "AC5a42a66eeb756958bef574056bc615aa";
+const authToken = "7599177e84948a4ac62e46f9210ceec6";
+const verifySid = "VAddeb0650e4bdfd3e18ebf64ce6b1d152";
+const client = require("twilio")(accountSid, authToken);
 
-// client.accounts.v1.authTokenPromotion()
-//   .update()
-//   .then(auth_token_promotion => console.log(auth_token_promotion.dateCreated));
-  
-// client.verify.v2.services('VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-//                 .verifications
-//                 .create({to: '+12488479332', channel: 'sms'})
-//                 .then(verification => console.log(verification.status));
+const sendSms = (number, verifySid) => {
+  client.verify.v2
+  .services(verifySid)
+  .verifications.create({ to: number, channel: "sms" })
+  .then((verification) => verification.status);
+}
 
-client.messages
-  .create({
-     body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-     from: '+12488479332',
-     to: '+12488479332'
-   })
-  .then(message => console.log(message.sid));
+const verify = (number, verifySid, code) => {
+  client.verify.v2.services(verifySid)
+      .verificationChecks
+      .create({to: number, code: code})
+      .then(verification_check => verification_check.status);
+}
+
+module.exports = {
+  sendSms,
+  verify
+}
