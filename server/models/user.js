@@ -10,22 +10,15 @@ const userSchema = new mongoose.Schema({
         type: String
          
     },
-    ID: {
-        required: true,
-        type: ObjectId
-
-    },
     imgURL: {
         required: true,
         type: String
     },
 
     dailyActivities: {
-        required: true,
         type: [DailyActivity.ID]
     },
     upcomingEvents: {
-        required: true,
         type: [DailyActivity.ID]
     },
 

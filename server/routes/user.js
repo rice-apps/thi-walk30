@@ -13,11 +13,11 @@ module.exports = router
 router.post('/create', async (req,res)=> {
     const data = new User({
         name: req.body.name,
-        ID: req.body.ID,
-        imageID: req.body.imageID,
+        imgURL: req.body.imgURL,
         dailyActivities: req.body.dailyActivities,
         upcomingEvents: req.body.upcomingEvents,
-        dateJoined: req.body.dateJoined
+        dateJoined: req.body.dateJoined,
+        adminStatus: req.body.adminStatus
     });
 
     try{
