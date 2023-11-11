@@ -1,4 +1,4 @@
-const events = require("./events");
+const events = require("./event");
 const resource = require("./resource");
 const organization = require("./organization");
 const express = require("express");
