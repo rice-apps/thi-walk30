@@ -1,5 +1,5 @@
 const express = require("express");
-const Event = require("../models/events");
+const Event = require("../models/event");
 const router = express.Router();
 const mongodb = require("mongodb");
 const mongoose = require("mongoose");
