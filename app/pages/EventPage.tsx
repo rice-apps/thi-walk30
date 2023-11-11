@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, View, Text, StyleSheet, Button, TouchableHighlight, Linking, Image } from 'react-native';  // <-- Import TouchableHighlight
+import { ScrollView, View, Text, StyleSheet, Button, TouchableHighlight, Linking, Image } from 'react-native';
 import { LinkData } from '../types/LinkData';
 
 export function EventPage(props: { title: string; body: string; date: string; hostorg: string; linkMap: LinkData[] }) {
