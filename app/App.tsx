@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import {AnnouncementPage} from './announcementspage/announcementpage';
+import {AnnouncementPage} from './announcementspage/AnnouncementPage';
 
 export default function App() {
   interface LinkData {
@@ -15,7 +15,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Open up App.tsx to start working on your app!</Text>
-      <AnnouncementPage title = {"Walk to Defeat ALS Houston"} body = {"Walk with us to help fundraise for ALS patients"} linkMap = {linkArray}>announcements </AnnouncementPage>
+      <AnnouncementPage title = {"Announcements"} body = {"Walk with us to help fundraise for ALS patients"} linkMap = {linkArray}/>
       <StatusBar style="auto" />
     </View>
   );
