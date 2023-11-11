@@ -1,3 +1,4 @@
+import {EventPage} from './eventpage/eventpage';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import ProfilePage from './components/ProfilePage';
@@ -5,6 +6,7 @@ import ProfilePage from './components/ProfilePage';
 /* Hard coding default values, these will be retrieved from DB later */
 const profile_name: string = "Evan Stegall"
 const image_uri: string = "https://as1.ftcdn.net/v2/jpg/01/15/81/62/1000_F_115816289_debDt9gwn937E0AxKBP9D1zlYFsvCV9g.jpg"
+
 
 export default function App() {
   return (
@@ -22,3 +24,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
