@@ -35,13 +35,6 @@ export function AnnouncementPage(props: { title: string; body: string; linkMap: 
           </View>
         </TouchableHighlight> 
         ))}
-      
-      
-      {/* <TouchableHighlight onPress={onLinkPress}>
-        <View>
-          <Text style ={{textDecorationLine: 'underline', color: 'blue', marginBottom: 10, marginTop: 10}}>TechOnTheNet</Text>
-        </View>
-      </TouchableHighlight> */}
     </ScrollView>
   );
 };
