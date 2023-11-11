@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, Button, TouchableHighlight, Linking, Image } from 'react-native';  // <-- Import TouchableHighlight
+import { LinkData } from '../types/LinkData';
 
-
-
-export function EventPage(props: { title: string; body: string; date: string; hostorg: string; link: string }) {
+export function EventPage(props: { title: string; body: string; date: string; hostorg: string; linkMap: LinkData[] }) {
   const [registerText, setRegisterText] = useState('I plan to attend');
   const [showRegister, setShowRegister] = useState(false)
   
@@ -16,8 +15,8 @@ export function EventPage(props: { title: string; body: string; date: string; ho
     }
   };
 
-  const onLinkPress = () => {
-    Linking.openURL(props.link);
+  const onLinkPress = (link:string) => {
+    Linking.openURL(link);
   };
 
   return (
@@ -40,11 +39,17 @@ export function EventPage(props: { title: string; body: string; date: string; ho
       <Button onPress={handleButtonClick} title={registerText} />
       <Text style = {{marginTop: 15, fontSize:20}}>Relevant Links</Text>
         
-      <TouchableHighlight onPress={onLinkPress}>
-        <View>
-          <Text style ={{textDecorationLine: 'underline', color: 'blue', marginBottom: 10, marginTop: 10}}>TechOnTheNet</Text>
-        </View>
-      </TouchableHighlight>
+      {props.linkMap.map((links) => (
+          <TouchableHighlight onPress={() => onLinkPress(links.url)}>
+          <View>
+            <Text style ={{textDecorationLine: 'underline', color: 'blue', marginBottom: 10, marginTop: 10}}>{links.title}</Text>
+          </View>
+        </TouchableHighlight> 
+        ))}
+
     </ScrollView>
   );
 };
+
+
+
