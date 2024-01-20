@@ -41,7 +41,7 @@ function ProfilePage(props: props) {
             <View  style = {styles.dashboard}>
                 <EventList eventList = {eventData}></EventList>
             </View>
-      </View>
+        </View>
     )
 }
 
