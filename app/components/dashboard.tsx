@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: "rgba(230,230,230,10)",
         borderRadius:10,
-        justifyContent: "space-around",
+        justifyContent: "space-between",
+        paddingHorizontal: 10,
         margin: 10,
         fontSize:20,
         display: "flex"
@@ -40,11 +41,8 @@ const styles = StyleSheet.create({
     subcontainer: {
         //flexDirection: "column",
         padding:15,
-
         justifyContent:"space-between",
         fontSize:20
-
-
     },
     text:{
         marginBottom:10,
@@ -53,8 +51,8 @@ const styles = StyleSheet.create({
         fontWeight: "300",
         fontSize: 15
     },
-    
+
     userInfo:{
-        fontWeight:"bold"
+        fontWeight:"600"
     }
 })
