@@ -52,7 +52,8 @@ const EventList = (props: { eventList: EventData[] }) => {
 const styles = StyleSheet.create({
     text: {
         flex: 1,
-        marginLeft: 10
+        marginLeft: 15,
+        fontWeight: "600"
     },
 })
 

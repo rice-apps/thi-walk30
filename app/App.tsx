@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F7FD",
     alignItems: "center",
     justifyContent: "center",
+    padding: 10
   },
 });
 
