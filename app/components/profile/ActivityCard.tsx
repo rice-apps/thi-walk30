@@ -3,8 +3,8 @@ import { useState } from 'react';
 import React from 'react';
 
 export default function Dashboard() {
-    //We'll use this to get user Data lol
     const [dashInfo, setDashInfo] = useState({ Steps: 10, Distance: "10km", Time: "3:00" });
+
     return (
         <View style={styles.container}>
             <View style={styles.subcontainer}>
@@ -20,7 +20,6 @@ export default function Dashboard() {
                 <Text style={styles.userInfo}>{dashInfo.Time}</Text>
             </View>
         </View>
-
     )
 }
 
