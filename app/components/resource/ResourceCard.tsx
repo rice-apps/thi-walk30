@@ -44,7 +44,7 @@ const ResourceCard = (props: { resourceData: ResourceData }) => {
                     overflow: 'hidden' }}
             >
                 <Image 
-                    style={{ width: 65, height: 65, borderRadius: 5 }} 
+                    style={{ width: '22%', height: 0, paddingTop: '22%', borderRadius: 5 }} 
                     source={{ uri: props.resourceData.organization.image.toString() }}
                 />
                 <Card.Title 
