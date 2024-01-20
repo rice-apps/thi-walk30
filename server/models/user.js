@@ -17,10 +17,10 @@ const userSchema = new mongoose.Schema({
     },
 
     dailyActivities: {
-        type: [DailyActivity]
+        type: [DailyActivity.ObjectId]
     },
     upcomingEvents: {
-        type: [Event.ID]
+        type: [Event.ObjectId]
     },
 
     dateJoined: {
@@ -32,8 +32,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         type: Boolean
     }
-
-
 })
 
 module.exports = mongoose.model('User',userSchema)

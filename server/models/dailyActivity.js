@@ -18,6 +18,10 @@ const DailyActivity = new mongoose.Schema({
     date: {
         required: true,
         type: Date
+    },
+    userID: {
+        required: true,
+        type: ObjectId
     }
 })
 
