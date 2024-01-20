@@ -3,7 +3,13 @@ import React from "react";
 import { useFonts, Inter_400Regular, Inter_500Medium, Inter_700Bold } from "@expo-google-fonts/inter";
 
 interface TextProps {
+    /**
+     * Custom text style to be applied.
+     */
     style?: StyleProp<TextStyle>,
+    /**
+     * Weight of the text (400, 500, or 700).
+     */
     weight?: number
 }
 
