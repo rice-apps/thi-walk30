@@ -5,32 +5,32 @@ import React from 'react';
 
 // // dummy resources for testing
 // let resource1: ResourceData = {
-//     title: "Resource #1",
-//     link: new URL('https://www.linkedin.com'),
+//     title: "Camp Kesem FAQ",
+//     link: new URL('https://www.kesem.org/'),
 //     featureImage: new URL('https://picsum.photos/id/82/3888/2592'),
 //     organization: {
 //         organizationId: 3,
-//         name: 'LinkedIn',
+//         name: 'Camp Kesem',
 //         image: new URL('https://picsum.photos/id/88/3888/2592'),
 //     }
-// }
-
-// let resource2: ResourceData = {
-//     title: "Resource #2",
-//     link: new URL('https://www.instagram.com'),
+//   }
+  
+//   let resource2: ResourceData = {
+//     title: "Camp Kesem Rice Page",
+//     link: new URL('https://www.kesem.org/'),
 //     featureImage: new URL('https://picsum.photos/id/85/3888/2592'),
 //     organization: {
 //         organizationId: 3,
-//         name: 'Instagram',
+//         name: 'Camp Kesem',
 //         image: new URL('https://picsum.photos/id/89/3888/2592'),
 //     }
-// }
+// }  
 
 const ResourceCard = (props: { resourceData: ResourceData }) => {
     return (
         <Card
             style={{
-                margin: 15,
+                margin: 10,
                 backgroundColor: 'white',
                 borderRadius: 5,
             }}
