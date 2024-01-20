@@ -5,6 +5,16 @@ const mongodb = require("mongodb");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 
+// Get all events
+router.get("/events", async (req, res, next) => {
+  try {
+    const events = await Event.find({});
+    res.json(events);
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+})
+
 // Create new event
 router.post("/create", async (req, res, next) => {
   const event = new Event({

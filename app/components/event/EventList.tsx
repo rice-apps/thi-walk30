@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView , StyleSheet} from 'react-native';
 import { Text } from 'react-native-paper';
 
 import EventCard from './EventCard'
@@ -41,12 +41,19 @@ import { EventData } from "../../types/EventData";
 const EventList = (props: { eventList: EventData[] }) => {
     return (
         <ScrollView>
-            <Text variant="titleLarge">Upcoming Events</Text>
+            <Text variant="titleLarge" style = {styles.text}>Upcoming Events</Text>
             {props.eventList.map(event => {
-                return <EventCard eventData={event} key={event.id}/>
+                return <EventCard eventData={event} key={event._id}/>
             })}
         </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    text: {
+        flex: 1,
+        marginLeft: 10
+    },
+})
 
 export default EventList;

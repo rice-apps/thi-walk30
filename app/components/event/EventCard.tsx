@@ -30,7 +30,6 @@ const EventCard = (props: { eventData: EventData }) => {
         }
     });
 
-
     return (
         <Card style={{ margin: 15 }}>
             <View style={styles.eventCard}>
@@ -47,7 +46,7 @@ const EventCard = (props: { eventData: EventData }) => {
                         numberOfLines={1}
                         style={{ fontSize: 20, textAlign: 'right' }}
                     >
-                        {props.eventData.date.toLocaleDateString(undefined, {month: "numeric", day: "numeric"})}
+                        {props.eventData.date.toLocaleString(undefined, {month: "numeric", day: "numeric"})}
                     </Text>
                 </View>
                 <View style={styles.eventLocation}>
