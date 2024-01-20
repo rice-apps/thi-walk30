@@ -1,72 +1,66 @@
 import React from 'react';
 import { Card } from 'react-native-paper'
 import { StyleSheet, Text, View } from 'react-native';
-
+import { Image } from 'react-native';
 import { EventData } from "../../types/EventData";
+import CardContent from 'react-native-paper/lib/typescript/components/Card/CardContent';
 
 const EventCard = (props: { eventData: EventData }) => {
     const styles = StyleSheet.create({
         eventCard: {
+            display: "flex",
             width: "100%",
-            flexWrap: 'wrap',
             flexDirection: 'row',
+            gap: 10,
+            alignItems: 'center',
             padding: "4%",
         },
 
-        eventTitle: {
+        eventImage: {
+            width: "22%",
+            height: 0,
+            paddingTop: "22%",
+            borderRadius: 2
+        },
+
+        eventDetails: {
             width: "75%",
+            gap: 15,
+            flexDirection: 'column',
         },
 
-        eventDate: {
-            width: "25%"
+        eventTitle: {
+            fontSize: 20,
+            fontWeight: "bold",
         },
 
-        eventLocation: {
-            width: "58%"
+        eventDateTime: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            fontSize: 50,
         },
-
-        eventTime: {
-            width: "42%"
-        }
     });
 
 
     return (
-        <Card style={{ margin: 15 }}>
-            <View style={styles.eventCard}>
-                <View style={styles.eventTitle}>
-                    <Text
-                        numberOfLines={1}
-                        style={{ fontSize: 25, textAlign: 'left' }}
-                    >
+        <Card style={{margin : 15}}>
+            <Card.Content style={styles.eventCard}>
+                <Image style={styles.eventImage} source={{ uri: props.eventData.featureImage}}/>
+                <View style={styles.eventDetails}>
+                    <Text style={styles.eventTitle} numberOfLines={1} >
                         {props.eventData.title}
                     </Text>
-                </View>
-                <View style={styles.eventDate}>
-                    <Text
-                        numberOfLines={1}
-                        style={{ fontSize: 20, textAlign: 'right' }}
-                    >
-                        {props.eventData.date.toLocaleDateString(undefined, {month: "numeric", day: "numeric"})}
-                    </Text>
-                </View>
-                <View style={styles.eventLocation}>
-                    <Text 
-                        numberOfLines={1} 
-                        style={{ fontSize: 15, textAlign: 'left', color: 'gray' }}
-                    >
-                        {props.eventData.location.address}
-                    </Text>
-                </View>
-                <View style={styles.eventTime}>
-                    <Text 
-                        numberOfLines={1} 
-                        style={{ fontSize: 15, textAlign: 'right', color: 'gray' }}
-                    >
-                        {props.eventData.startTime} - {props.eventData.endTime}
-                    </Text>
-                </View>
-            </View>
+                    <View style={styles.eventDateTime}>
+                        <Text>
+                            {props.eventData.startTime} - {props.eventData.endTime}
+                        </Text>
+                        <Text>
+                            {props.eventData.date.toLocaleDateString(undefined, {month: "numeric", day: "numeric"})}
+                        </Text>
+                    </View>
+                </View>    
+            </Card.Content>
         </Card>
     );
 }

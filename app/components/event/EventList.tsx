@@ -10,7 +10,7 @@ import { EventData } from "../../types/EventData";
 //     id: "1",
 //     title: "Pumpkin picking",
 //     description: "Come pick pumpkins!",
-//     featureImage: 'https://picsum.photos/id/80/3888/2592',
+//     featureImage: 'https://math-media.byjusfutureschool.com/bfs-math/2022/07/04185628/Asset-1-8.png',
 //     link: 'https://bozourl.com',
 //     date: new Date(2023, 11, 28), // December 28, 2023
 //     startTime: "9:00AM",
