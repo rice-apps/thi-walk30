@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
 function WelcomePage(props: props) {
     return (
         <View>
+            <View></View>
             <View style = {styles.row}>
                 <Image style={styles.image} source={{uri: props.image}}></Image>
                 <View>
