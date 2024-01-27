@@ -6,6 +6,7 @@ import { EventData } from "../types/EventData";
 import React, {useState, useEffect} from "react"
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import Dashboard from './dashboard';
+import ActivityCard from "../components/profile/ActivityCard"
 
 
 const EVENTS_ROUTE = "http://localhost:3000/api/event/events";
@@ -38,6 +39,9 @@ function ProfilePage(props: props) {
             <View  style = {styles.dashboard}>
                 <Dashboard/>
             </View>
+            <View style = {styles.activity_card}>
+                <ActivityCard/>
+            </View>
             <View  style = {styles.dashboard}>
                 <EventList eventList = {eventData}></EventList>
             </View>
@@ -53,6 +57,10 @@ const styles = StyleSheet.create({
 
     dashboard: {
         flexShrink: 0
+    },
+
+    activity_card: {
+
     }
 })
 export default ProfilePage;
