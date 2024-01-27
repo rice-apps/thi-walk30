@@ -3,7 +3,6 @@ import { Card } from 'react-native-paper'
 import { StyleSheet, Text, View } from 'react-native';
 import { Image } from 'react-native';
 import { EventData } from "../../types/EventData";
-import CardContent from 'react-native-paper/lib/typescript/components/Card/CardContent';
 
 const EventCard = (props: { eventData: EventData }) => {
     const styles = StyleSheet.create({
@@ -13,14 +12,14 @@ const EventCard = (props: { eventData: EventData }) => {
             flexDirection: 'row',
             gap: 10,
             alignItems: 'center',
-            padding: "4%",
+            backgroundColor: 'white'
         },
 
         eventImage: {
             width: "22%",
             height: 0,
             paddingTop: "22%",
-            borderRadius: 2
+            borderRadius: 5
         },
 
         eventDetails: {
@@ -30,8 +29,8 @@ const EventCard = (props: { eventData: EventData }) => {
         },
 
         eventTitle: {
-            fontSize: 20,
-            fontWeight: "bold",
+            fontSize: 21,
+            fontWeight: "500",
         },
 
         eventDateTime: {
@@ -40,11 +39,15 @@ const EventCard = (props: { eventData: EventData }) => {
             justifyContent: 'space-between',
             fontSize: 50,
         },
+
+        eventLogistics: {
+            fontSize: 17,
+        }
     });
 
 
     return (
-        <Card style={{margin : 15}}>
+        <Card style={{margin : 10}}>
             <Card.Content style={styles.eventCard}>
                 <Image style={styles.eventImage} source={{ uri: props.eventData.featureImage}}/>
                 <View style={styles.eventDetails}>
@@ -52,10 +55,10 @@ const EventCard = (props: { eventData: EventData }) => {
                         {props.eventData.title}
                     </Text>
                     <View style={styles.eventDateTime}>
-                        <Text>
+                        <Text style={styles.eventLogistics}>
                             {props.eventData.startTime} - {props.eventData.endTime}
                         </Text>
-                        <Text>
+                        <Text style={styles.eventLogistics}>
                             {props.eventData.date.toLocaleDateString(undefined, {month: "numeric", day: "numeric"})}
                         </Text>
                     </View>

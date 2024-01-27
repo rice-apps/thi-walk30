@@ -41,7 +41,6 @@ import { EventData } from "../../types/EventData";
 const EventList = (props: { eventList: EventData[] }) => {
     return (
         <ScrollView>
-            <Text variant="titleLarge">Upcoming Events</Text>
             {props.eventList.map(event => {
                 return <EventCard eventData={event} key={event.id}/>
             })}
