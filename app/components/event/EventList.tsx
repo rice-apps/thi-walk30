@@ -1,9 +1,9 @@
 import React from 'react';
-import { ScrollView , StyleSheet} from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import EventCard from './EventCard'
 import { EventData } from "../../types/EventData";
+import EventCard from './EventCard';
 
 // event1 and event2 for testing purposes
 // let event1: EventData = {

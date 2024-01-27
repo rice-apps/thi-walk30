@@ -1,23 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
+
 
 export default function Dashboard() {
     const [dashInfo, setDashInfo] = useState({ Steps: 10, Distance: "10km", Time: "3:00" });
 
     return (
-        <View style={styles.container}>
-            <View style={styles.subcontainer}>
-                <Text style={styles.text}>Steps</Text>
-                <Text style={styles.userInfo}>{dashInfo.Steps}</Text>
-            </View>
-            <View style={styles.subcontainer}>
-                <Text>Distance</Text>
-                <Text style={styles.userInfo}>{dashInfo.Distance}</Text>
-            </View>
-            <View style={styles.subcontainer}>
-                <Text>Time</Text>
-                <Text style={styles.userInfo}>{dashInfo.Time}</Text>
+        <View style={{paddingTop: 25}}>
+            <Text variant="titleLarge" style = {styles.text}>My Activity</Text>
+            <View style={styles.container}>
+                <View style={styles.subcontainer}>
+                    <Text style={styles.tab}>Steps</Text>
+                </View>
+                <View style={styles.subcontainer}>
+                    <Text style={styles.tab}>Distance</Text>
+                </View>
+                <View style={styles.subcontainer}>
+                    <Text style={styles.tab}>Time</Text>
+                </View>
             </View>
         </View>
     )
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "row",
-        backgroundColor: "rgba(230,230,230,10)",
+        backgroundColor: "#00426D",
         borderRadius: 10,
         justifyContent: "space-around",
         margin: 10,
@@ -38,8 +39,16 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         fontSize: 20
     },
+    tab: {
+        fontSize: 18,
+        color: "#FFF",
+        fontWeight: 500,
+
+    },
     text: {
-        marginBottom: 10,
+        flex: 1,
+        marginLeft: 15,
+        fontWeight: "600"
     },
     userInfo: {
         fontWeight: "bold"

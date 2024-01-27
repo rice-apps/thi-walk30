@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image} from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 type props = {
     profile: string,
@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
     image: {
-      width: 60,
-      height: 60,
+      width: 66,
+      height: 66,
       borderRadius: 30,
     //   borderColor: "black", 
     //   borderWidth: 2,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
     text_small : {
         fontSize: 18,
-        fontWeight: "300"
+        fontWeight: "400"
     }
 
   });
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 
 function WelcomePage(props: props) {
     return (
-        <View>
+        <View style={{paddingTop: 60}}>
             <View></View>
             <View style = {styles.row}>
                 <Image style={styles.image} source={{uri: props.image}}></Image>

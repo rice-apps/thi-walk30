@@ -1,12 +1,10 @@
-import react from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-import WelcomePage from './WelcomePage';
-import EventList from "./event/EventList"
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { EventData } from "../types/EventData";
-import React, {useState, useEffect} from "react"
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import WelcomePage from './WelcomePage';
 import Dashboard from './dashboard';
-import ActivityCard from "../components/profile/ActivityCard"
+import EventList from "./event/EventList";
+import ActivityCard from "./profile/ActivityCard";
 
 
 const EVENTS_ROUTE = "http://localhost:3000/api/event/events";
@@ -34,18 +32,19 @@ function ProfilePage(props: props) {
     }, [])
 
     return (
-        <View style = {styles.profilePage}> 
+        <ScrollView style = {styles.profilePage}> 
             <WelcomePage profile = {props.profile} image = {props.image}></WelcomePage>
             <View  style = {styles.dashboard}>
                 <Dashboard/>
             </View>
+            
             <View style = {styles.activity_card}>
                 <ActivityCard/>
             </View>
             <View  style = {styles.dashboard}>
                 <EventList eventList = {eventData}></EventList>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
