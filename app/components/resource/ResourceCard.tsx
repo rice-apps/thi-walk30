@@ -1,30 +1,7 @@
 import { Card } from 'react-native-paper'
 import { Image, Linking } from 'react-native';
 import { ResourceData } from "../../types/ResourceData";
-import React from 'react';
-
-// // dummy resources for testing
-// let resource1: ResourceData = {
-//     title: "Camp Kesem FAQ",
-//     link: new URL('https://www.kesem.org/'),
-//     featureImage: new URL('https://picsum.photos/id/82/3888/2592'),
-//     organization: {
-//         organizationId: 3,
-//         name: 'Camp Kesem',
-//         image: new URL('https://picsum.photos/id/88/3888/2592'),
-//     }
-//   }
-  
-//   let resource2: ResourceData = {
-//     title: "Camp Kesem Rice Page",
-//     link: new URL('https://www.kesem.org/'),
-//     featureImage: new URL('https://picsum.photos/id/85/3888/2592'),
-//     organization: {
-//         organizationId: 3,
-//         name: 'Camp Kesem',
-//         image: new URL('https://picsum.photos/id/89/3888/2592'),
-//     }
-// }  
+import React from 'react'; 
 
 const ResourceCard = (props: { resourceData: ResourceData }) => {
     return (
