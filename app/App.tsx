@@ -31,7 +31,11 @@ function Tabs() {
       screenOptions={{
         headerShown: false,
         tabBarInactiveTintColor: constants.gray,
-        tabBarActiveTintColor: constants.darkBlue
+        tabBarActiveTintColor: constants.darkBlue,
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: "600"
+        }
       }} >
       <Tab.Screen
         name="Home"
