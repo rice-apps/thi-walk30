@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, View, Text, StyleSheet, Button, TouchableHighlight, Linking, Image } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Button, TouchableHighlight, Linking, Image, SafeAreaView } from 'react-native';
 import { LinkData } from '../types/LinkData';
 
 export function EventPage(props: { title: string; body: string; date: string; hostorg: string; linkMap: LinkData[] }) {
@@ -20,6 +20,7 @@ export function EventPage(props: { title: string; body: string; date: string; ho
   };
 
   return (
+    <SafeAreaView>
     <ScrollView style={{ margin: 10, flexDirection: 'column' }}>
       
       <Image
@@ -48,6 +49,7 @@ export function EventPage(props: { title: string; body: string; date: string; ho
         ))}
 
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
