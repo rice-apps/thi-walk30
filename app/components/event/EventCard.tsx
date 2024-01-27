@@ -11,10 +11,13 @@ const EventCard = (props: { eventData: EventData }) => {
             flexWrap: 'wrap',
             flexDirection: 'row',
             padding: "4%",
+            backgroundColor: "#FFF"
+            
         },
 
         eventTitle: {
             width: "75%",
+            fontWeight: 500
         },
 
         eventDate: {

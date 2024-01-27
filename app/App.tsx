@@ -1,7 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import ProfilePage from './components/ProfilePage';
-import React from 'react'
 
 /* Hard coding default values, these will be retrieved from DB later */
 const profile_name: string = "Evan Stegall"
@@ -19,7 +18,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F7FD",
+    backgroundColor: "#F5F7FE",
     alignItems: "center",
     justifyContent: "center",
     padding: 10

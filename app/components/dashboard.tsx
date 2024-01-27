@@ -5,7 +5,7 @@ import { Text } from 'react-native-paper';
 
 
 export default function Dashboard(){
-    const [dashInfo, setDashInfo] = useState({Steps: 10,Distance: "10km",Time: "3:00"});
+    const [dashInfo, setDashInfo] = useState({Steps: 130,Distance: "1.3 MI",Time: "40 MIN"});
     return(
         <View style={{paddingTop: 15}}>
             <Text variant="titleLarge" style = {styles.text}>Today</Text>
@@ -52,13 +52,15 @@ const styles = StyleSheet.create({
         fontWeight: "600"
     },
     text_activity: {
-        fontWeight: "300",
+        fontWeight: "400",
         fontSize: 15,
-        color: "white"
+        color: "white",
+        paddingBottom: 10
     },
 
     userInfo:{
-        fontWeight:"600",
-        color: "white"
+        fontWeight:"500",
+        color: "white",
+        fontSize: 16
     }
 })

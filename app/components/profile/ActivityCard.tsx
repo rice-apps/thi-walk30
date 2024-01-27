@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     tab: {
         fontSize: 18,
         color: "#FFF",
-        fontWeight: 500,
+        fontWeight: "500",
 
     },
     text: {
