@@ -10,7 +10,7 @@ const EventList = (props: { eventList: EventData[] }) => {
         <ScrollView>
             <Text variant="titleLarge" style = {styles.text}>My Events</Text>
             {props.eventList.map(event => {
-                return <EventCard eventData={event} key={event.id}/>
+                return <EventCard eventData={event} key={event._id}/>
             })}
         </ScrollView>
     )

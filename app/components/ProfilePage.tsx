@@ -37,7 +37,6 @@ function ProfilePage(props: props) {
             <View  style = {styles.dashboard}>
                 <Dashboard/>
             </View>
-            
             <View style = {styles.activity_card}>
                 <ActivityCard/>
             </View>
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     },
 
     activity_card: {
-
-    }
+        borderRadius: 10
+    },
 })
 export default ProfilePage;

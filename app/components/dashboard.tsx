@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
         display: "flex"
     },
     subcontainer: {
-        //flexDirection: "column",
         padding:15,
         justifyContent:"space-between",
         fontSize:20
