@@ -1,4 +1,4 @@
-const events = require("./events");
+const events = require("./event");
 const user = require("./user");
 const dailyActivity = require("./dailyActivity");
 const resource = require("./resource");
@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.use("/event", events);
 router.use("/user", user);
-router.use("/dailyActivity", dailyActivity);
+router.use("/daily-activity", dailyActivity);
 router.use("/resource", resource);
 router.use("/organization", organization);
 

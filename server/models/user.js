@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const DailyActivity = require('./dailyActivity');
-const Event = require('./events')
+const Event = require('./event')
 
 
 

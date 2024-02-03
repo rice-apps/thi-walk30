@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 
 const DailyActivity = new mongoose.Schema({
-    step: {
+    steps: {
         required: true,
         type: Number
     },
@@ -11,7 +11,7 @@ const DailyActivity = new mongoose.Schema({
         required: true,
         type: Number
     },
-    workoutTime: {
+    minutes: {
         required: true,
         type: Number
     },
