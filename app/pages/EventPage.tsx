@@ -1,57 +1,156 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Text, StyleSheet, Button, TouchableHighlight, Linking, Image, SafeAreaView } from 'react-native';
-import { LinkData } from '../types/LinkData';
+import React, { useState } from "react";
+import {
+  Linking,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from "react-native";
+import { EventData } from "../types/EventData";
+import Icon from "@expo/vector-icons/Entypo";
+import LocationPin from "@expo/vector-icons/MaterialIcons";
 
-export function EventPage(props: { title: string; body: string; date: string; hostorg: string; linkMap: LinkData[] }) {
-  const [registerText, setRegisterText] = useState('I plan to attend');
-  const [showRegister, setShowRegister] = useState(false)
-  
+export function EventPage(props: { event: EventData }) {
+  const [registerText, setRegisterText] = useState("Register");
+  const [showRegister, setShowRegister] = useState(false);
+
   const handleButtonClick = () => {
     setShowRegister(!showRegister);
     if (showRegister) {
-      setRegisterText('I plan to attend');
+      setRegisterText("Register");
     } else {
-      setRegisterText('Registered!\n\n Not attending? Click here to unregister.')
+      setRegisterText("Unregister");
     }
   };
 
-  const onLinkPress = (link:string) => {
+  const onLinkPress = (link: string) => {
     Linking.openURL(link);
   };
 
+  const styles = StyleSheet.create({
+    header: {
+      color: "#00426e",
+      marginBottom: 10,
+      marginTop: 10,
+      fontSize: 18,
+      fontWeight: "600",
+    },
+    iconTextPair: {
+      flexDirection: "row",
+      marginBottom: 5,
+    },
+    iconText: {
+      marginLeft: 10,
+      fontSize: 15,
+      color: "#00426e",
+      width: 180,
+    },
+    registerButton: {
+      backgroundColor: "#00426e",
+      borderRadius: 5,
+      padding: 10,
+      height: 45,
+      width: 120,
+      position: "absolute",
+      right: 0,
+      bottom: 0,
+    },
+  });
+
   return (
-    <SafeAreaView>
-    <ScrollView style={{ margin: 10, flexDirection: 'column' }}>
-      
+    <ScrollView style={{ backgroundColor: "#f8f4fc" }}>
+      {/* Event image */}
       <Image
-        style = {{marginTop: 30, width: 400, height:300}}
+        style={{ width: "100%", height: 250 }}
         source={{
-          uri: 'https://reactnative.dev/img/tiny_logo.png',
+          uri: props.event.featureImage,
         }}
       />
-      
-      <Text style = {{textAlign: 'center', fontSize: 30, marginBottom:50}}>{props.title}</Text> 
-      <View>
-        <Text style = {{fontFamily: 'Arial', fontSize: 18, marginBottom: 25}}>{props.body}</Text>
-        <Text style = {{marginBottom: 15}}>When: {props.date}</Text>
-        <Text style = {{marginBottom: 15}}>Hosting Organization: {props.hostorg}</Text>
-      </View>
-  
-      <Button onPress={handleButtonClick} title={registerText} />
-      <Text style = {{marginTop: 15, fontSize:20}}>Relevant Links</Text>
-        
-      {props.linkMap.map((links) => (
-          <TouchableHighlight onPress={() => onLinkPress(links.url)}>
-          <View>
-            <Text style ={{textDecorationLine: 'underline', color: 'blue', marginBottom: 10, marginTop: 10}}>{links.title}</Text>
+      {/* Title and host */}
+      <View style={{ margin: 20 }}>
+        <Text
+          style={{
+            fontSize: 30,
+            fontWeight: "600",
+            color: "#00426e",
+            marginBottom: 10,
+            width: "100%",
+          }}
+          numberOfLines={1}
+        >
+          {props.event.title}
+        </Text>
+        <Text style={{ fontSize: 15, color: "#407ccc", marginBottom: 15 }}>
+          Hosted by{" "}
+          <Text style={{ fontWeight: "700" }}>{props.event.host}</Text>
+        </Text>
+
+        {/* Logistics box: date, location, link, register button */}
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View style={{ flexDirection: "column" }}>
+            <View style={styles.iconTextPair}>
+              <Icon name="calendar" size={20} color="#00426e"></Icon>
+              <Text style={styles.iconText} numberOfLines={1}>
+                {props.event.date.toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </Text>
+            </View>
+
+            <View style={styles.iconTextPair}>
+              <LocationPin
+                name="location-pin"
+                size={20}
+                color="#00426e"
+              ></LocationPin>
+              <Text style={styles.iconText} numberOfLines={1}>
+                {props.event.location.address}
+              </Text>
+            </View>
+
+            <View style={styles.iconTextPair}>
+              <Icon name="link" size={20} color="#407ccc"></Icon>
+              <TouchableHighlight onPress={() => onLinkPress(props.event.link)}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    marginLeft: 10,
+                    color: "#407ccc",
+                    width: 180,
+                  }}
+                  numberOfLines={1}
+                >
+                  {props.event.link}
+                </Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </TouchableHighlight> 
-        ))}
+          <View style={styles.registerButton}>
+            <Pressable onPress={handleButtonClick}>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 18,
+                  fontWeight: "700",
+                  textAlign: "center",
+                }}
+              >
+                {registerText}
+              </Text>
+            </Pressable>
+          </View>
+        </View>
 
+        <Text style={styles.header}>23 participating</Text>
+        <Text style={styles.header}>Challenges</Text>
+        <Text style={styles.header}>Event Description</Text>
+        <Text>{props.event.description}</Text>
+      </View>
     </ScrollView>
-    </SafeAreaView>
   );
-};
-
-
-
+}

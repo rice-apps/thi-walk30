@@ -1,25 +1,73 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import React from 'react'
-import { AnnouncementPage } from "./pages/AnnouncementPage";
-import { EventPage } from "./pages/EventPage";
-import { EventList } from "./pages/EventList";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { constants } from "./Style";
 
-export default function App() {
-  const exampleLink: LinkData = {
-    title: "More Information",
-    url: "https://www.example.com",
-};
+const Tab = createBottomTabNavigator();
+
+function Home() {
   return (
     <View style={styles.container}>
-      {/* <Text>Open up App.tsx to start working on your app!</Text> */}
-      {/* <AnnouncementPage title = {"Pumpkin-Carving and Costume Contests Ensure a Festive Halloween at THI"}
-      body= {"The team from Administration and Development — including Henry Aceves, Karen Gunay, Tanya Rojas, Daphne Singleterry, Marcia Strauss, Julie Voss, and Sheila Vrana — ultimately took home first place for their “Deep in the Heart of Texas” operating room vignette, complete with surgeon and patient."} 
-      linkMap={[exampleLink]}/>
-      <StatusBar style="auto" /> */}
-      {/* <EventPage title = {"Title"} body = {"body text"} date = {"date"} hostorg = {"hostorg"} linkMap = {[exampleLink]}/> */}
-      <EventList />
+      <Text>Open up App.tsx to start working on your app!</Text>
+      <StatusBar style="auto" />
     </View>
+  );
+}
+
+function Tabs() {
+  function TabIcon(name: any, color: string) {
+    return (
+      <MaterialCommunityIcons name={name} color={color} size={26} />
+    );
+  }
+
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+        tabBarInactiveTintColor: constants.gray,
+        tabBarActiveTintColor: constants.darkBlue
+      }} >
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color }) => TabIcon("home", color)
+        }} />
+      <Tab.Screen
+        name="Events"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color }) => TabIcon("calendar", color)
+        }} />
+      <Tab.Screen
+        name="Resources"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color }) => TabIcon("information", color)
+        }} />
+      <Tab.Screen
+        name="Updates"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color }) => TabIcon("bell", color)
+        }} />
+    </Tab.Navigator>
+  );
+}
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Tabs />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
@@ -27,7 +75,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "stretch",
-    justifyContent: "center",
   },
 });
