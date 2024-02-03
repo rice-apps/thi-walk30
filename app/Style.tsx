@@ -1,4 +1,4 @@
-const constants = {
+export const constants = {
     darkBlue: "#103158",
     lightBlue: "#C5DFFF",
     extraLightBlue: "#F5F7FD",
@@ -6,8 +6,4 @@ const constants = {
     lightRed: "#D57373",
     black: "#000000",
     white: "#FFFFFF"
-};
-
-module.exports = {
-    constants
 };
