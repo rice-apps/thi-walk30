@@ -7,7 +7,7 @@ const ResourceCard = (props: { resourceData: ResourceData }) => {
     return (
         <Card
             style={{
-                margin: 10,
+                marginBottom: 20,
                 backgroundColor: 'white',
                 borderRadius: 5,
             }}
