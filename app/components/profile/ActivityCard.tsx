@@ -2,25 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import { Text } from 'react-native-paper';
 import { TabView, SceneMap, TabBar, NavigationState, SceneRendererProps } from 'react-native-tab-view';
-
-const StepsRoute = () => (
-    <View style={styles.chart} />
-);
-  
-const DistanceRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#673ab7'}} />
-);
-
-const TimeRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#987ab7' }} />
-);
-
-  
-const renderScene = SceneMap({
-    steps: StepsRoute,
-    distance: DistanceRoute,
-    time: TimeRoute
-});
+import { BarChart } from "react-native-gifted-charts";
 
 type Route = {
     key: string;
@@ -28,6 +10,39 @@ type Route = {
 };
   
 type State = NavigationState<Route>;
+
+//Hard coded values for now...will replace with fetched data later
+const data=[ {value:380, label: "Mon"}, {value:150, label: "Tue"}, {value:300, label: "Wed"}, {value:50, label: "Thu"}, {value:360, label: "Fri"}, {value:370, label: "Sat"}, {value:230, label: "Sun"} ]
+
+const StepsRoute = () => (
+    <View style={styles.chart}>
+        <BarChart data = {data} 
+        backgroundColor={"white"} 
+        height = {162} 
+        noOfSections={2} 
+        barWidth={22} 
+        barBorderRadius={4} 
+        frontColor={"#00426D"}
+        xAxisThickness={25}
+        xAxisColor={'white'}
+        yAxisColor={'white'}
+        />
+    </View>
+);
+  
+const DistanceRoute = () => (
+    <View style={{ flex: 1, backgroundColor: 'red'}} />
+);
+
+const TimeRoute = () => (
+    <View style={{ flex: 1, backgroundColor: 'blue' }} />
+);
+
+const renderScene = SceneMap({
+    steps: StepsRoute,
+    distance: DistanceRoute,
+    time: TimeRoute
+});
 
 const renderTabBar = (
     props: SceneRendererProps & { navigationState: State }
@@ -40,7 +55,7 @@ const renderTabBar = (
   );
 
 export default function Dashboard() {
-    const [dashInfo, setDashInfo] = useState({ Steps: 10, Distance: "10km", Time: "3:00" });
+
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
@@ -66,18 +81,18 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 250,
+        height: 300,
         margin: 10,
     },
     TabBar: {
         flex: 1,
         borderRadius: 10,
-        color: "red",
-        backgroundColor: "red",
+        backgroundColor: "white"
     },
     chart: {
         flex: 1, 
-        backgroundColor: "#00426D"
+        backgroundColor: "white",
+        marginTop:40
     },
     tabElement: {
         backgroundColor: '#00426D',

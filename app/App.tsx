@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import ProfilePage from './components/ProfilePage';
+import ActivityCard from "./components/profile/ActivityCard";
 
 /* Hard coding default values, these will be retrieved from DB later */
 const profile_name: string = "Evan Stegall"
