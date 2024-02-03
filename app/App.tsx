@@ -4,12 +4,13 @@ import React from 'react'
 import { AnnouncementPage } from "./pages/AnnouncementPage";
 import { EventPage } from "./pages/EventPage";
 import { EventList } from "./pages/EventList";
+import { EventCalendar } from "./pages/EventCalendar";
 
 export default function App() {
-  const exampleLink: LinkData = {
-    title: "More Information",
-    url: "https://www.example.com",
-};
+//   const exampleLink: LinkData = {
+//     title: "More Information",
+//     url: "https://www.example.com",
+// };
   return (
     <View style={styles.container}>
       {/* <Text>Open up App.tsx to start working on your app!</Text> */}
@@ -18,7 +19,8 @@ export default function App() {
       linkMap={[exampleLink]}/>
       <StatusBar style="auto" /> */}
       {/* <EventPage title = {"Title"} body = {"body text"} date = {"date"} hostorg = {"hostorg"} linkMap = {[exampleLink]}/> */}
-      <EventList />
+      {/* <EventList /> */}
+      <EventCalendar />
     </View>
   );
 }
