@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     // Add other styles as needed
   });
   
-export function EventList() {
+export default function EventList() {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [eventData, setEventData] = useState([]);
