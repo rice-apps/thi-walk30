@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native';
 import { Card } from 'react-native-paper';
+import { EventData } from '../types/EventData';
 
-const SearchBar = ({ value, onChangeText }) => {
+const SearchBar = (props: { value: string, onChangeText: (text: string) => void }) => {
     return (
       <View style={styles.searchContainer}>
         <Image
@@ -11,8 +12,8 @@ const SearchBar = ({ value, onChangeText }) => {
         />
         <TextInput
           style={styles.searchInput}
-          onChangeText={onChangeText}
-          value={value}
+          onChangeText={props.onChangeText}
+          value={props.value}
           placeholder="Search for events"
         />
       </View>
@@ -22,14 +23,14 @@ const SearchBar = ({ value, onChangeText }) => {
 
 const EventCard = (props: { title: string, startTime: string, endTime: string, date: string, imageUri: string }) => (
     <View>
-    <Card style={[styles.card, styles.shadowProp]}>
-      <Image source={{ uri: props.imageUri }} style={styles.cardImage} />
-      <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{props.title}</Text>
-        <Text style={styles.cardTime}>{props.startTime} - {props.endTime}</Text>
-        <Text style={styles.cardDate}>{props.date}</Text>
-      </View>
-    </Card>
+      <Card style={[styles.card]}>
+        <Image source={{ uri: props.imageUri }} style={styles.cardImage} />
+        <View style={styles.cardContent}>
+          <Text style={styles.cardTitle}>{props.title}</Text>
+          <Text style={styles.cardTime}>{props.startTime} - {props.endTime}</Text>
+          <Text style={styles.cardDate}>{props.date}</Text>
+        </View>
+      </Card>
     </View>
   );
   
@@ -81,13 +82,6 @@ const events = [
 const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: '#F6F7FD'
-    },
-    shadowProp: {
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 1,
-      shadowRadius: 4,
-      elevation: 5,
     },
     searchContainer: {
         flexDirection: 'row',
@@ -162,7 +156,7 @@ export function EventList() {
     const [eventData, setEventData] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState(eventData);
 
-    const EVENTS_ROUTE = "http://localhost:3000/api/event/events";
+    const EVENTS_ROUTE = "http://localhost:3000/api/event/recent";
 
     useEffect(() => {
         const fetchEventData = async () => {
@@ -170,6 +164,7 @@ export function EventList() {
                 const response = await fetch(EVENTS_ROUTE);
                 const result = await response.json();
                 setEventData(result);
+                setFilteredEvents(result);
             } catch (error) {
                 console.error("Error fetching event data:", error);
             }
@@ -178,15 +173,15 @@ export function EventList() {
         fetchEventData();
     }, []);
 
-    const onChangeSearch = (query) => {
+    const onChangeSearch = (query: string) => {
         setSearchQuery(query);
         if (query.trim() === '') {
             setFilteredEvents(eventData);
         } else {
             const lowercasedQuery = query.toLowerCase();
-            const filteredData = eventData.filter((event) =>
+            const filteredData = eventData.filter((event: EventData) =>
                 event.title.toLowerCase().includes(lowercasedQuery) ||
-                event.date.includes(query)
+                event.date.toString().includes(query)
             );
             setFilteredEvents(filteredData);
         }
@@ -198,14 +193,14 @@ export function EventList() {
         <View style={{ flex: 1, backgroundColor:'#00426D', marginBottom: 30}}>
             <SearchBar value={searchQuery} onChangeText={onChangeSearch} />
             <ScrollView showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-            {filteredEvents.map((event) => (
+            {filteredEvents.map((event: EventData) => (
                 <EventCard
                 key={event.id}
                 title={event.title}
                 startTime={event.startTime}
                 endTime={event.endTime}
-                date={event.date}
-                imageUri={event.imageUri}
+                date={event.date.toString()}
+                imageUri={event.featureImage}
                 />
             ))}
             </ScrollView>
