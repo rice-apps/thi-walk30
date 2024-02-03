@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native';
 import { Card } from 'react-native-paper';
 import { EventData } from '../types/EventData';
+import EventList from '../components/event/EventList';
 
 const SearchBar = (props: { value: string, onChangeText: (text: string) => void }) => {
     return (
@@ -19,21 +20,6 @@ const SearchBar = (props: { value: string, onChangeText: (text: string) => void 
       </View>
     );
 };
-
-
-const EventCard = (props: { title: string, startTime: string, endTime: string, date: string, imageUri: string }) => (
-    <View>
-      <Card style={[styles.card]}>
-        <Image source={{ uri: props.imageUri }} style={styles.cardImage} />
-        <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>{props.title}</Text>
-          <Text style={styles.cardTime}>{props.startTime} - {props.endTime}</Text>
-          <Text style={styles.cardDate}>{props.date}</Text>
-        </View>
-      </Card>
-    </View>
-  );
-  
   
 const events = [
 {
@@ -150,10 +136,10 @@ const styles = StyleSheet.create({
     // Add other styles as needed
   });
   
-export default function EventList() {
+export default function EventsPage() {
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [eventData, setEventData] = useState([]);
+    const [eventData, setEventData] = useState<EventData[]>([]);
     const [filteredEvents, setFilteredEvents] = useState(eventData);
 
     const EVENTS_ROUTE = "http://localhost:3000/api/event/recent";
@@ -192,18 +178,9 @@ export default function EventList() {
       <SafeAreaView style={{ flex: 1, backgroundColor: '#00426D'}}>
         <View style={{ flex: 1, backgroundColor:'#00426D', marginBottom: 30}}>
             <SearchBar value={searchQuery} onChangeText={onChangeSearch} />
-            <ScrollView showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-            {filteredEvents.map((event: EventData) => (
-                <EventCard
-                key={event.id}
-                title={event.title}
-                startTime={event.startTime}
-                endTime={event.endTime}
-                date={event.date.toString()}
-                imageUri={event.featureImage}
-                />
-            ))}
-            </ScrollView>
+            <View style={styles.container}>
+              <EventList eventList={filteredEvents} />
+            </View>
         </View>
       </SafeAreaView>
     );

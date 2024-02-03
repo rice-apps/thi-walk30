@@ -45,7 +45,11 @@ const EventCard = (props: { eventData: EventData }) => {
         }
     });
 
+    let date = new Date(props.eventData.date);
+    let dateString = date.toLocaleDateString(undefined, { month: "numeric", day: "numeric" });
+    let timeString = date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: true});
 
+    // TODO: When backend includes event duration, update time display to show full time of event.
     return (
         <Card style={{margin : 10}}>
             <Card.Content style={styles.eventCard}>
@@ -56,10 +60,10 @@ const EventCard = (props: { eventData: EventData }) => {
                     </Text>
                     <View style={styles.eventDateTime}>
                         <Text style={styles.eventLogistics}>
-                            {props.eventData.startTime} - {props.eventData.endTime}
+                            {timeString}
                         </Text>
                         <Text style={styles.eventLogistics}>
-                            {props.eventData.date.toLocaleDateString(undefined, {month: "numeric", day: "numeric"})}
+                            {dateString}
                         </Text>
                     </View>
                 </View>    
