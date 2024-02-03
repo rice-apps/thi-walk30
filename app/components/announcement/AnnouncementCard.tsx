@@ -39,9 +39,9 @@ const AnnouncementCard = (props: { AnnouncementData: AnnouncementData }) => {
         },
 
         authorPicture: {
-            width: "22%",
+            width: "18%",
             height: 0,
-            paddingTop: "22%",
+            paddingTop: "18%",
             borderRadius: 5
         },
 
@@ -52,9 +52,10 @@ const AnnouncementCard = (props: { AnnouncementData: AnnouncementData }) => {
         },
 
         announcementType: {
-            fontSize: 18,
-            fontWeight: "500",
-            marginBottom:-10,
+            fontSize: 20,
+            fontWeight: "600",
+            marginLeft: 5,
+            flexDirection: 'column'
         },
 
         announcementTime: {
@@ -62,54 +63,61 @@ const AnnouncementCard = (props: { AnnouncementData: AnnouncementData }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             fontSize: 50,
-            marginBottom:-10,
+            marginBottom:-15,
         },
         announcementLogistics: {
+                marginTop: 10,
+                marginLeft: -20,
                 fontSize: 15,
         },
 
         announcementAuthor: {
             fontSize: 21,
-            fontWeight: "500",
+            fontWeight: "bold",
+        
+
         },
         announcementDescription: {
-            marginTop:10,
-            fontSize:15
+            marginTop:12,
+            fontSize:15,
+            marginLeft: 5,
+            marginBottom: 12
         }
     });
 
 
     return (
+      
+      
+        
+        
+
         <Card style={{margin : 10}}>
+            
             <Card.Content style={styles.announcementCard}>
-                <Image style={styles.authorPicture} source={{ uri: props.AnnouncementData.authorPicture}}/>
+                
                 <View style={styles.announcementDesc}>
-                <View style={styles.announcementTime}>
-                        
-                        <Text style={styles.announcementType} numberOfLines={2} >
-                        {props.AnnouncementData.organization}
-                        
-                        </Text>
+                
+                    <View style={styles.announcementTime}>
+                        <Image style={styles.authorPicture} source={{ uri: props.AnnouncementData.authorPicture}}/>
+                        <View style={styles.announcementType}>
+                            <Text style={styles.announcementType} numberOfLines={2} >
+                                {props.AnnouncementData.organization}
+                            </Text>
+                            <Text style={styles.announcementType} numberOfLines={1} >
+                                {props.AnnouncementData.type}   
+                            </Text>
+                            <Text style={styles.announcementDescription} numberOfLines={3} >
+                                {props.AnnouncementData.description}
+                            </Text>
+
+                        </View>
                         <Text style={styles.announcementLogistics}>
                                 {calculateDate()}
-                        </Text>
+                        </Text> 
                     </View>
-                   
-                    <Text style={styles.announcementType} numberOfLines={1} >
-                        {props.AnnouncementData.type}
-                        
-                        
-                    </Text>
-                    <Text style={styles.announcementDescription} numberOfLines={3} >
-                        {props.AnnouncementData.description}
-                        
-                    </Text>
                     
-                    {/* <View style={styles.announcementTime}>
-                        <Text style={styles.announcementLogistics}>
-                                {calculateDate()}
-                        </Text>
-                    </View> */}
+                    
                 </View>    
             </Card.Content>
         </Card>

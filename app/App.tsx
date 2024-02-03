@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 const sampleAnnouncementList: AnnouncementData[] = [
   {
     id: "1",
-    authorPicture: 'https://www.texasheart.org/wp-content/uploads/2023/11/IMG_8671.jpeg',
+    authorPicture: 'https://1000logos.net/wp-content/uploads/2021/07/Rice-Owls-logo.png',
     type: 'Event',
     organization: 'Sample Organization',
     description: 'Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!',
@@ -21,7 +21,7 @@ const sampleAnnouncementList: AnnouncementData[] = [
   },
   {
     id: "2",
-    authorPicture: 'https://example.com/author-picture.jpg',
+    authorPicture: 'https://1000logos.net/wp-content/uploads/2021/07/Rice-Owls-logo.png',
     type: 'Event',
     organization: 'Sample Organization',
     description: 'Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!',
@@ -29,7 +29,7 @@ const sampleAnnouncementList: AnnouncementData[] = [
   },
   {
     id: "3",
-    authorPicture: 'https://example.com/author-picture.jpg',
+    authorPicture: 'https://1000logos.net/wp-content/uploads/2021/07/Rice-Owls-logo.png',
     type: 'Event',
     organization: 'Sample Organization',
     description: 'Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!',
