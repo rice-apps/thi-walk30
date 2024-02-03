@@ -46,6 +46,7 @@ export function EventPage(props: { event: EventData }) {
       marginLeft: 10,
       fontSize: 15,
       color: "#00426e",
+      width: 180,
     },
     registerButton: {
       backgroundColor: "#00426e",
@@ -76,7 +77,9 @@ export function EventPage(props: { event: EventData }) {
             fontWeight: "600",
             color: "#00426e",
             marginBottom: 10,
+            width: "100%",
           }}
+          numberOfLines={1}
         >
           {props.event.title}
         </Text>
@@ -90,7 +93,7 @@ export function EventPage(props: { event: EventData }) {
           <View style={{ flexDirection: "column" }}>
             <View style={styles.iconTextPair}>
               <Icon name="calendar" size={20} color="#00426e"></Icon>
-              <Text style={styles.iconText}>
+              <Text style={styles.iconText} numberOfLines={1}>
                 {props.event.date.toLocaleDateString(undefined, {
                   month: "short",
                   day: "numeric",
@@ -105,12 +108,11 @@ export function EventPage(props: { event: EventData }) {
                 size={20}
                 color="#00426e"
               ></LocationPin>
-              <Text style={styles.iconText}>
+              <Text style={styles.iconText} numberOfLines={1}>
                 {props.event.location.address}
               </Text>
             </View>
 
-            {/* TODO: cut off link if too long */}
             <View style={styles.iconTextPair}>
               <Icon name="link" size={20} color="#407ccc"></Icon>
               <TouchableHighlight onPress={() => onLinkPress(props.event.link)}>
@@ -119,8 +121,9 @@ export function EventPage(props: { event: EventData }) {
                     fontSize: 15,
                     marginLeft: 10,
                     color: "#407ccc",
-                    overflow: "hidden",
+                    width: 180,
                   }}
+                  numberOfLines={1}
                 >
                   {props.event.link}
                 </Text>
