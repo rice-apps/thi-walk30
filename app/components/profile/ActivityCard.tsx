@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, useWindowDimensions } from 'react-native';
+import { StyleSheet, View, useWindowDimensions, ScrollView, SafeAreaView, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard} from 'react-native';
 import { Text } from 'react-native-paper';
 import { TabView, SceneMap, TabBar, NavigationState, SceneRendererProps } from 'react-native-tab-view';
-import { BarChart } from "react-native-gifted-charts";
+import { BarChart, barDataItem } from "react-native-gifted-charts";
+import DropDownPicker from 'react-native-dropdown-picker';
 
 type Route = {
     key: string;
@@ -11,24 +12,69 @@ type Route = {
   
 type State = NavigationState<Route>;
 
-//Hard coded values for now...will replace with fetched data later
-const data=[ {value:380, label: "Mon"}, {value:150, label: "Tue"}, {value:300, label: "Wed"}, {value:50, label: "Thu"}, {value:360, label: "Fri"}, {value:370, label: "Sat"}, {value:230, label: "Sun"} ]
+const daily_avg = 130;
+const Total = 1400;
 
-const StepsRoute = () => (
-    <View style={styles.chart}>
-        <BarChart data = {data} 
-        backgroundColor={"white"} 
-        height = {162} 
-        noOfSections={2} 
-        barWidth={22} 
-        barBorderRadius={4} 
-        frontColor={"#00426D"}
-        xAxisThickness={25}
-        xAxisColor={'white'}
-        yAxisColor={'white'}
-        />
-    </View>
-);
+//Hard coded values for now...will replace with fetched data later
+const dta =[ {value:380, label: "Mon"}, {value:150, label: "Tue"}, {value:300, label: "Wed"}, {value:50, label: "Thu"}, {value:360, label: "Fri"}, {value:370, label: "Sat"}, {value:230, label: "Sun"} ]
+
+function makeRoute(data: barDataItem[]) {
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState("Weekly");
+    const [items, setItems] = useState([
+      {label: 'Weekly', value: 'Weekly'},
+      {label: 'Monthly', value: 'Monthly'}
+    ]);
+    return (
+        <View>
+            {/* First Row with BarChart */}
+            <View style={{ flexDirection: 'row', alignItems: "flex-start", justifyContent: "center", alignContent: "center", marginBottom: 20, paddingTop: 10}}>
+                <DropDownPicker
+                        style={styles.dropDown}
+                        open={open}
+                        value={value}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setValue}
+                        setItems={setItems}
+                        listMode="SCROLLVIEW"
+                        containerStyle={{
+                            width: "33%",
+                            alignContent: "center",
+                            justifyContent: "center",
+                        }}
+                    />
+                    <Text style = {{marginRight: 30, marginLeft: 30}}>
+                        <Text variant="bodySmall">Daily Avg. </Text>
+                        <Text style = {{fontWeight: "bold", marginRight: 40}} variant="bodyLarge">{daily_avg}</Text>
+                    </Text>
+                    <Text>
+                        <Text variant="bodySmall">Total </Text>
+                        <Text style = {{fontWeight: "bold"}}variant="bodyLarge">{Total}</Text>
+                    </Text>
+            </View>
+            {/* Second Row with BarChart */}
+            <View style = {{marginTop: 20}}>
+                <BarChart 
+                    data = {data} 
+                    backgroundColor={"white"} 
+                    height = {162} 
+                    noOfSections={2} 
+                    barWidth={22} 
+                    barBorderRadius={4} 
+                    frontColor={"#00426D"}
+                    xAxisThickness={25}
+                    xAxisColor={'white'}
+                    yAxisColor={'white'}
+                    />
+                </View>
+        </View>
+    )
+};
+
+function StepsRoute() {
+    return makeRoute(dta);
+};
   
 const DistanceRoute = () => (
     <View style={{ flex: 1, backgroundColor: 'red'}} />
@@ -55,7 +101,6 @@ const renderTabBar = (
   );
 
 export default function Dashboard() {
-
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
@@ -63,7 +108,7 @@ export default function Dashboard() {
       { key: 'distance', title: 'Distance' },
       { key: 'time', title: 'Time'}
     ])
-
+    
     return (
         <View style = {styles.container}>
             <Text variant="titleLarge" style = {styles.title}>My Activity</Text>
@@ -73,7 +118,7 @@ export default function Dashboard() {
             onIndexChange={setIndex}
             initialLayout={{ width: layout.width }}
             renderTabBar={renderTabBar}
-        />
+            />
         </View>
     )
 }
@@ -81,7 +126,7 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 300,
+        height: 330,
         margin: 10,
     },
     TabBar: {
@@ -90,9 +135,8 @@ const styles = StyleSheet.create({
         backgroundColor: "white"
     },
     chart: {
-        flex: 1, 
         backgroundColor: "white",
-        marginTop:40
+        marginTop: 55,
     },
     tabElement: {
         backgroundColor: '#00426D',
@@ -100,4 +144,18 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: "600",
     },
+    dropDown: {
+        borderRadius: 10,
+        backgroundColor: "#D8D9DC",
+        height:0,
+        paddingHorizontal: 10,
+        minHeight: 30,
+    },
+    selectRow: {
+
+    },
+    basicStats: {
+
+    }
+
 })
