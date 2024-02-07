@@ -14,21 +14,44 @@ type State = NavigationState<Route>;
 
 const daily_avg = 130;
 const Total = 1400;
-
+const steps_dta =[ {value:380, label: "Mon"}, {value:150, label: "Tue"}, {value:300, label: "Wed"}, {value:50, label: "Thu"}, {value:360, label: "Fri"}, {value:370, label: "Sat"}, {value:230, label: "Sun"} ]
+const weeks_data =[ {value:3000, label: "Week 1"}, {value:2500, label: "Week 2"}, {value:2750, label: "Week 3"}, {value:1000, label: "Week 4"} ]
 //Hard coded values for now...will replace with fetched data later
-const dta =[ {value:380, label: "Mon"}, {value:150, label: "Tue"}, {value:300, label: "Wed"}, {value:50, label: "Thu"}, {value:360, label: "Fri"}, {value:370, label: "Sat"}, {value:230, label: "Sun"} ]
+let activity_to_data = new Map<string, barDataItem[][]>(
+    [
+        ["steps", [steps_dta, weeks_data]],
+        ["distance", [steps_dta, weeks_data]],
+        ["time", [steps_dta, weeks_data]],
+    ]
+);
 
-function makeRoute(data: barDataItem[]) {
+function makeRoute(type: string) {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState("Weekly");
     const [items, setItems] = useState([
       {label: 'Weekly', value: 'Weekly'},
       {label: 'Monthly', value: 'Monthly'}
     ]);
+    let data_list: barDataItem[][] = activity_to_data.get(type)!;
+    let data: barDataItem[] = [];
+    if (data_list === undefined) {
+        return (<View>Could not Load Data!</View>);
+    }
+    let bar_width: number = 0;
+    switch (value) {
+        case 'Weekly':
+            data = data_list[0];
+            bar_width = 22;
+            break;
+        case "Monthly":
+            data = data_list[1];
+            bar_width = 50;
+            break;
+    }
     return (
         <View>
             {/* First Row with BarChart */}
-            <View style={{ flexDirection: 'row', alignItems: "flex-start", justifyContent: "center", alignContent: "center", marginBottom: 20, paddingTop: 10}}>
+            <View style={{ flexDirection: 'row', alignItems: "flex-start", justifyContent: "center", alignContent: "center", marginBottom: 20, paddingTop: 10, zIndex: 9999}}>
                 <DropDownPicker
                         style={styles.dropDown}
                         open={open}
@@ -42,6 +65,7 @@ function makeRoute(data: barDataItem[]) {
                             width: "33%",
                             alignContent: "center",
                             justifyContent: "center",
+                            zIndex: 9999,
                         }}
                     />
                     <Text style = {{marginRight: 30, marginLeft: 30}}>
@@ -60,7 +84,7 @@ function makeRoute(data: barDataItem[]) {
                     backgroundColor={"white"} 
                     height = {162} 
                     noOfSections={2} 
-                    barWidth={22} 
+                    barWidth={bar_width}
                     barBorderRadius={4} 
                     frontColor={"#00426D"}
                     xAxisThickness={25}
@@ -73,16 +97,16 @@ function makeRoute(data: barDataItem[]) {
 };
 
 function StepsRoute() {
-    return makeRoute(dta);
+    return makeRoute('steps');
 };
   
-const DistanceRoute = () => (
-    <View style={{ flex: 1, backgroundColor: 'red'}} />
-);
+function DistanceRoute() {
+    return makeRoute('distance');
+};
 
-const TimeRoute = () => (
-    <View style={{ flex: 1, backgroundColor: 'blue' }} />
-);
+function TimeRoute() {
+    return makeRoute('time');
+};
 
 const renderScene = SceneMap({
     steps: StepsRoute,
@@ -143,6 +167,7 @@ const styles = StyleSheet.create({
     }, 
     title: {
         fontWeight: "600",
+        marginBottom: 10
     },
     dropDown: {
         borderRadius: 10,
@@ -150,6 +175,7 @@ const styles = StyleSheet.create({
         height:0,
         paddingHorizontal: 10,
         minHeight: 30,
+        zIndex: 1000
     },
     selectRow: {
 
