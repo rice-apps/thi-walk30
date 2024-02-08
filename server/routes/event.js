@@ -50,6 +50,17 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
+// Get recent and upcoming events
+router.get("/recent", async (req, res) => {
+  try {
+    // TODO: Add pagination for recent events. Right now, returns all events.
+    const events = await Event.find();
+    res.json(events);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 // Get event by id and update
 router.get("/:id", async (req, res, next) => {
   try {

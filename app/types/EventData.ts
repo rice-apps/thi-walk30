@@ -5,9 +5,7 @@ export interface EventData {
     description: string,
     featureImage: string,
     link: string,
-    date: Date,
-    startTime: string,
-    endTime: string,
+    date: Date | string,
     location: {
         latitude: number,
         longitude: number,
