@@ -1,31 +1,68 @@
 import { SearchBar } from "@rneui/themed";
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function EventSearchBar() {
     return(
         <View style={styles.container}>
-            <SearchBar style={{marginTop: 10}}></SearchBar>
+            <SearchBar
+                inputStyle={{backgroundColor: 'white'}}
+                containerStyle={styles.searchBarContainer}
+                inputContainerStyle={{backgroundColor:"white", borderRadius: 10}}
+                placeholderTextColor={'#404040'}
+                placeholder={'Search for events'}
+                showCancel={false}>
+            </SearchBar>
+            <View style={styles.eventViewContainer}>
+                <View style={styles.displayMode}><Text style={styles.textMode}>Calendar</Text></View>
+                <View style={styles.displayMode}><Text style={styles.textMode}>List</Text></View>
+                <View style={styles.displayMode}><Text style={styles.textMode}>Map</Text></View>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: "20%",
+        height: "19%",
         flexDirection: "column",
         backgroundColor: "#00426E",
+        alignItems: "center"
 
     },
-    searchBar: {
-        position: "absolute",
-        width: "90%",
-        height: "30%",
-        backgroundColor: "white",
-        shadowColor: "black",
-        shadowOffset:{width: 2, height: 2},
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-        borderRadius: 8
+    searchBarContainer: {
+        backgroundColor: '#00426E', 
+        width: "90%", 
+        marginTop: "12%", 
+        borderRadius: 0, 
+        borderTopColor: "#00426E",
+        borderBottomColor: "#00426E"
+
+    },
+    eventViewContainer: {
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "#00426D",
+        justifyContent: "space-between",
+        marginTop: 10
+    },
+    displayMode: {
+        flex: 1,
+        backgroundColor: "#00426D",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 50,
+        height: 37,
+        marginHorizontal: 8,
+        borderRadius: 6,
+        borderWidth: 2,
+        borderColor: "#D9D9D9"
+    },
+    textMode: {
+        fontWeight: "500",
+        fontSize: 18,
+        color: "#D9D9D9",
+        
+
     }
-  });
+});
