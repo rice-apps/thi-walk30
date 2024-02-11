@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   });
   
 
-function WelcomePage(props: props) {
+function WelcomePage() {
     return (
         <View style={{paddingTop: 60}}>
             <View></View>
