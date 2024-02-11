@@ -34,7 +34,7 @@ export default function MapDisplay() {
 const styles = StyleSheet.create({
   map: {
     width: '100%',
-    height: '81%',
+    height: '72%',
     flexDirection: "column"
   },
 });
