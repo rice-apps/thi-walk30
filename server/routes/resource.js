@@ -14,11 +14,21 @@ router.post("/create", async (req, res, next) => {
     const data = new Resource({
       title: req.body.title,
       link: req.body.link,
-      featured_img: req.body.featured_img,
+      img: req.body.img,
       organization: organization,
     });
     const dataToSave = await data.save();
     res.status(200).json(dataToSave);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+router.get("/recent", async (req, res) => {
+  try {
+    // TODO: Add pagination for recent resources. Right now, returns all events.
+    const resources = await Resource.find();
+    res.json(resources);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

@@ -1,5 +1,5 @@
 export interface OrganizationData {
-    organizationId: number,
+    _id: string,
     name: string,
-    image: URL,
+    img: URL,
 }

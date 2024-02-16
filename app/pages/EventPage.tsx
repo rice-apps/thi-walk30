@@ -66,7 +66,7 @@ export function EventPage(props: { event: EventData }) {
       <Image
         style={{ width: "100%", height: 250 }}
         source={{
-          uri: props.event.featureImage,
+          uri: props.event.img,
         }}
       />
       {/* Title and host */}

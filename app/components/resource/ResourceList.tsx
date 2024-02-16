@@ -7,8 +7,8 @@ import React from 'react';
 const ResourceList = (props: { resourceList: ResourceData[] }) => {
     return (
         <ScrollView>
-            {props.resourceList.map(event => {
-                return <ResourceCard resourceData={event} key={event.title} />
+            {props.resourceList.map(resource => {
+                return <ResourceCard resourceData={resource} key={resource.title} />
             })}
         </ScrollView>
     )

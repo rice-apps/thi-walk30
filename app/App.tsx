@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { constants } from "./Style";
+import { ResourcesPage } from "./pages/ResourcesPage";
 
 const Tab = createBottomTabNavigator();
 
@@ -47,7 +48,7 @@ function Tabs() {
         }} />
       <Tab.Screen
         name="Resources"
-        component={Home}
+        component={ResourcesPage}
         options={{
           tabBarIcon: ({ color }) => TabIcon("information", color)
         }} />

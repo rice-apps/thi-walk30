@@ -22,7 +22,7 @@ const ResourceCard = (props: { resourceData: ResourceData }) => {
             >
                 <Image 
                     style={{ width: '22%', height: 0, paddingTop: '22%', borderRadius: 5 }} 
-                    source={{ uri: props.resourceData.organization.image.toString() }}
+                    source={{ uri: props.resourceData.organization.img.toString() }}
                 />
                 <Card.Title 
                     style={{ width: 270 }}

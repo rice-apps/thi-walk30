@@ -10,7 +10,7 @@ const resourceSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
-  featured_img: {
+  img: {
     required: true,
     type: String,
   },

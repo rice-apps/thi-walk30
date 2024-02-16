@@ -11,9 +11,11 @@ router.post("/create", async (req, res, next) => {
     _id: new mongodb.ObjectId(),
     title: req.body.title,
     description: req.body.description,
-    featured_img: req.body.featured_img,
+    img: req.body.img,
     link: req.body.link,
     location: req.body.location,
+    date: new Date(req.body.date),
+    duration: req.body.duration,
   });
   try {
     const savedData = await event.save();

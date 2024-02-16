@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ResourceList from "../components/resource/ResourceList";
 import { ResourceData } from "../types/ResourceData";
 import { Searchbar } from "react-native-paper";
@@ -13,6 +13,22 @@ export function ResourcesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredResources, setFilteredResources] = useState(resourceList);
   const [displayToggle, setDisplayToggle] = useState<DisplayMode>("none");
+
+  const RESOURCES_ROUTE = "http://localhost:3000/api/resource/recent"
+
+  useEffect(() => {
+    const fetchResourceData = async () => {
+      try {
+        const response = await fetch(RESOURCES_ROUTE);
+        const result = await response.json();
+        setFilteredResources(result);
+      } catch (error) {
+        console.error("Error fetching resource data:", error);
+      }
+    };
+
+    fetchResourceData();
+  }, []);
 
   const handleInputChange = (event: string) => {
     const searchTerm = event;
