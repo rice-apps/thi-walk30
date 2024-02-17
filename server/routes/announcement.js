@@ -5,8 +5,6 @@ const Organization = require("../models/organization");
 
 const router = express.Router();
 
-router.use("/announcement", Announcement);
-
 module.exports = router;
 
 // Create an annnouncement
