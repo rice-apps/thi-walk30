@@ -2,9 +2,9 @@ import { SearchBar } from "@rneui/themed";
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function EventSearchBar() {
+export default function EventSearchBar(props: {container: object}) {
     return(
-        <View style={styles.container}>
+        <View style={props.container}>
             <SearchBar
                 inputStyle={{backgroundColor: 'white'}}
                 containerStyle={styles.searchBarContainer}
@@ -23,13 +23,6 @@ export default function EventSearchBar() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        height: "19%",
-        flexDirection: "column",
-        backgroundColor: "#00426E",
-        alignItems: "center"
-
-    },
     searchBarContainer: {
         backgroundColor: '#00426E', 
         width: "90%", 

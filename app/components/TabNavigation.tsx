@@ -6,9 +6,9 @@ import HOME from "../assets/images/home.png";
 import RESOURCE from "../assets/images/resource.png";
 
 
-export default function TabNavigation() {
+export default function TabNavigation(props: {container: object}) {
     return(
-        <View style={styles.container}>
+        <View style={props.container}>
             <View style={styles.tab_item}><Image source={HOME}/></View>
             <View style={styles.tab_item}><Image source={EVENTS}/></View>
             <View style={styles.tab_item}><Image source={RESOURCE}/></View>
@@ -18,15 +18,8 @@ export default function TabNavigation() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      height: "9%",
-      backgroundColor: "white",
-      justifyContent: "space-around",
-      marginHorizontal: 10,
-      flexDirection: "row"
-    },
     tab_item: {
         flexDirection: "row",
         marginTop: 10,
     }
-  });
+});

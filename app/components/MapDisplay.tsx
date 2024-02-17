@@ -1,6 +1,6 @@
 import * as Location from 'expo-location';
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Dimensions, Image } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MARKERICON from "../assets/images/event-icon.png";
 import { EventData } from "../types/EventData";
@@ -20,7 +20,7 @@ let dummy_event = [
   {location: {latitude:29.718169113482062,longitude:-95.40369813918241}},
 
 ]
-export default function MapDisplay() {
+export default function MapDisplay(props: {container: object}) {
   const mapRef = useRef<MapView>();
   const [eventData, setEventData] = useState<EventData[]>([]);
   const [location, setLocation] = useState();
@@ -60,7 +60,7 @@ export default function MapDisplay() {
     }, []);
   return (
     <MapView
-      style={styles.map} 
+      style={props.container} 
       provider={PROVIDER_GOOGLE} 
       initialRegion={location}
       
@@ -79,12 +79,3 @@ export default function MapDisplay() {
 
   );
 }
-
-
-const styles = StyleSheet.create({
-  map: {
-    width: '100%',
-    height: '72%',
-    flexDirection: "column"
-  },
-});
