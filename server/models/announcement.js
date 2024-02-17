@@ -1,13 +1,10 @@
 const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
-const organization = require("./organization");
-
 
 const Announcement = new mongoose.Schema({
-    // ???
     organization: {
         required: true,
-        type: organization.ObjectId
+        type: ObjectId
     },
     title: {
         required: true,
