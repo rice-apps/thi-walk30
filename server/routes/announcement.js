@@ -48,9 +48,8 @@ router.patch('/update/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await Announcement.findbyIdAndDelete(id);
-        // if it doesn't exist ?
-        res.send(`Announcement '${req.params.title} has been deleted`)
+        const data = await Announcement.findByIdAndDelete(id);
+        res.send(`Announcement '${data.title}' (id ${id}) has been deleted.`);
     } catch (error) {
         res.status(400).json({ message: error.message})
     }
