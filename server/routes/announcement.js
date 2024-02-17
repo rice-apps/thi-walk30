@@ -53,6 +53,18 @@ router.delete('/delete/:id', async (req, res) => {
     }
 });
 
+// Get announcement by ID
+
+router.get('/:id', async (req, res) => {
+    try {
+        const data = await Announcement.findById(req.params.id);
+        if (data === null) res.status(404).send("Announcement does not exist.");
+        else res.json(data);
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+})
+
 // Search announcement by organization
 router.get('/search-by-org/:id', async (req, res) => {
     try {
