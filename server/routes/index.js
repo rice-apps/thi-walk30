@@ -5,6 +5,7 @@ const resource = require("./resource");
 const organization = require("./organization");
 const announcement = require("./announcement");
 const express = require("express");
+const announcement = require("./announcement");
 const router = express.Router();
 
 router.use("/event", events);
