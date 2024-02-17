@@ -7,53 +7,11 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { constants } from "./Style";
 
-import { AnnouncementData } from "./types/AnnouncementData";
-import AnnouncementList from "./components/announcement/AnnouncementList";
 const Tab = createBottomTabNavigator();
-const sampleAnnouncementList: AnnouncementData[] = [
-  {
-    id: "1",
-    authorPicture: 'https://1000logos.net/wp-content/uploads/2021/07/Rice-Owls-logo.png',
-    type: 'Event',
-    organization: 'STarget1',
-    description: 'Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!',
-    date: new Date('2024-02-03T12:00:00Z'),
-  },
-  {
-    id: "2",
-    authorPicture: 'https://1000logos.net/wp-content/uploads/2021/07/Rice-Owls-logo.png',
-    type: 'Save the date',
-    organization: 'Sample Organization',
-    description: 'Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!',
-    date: new Date('2024-02-03T12:00:00Z'),
-  },
-  {
-    id: "3",
-    authorPicture: 'https://1000logos.net/wp-content/uploads/2021/07/Rice-Owls-logo.png',
-    type: 'Early Reservation',
-    organization: 'Sample Organization',
-    description: 'Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!',
-    date: new Date('2024-02-03T12:00:00Z'),
-  },
-  {
-    id: "4",
-    authorPicture: 'https://example.com/author-picture.jpg',
-    type: 'Event',
-    organization: 'Sample Organization',
-    description: 'Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!Join us for an exciting event!',
-    date: new Date('2024-02-03T15:11:00Z'),
-  },
-
-]
 
 function Home() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <AnnouncementList announcementList = {sampleAnnouncementList}/>
       <Text>Open up App.tsx to start working on your app!</Text>
       <StatusBar style="auto" />
     </View>
