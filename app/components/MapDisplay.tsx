@@ -1,3 +1,4 @@
+import * as Location from 'expo-location';
 import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, Image, StyleSheet } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
@@ -11,12 +12,6 @@ const {width, height} = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const INITIAL_POS = {
-  latitude: 29.71770,
-  longitude: -95.39974,
-  latitudeDelta: LATITUDE_DELTA,
-  longitudeDelta: LONGITUDE_DELTA
-}
 
 let dummy_event = [
   {location: {latitude:29.720628,longitude:-95.393827}},
@@ -28,6 +23,8 @@ let dummy_event = [
 export default function MapDisplay() {
   const mapRef = useRef<MapView>();
   const [eventData, setEventData] = useState<EventData[]>([]);
+  const [location, setLocation] = useState();
+  const [errorMsg, setErrorMsg] = useState(null);
     
   useEffect(() => {
     const fetchEventData = async () => {
@@ -41,12 +38,32 @@ export default function MapDisplay() {
     fetchEventData()
     }, [])
 
+    useEffect(() => {
+      (async () => {
+        
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          return;
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
+        let INITIAL_POS = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        }
+        console.log(INITIAL_POS);
+        setLocation(INITIAL_POS);
+        
+      })();
+    }, []);
   return (
-    <MapView 
+    <MapView
       style={styles.map} 
       provider={PROVIDER_GOOGLE} 
-      initialRegion={INITIAL_POS}
-      showsUserLocation
+      initialRegion={location}
+      
       ref={mapRef}>
         {dummy_event.map((event,index) => {
           return (
@@ -62,6 +79,7 @@ export default function MapDisplay() {
 
   );
 }
+
 
 const styles = StyleSheet.create({
   map: {
