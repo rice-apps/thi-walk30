@@ -1,6 +1,6 @@
 export interface EventData {
     _id: string,
-    host: string,
+    organization: string,
     title: string,
     description: string,
     img: string,

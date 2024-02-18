@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const TLocation = require("./location");
 const Organization = require("./organization");
+const { ObjectId } = require("mongodb");
 
 const dataSchema = new mongoose.Schema({
   _id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: ObjectId,
   },
   title: {
     type: String,
@@ -37,7 +38,7 @@ const dataSchema = new mongoose.Schema({
     required: true,
   },
   organization: {
-    type: Organization.ObjectId,
+    type: ObjectId,
     required: true,
   }
 });

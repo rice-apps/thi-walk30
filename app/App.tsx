@@ -13,9 +13,9 @@ const Tab = createBottomTabNavigator();
 
 function Home() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <View style={styles.center}>
       <StatusBar style="auto" />
+      <Text>Not implemented yet!</Text>
     </View>
   );
 }
@@ -77,5 +77,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  center: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -16,6 +16,7 @@ router.post("/create", async (req, res, next) => {
     location: req.body.location,
     date: new Date(req.body.date),
     duration: req.body.duration,
+    organization: req.body.organization,
   });
   try {
     const savedData = await event.save();

@@ -9,13 +9,13 @@ module.exports = router;
 
 router.post("/create", async (req, res, next) => {
   try {
-    const organization = await Organization.findById(req.body.organization._id);
+    const organization = await Organization.findById(req.body.organization);
     if (!organization) throw new Error("No such organization");
     const data = new Resource({
       title: req.body.title,
       link: req.body.link,
       img: req.body.img,
-      organization: organization,
+      organization: organization._id,
     });
     const dataToSave = await data.save();
     res.status(200).json(dataToSave);
