@@ -25,6 +25,15 @@ router.get("/", async (req, res) => {
   }
 })
 
+router.get("/:id", async (req, res) => {
+  try {
+    orgs = await Organization.findById(req.params.id);
+    res.json(orgs);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+})
+
 router.patch("/:id", async (req, res, next) => {
   const id = req.params.id;
   const updateData = req.body;

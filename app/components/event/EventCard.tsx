@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Image } from 'react-native';
 import { EventData } from "../../types/EventData";
 
-const EventCard = (props: { eventData: EventData }) => {
+const EventCard = (props: { eventData: EventData, onPress: () => void }) => {
     const styles = StyleSheet.create({
         eventCard: {
             display: "flex",
@@ -59,7 +59,8 @@ const EventCard = (props: { eventData: EventData }) => {
             margin: 10,
             backgroundColor: 'white',
             borderRadius: 5,
-        }}>
+        }}
+        onPress={props.onPress}>
             <Card.Content style={styles.eventCard}>
                 <Image style={styles.eventImage} source={{ uri: props.eventData.img}}/>
                 <View style={styles.eventDetails}>
