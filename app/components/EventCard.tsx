@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import BACK_BTN from "../assets/images/back_btn.png";
 import CHALLENGE_ICON from "../assets/images/challenge_icon.png";
 import { EventData } from '../types/EventData';
 
@@ -12,7 +13,7 @@ export default function EventCard(props: {container: object, eventData: EventDat
     return (
         <ScrollView contentContainerStyle={props.container}>
             <Image style={styles.img_container} source={{url: props.eventData.featureImage}}></Image>
-            
+            <Pressable style={styles.back_btn}><Image source={BACK_BTN}></Image></Pressable>
 
             <View style={styles.description_container}>
                 <Text style={styles.titleText}>{props.eventData.title}</Text>
@@ -162,6 +163,13 @@ const styles = StyleSheet.create({
         fontWeight: "600", 
         color: "#00426D",
 
+     },
+     back_btn: {
+        position: "absolute",
+        height: "auto",
+        width: "auto",
+        left: "3%",
+        top: "6%"
      }
 
 });
