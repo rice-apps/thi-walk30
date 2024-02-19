@@ -53,7 +53,6 @@ export default function MapDisplay(props: {container: object}) {
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA
         }
-        console.log(INITIAL_POS);
         setLocation(INITIAL_POS);
         
       })();
