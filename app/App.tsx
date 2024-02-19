@@ -12,6 +12,7 @@ import EventsPage from "./pages/EventsPage";
 import { EventPage } from "./pages/EventPage";
 import { Button } from "react-native-paper";
 import { EventData } from "./types/EventData";
+import ProfilePage from "./pages/ProfilePage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -42,7 +43,7 @@ function Tabs() {
       }} >
       <Tab.Screen
         name="Home"
-        children={Home}
+        children={ProfilePage}
         options={{
           tabBarIcon: ({ color }) => TabIcon("home", color)
         }} />
