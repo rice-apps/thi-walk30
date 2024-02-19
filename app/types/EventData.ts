@@ -6,6 +6,7 @@ export interface EventData {
     img: string,
     link: string,
     date: Date | string,
+    duration: number,
     location: {
         latitude: number,
         longitude: number,

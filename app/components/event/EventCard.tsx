@@ -12,7 +12,8 @@ const EventCard = (props: { eventData: EventData }) => {
             flexDirection: 'row',
             gap: 10,
             alignItems: 'center',
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            borderRadius: 5,
         },
 
         eventImage: {
@@ -49,11 +50,18 @@ const EventCard = (props: { eventData: EventData }) => {
     let dateString = date.toLocaleDateString(undefined, { month: "numeric", day: "numeric" });
     let timeString = date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: true});
 
-    // TODO: When backend includes event duration, update time display to show full time of event.
+    let endTime = new Date(date);
+    endTime.setMinutes(endTime.getMinutes() + props.eventData.duration);
+    timeString += " - " + endTime.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: true});
+
     return (
-        <Card style={{margin : 10}}>
+        <Card style={{
+            margin: 10,
+            backgroundColor: 'white',
+            borderRadius: 5,
+        }}>
             <Card.Content style={styles.eventCard}>
-                <Image style={styles.eventImage} source={{ uri: props.eventData.featureImage}}/>
+                <Image style={styles.eventImage} source={{ uri: props.eventData.img}}/>
                 <View style={styles.eventDetails}>
                     <Text style={styles.eventTitle} numberOfLines={1} >
                         {props.eventData.title}
