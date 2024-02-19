@@ -4,6 +4,8 @@ import { Text } from 'react-native-paper';
 import { TabView, SceneMap, TabBar, NavigationState, SceneRendererProps } from 'react-native-tab-view';
 import { BarChart, barDataItem } from "react-native-gifted-charts";
 import DropDownPicker from 'react-native-dropdown-picker';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 type Route = {
     key: string;
@@ -24,8 +26,19 @@ type DateRange = {
 const daily_avg = 130;
 const Total = 1400;
 const steps_dta = [{ value: 380, label: "Mon" }, { value: 150, label: "Tue" }, { value: 300, label: "Wed" }, { value: 50, label: "Thu" }, { value: 360, label: "Fri" }, { value: 370, label: "Sat" }, { value: 230, label: "Sun" }]
-const other_steps_dta = [{ value: 380, label: "Mon" }, { value: 150, label: "Tue" }, { value: 300, label: "Wed" }, { value: 50, label: "Thu" }, { value: 360, label: "Fri" }, { value: 370, label: "Sat" }, { value: 230, label: "Sun" }].reverse()
+const other_steps_dta = [{ value: 230, label: "Mon" }, { value: 200, label: "Tue" }, { value: 470, label: "Wed" }, { value: 100, label: "Thu" }, { value: 30, label: "Fri" }, { value: 340, label: "Sat" }, { value: 500, label: "Sun" }]
 const weeks_data = [{ value: 3000, label: "Week 1" }, { value: 2500, label: "Week 2" }, { value: 2750, label: "Week 3" }, { value: 1000, label: "Week 4" }]
+let should_change = false
+/**
+ * Generates random data for step data
+ */
+
+function generateRandomData() {
+    let daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    for (let i = 0; i < 7; i++) {
+        steps_dta[i] = ({ value: Math.floor(Math.random() * 350)+50, label: daysOfWeek[i] });
+    }
+}
 
 /**
  * Returns the data for each of the three segments of data (Steps, Distance, Time) that we collect
@@ -40,7 +53,7 @@ function getData(currentDateRange: DateRange): Map<string, barDataItem[][]> {
     );
 
     // trying to introduce some random behavior
-    if (currentDateRange.start_date.getMilliseconds() % 2 == 0) {
+    if (should_change) {
         activity_to_data = new Map<string, barDataItem[][]>(
             [
                 ["steps", [other_steps_dta, weeks_data]],
@@ -168,18 +181,34 @@ function makeRoute(type: string) {
             {/* Second Row with interactive dates */}
             <View style={{ margin: 20 }}>
                 <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
-                    <Text style={{ fontWeight: "bold", fontSize: 25, marginRight: 15 }} onPress={() => {
-                        let new_range = updateDateRange(dates, true);
-                        setDates(new_range);
-                    }
-                    }>{"<"}</Text>
-                    <Text style={{ fontWeight: "bold", fontSize: 25 }}>{extractDayAndMonth(dates.start_date)}</Text>
-                    <Text style={{ fontWeight: "bold", fontSize: 25 }}>-</Text>
+                    <MaterialIcons 
+                        name="navigate-before" 
+                        size={30} 
+                        onPress={() => {
+                            let new_range = updateDateRange(dates, true);
+                            setDates(new_range);
+                            generateRandomData();
+                        }}
+                    />
+                    {/* make it so that the dates are centered and it is fixed with  */}
+                    <View style = {{ width: '50%' , justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
+                    <Text style={{ fontWeight: "bold", fontSize: 25}}>{extractDayAndMonth(dates.start_date)}</Text>
+                    <FontAwesome 
+                        name="minus" 
+                        size={10} 
+                        style={{ marginHorizontal: 10, transform: [{ scaleY: 1.25 }] }} 
+                    />
                     <Text style={{ fontWeight: "bold", fontSize: 25 }}>{extractDayAndMonth(dates.end_date)}</Text>
-                    <Text style={{ fontWeight: "bold", fontSize: 25, marginLeft: 15 }} onPress={() => {
-                        let new_range = updateDateRange(dates, false);
-                        setDates(new_range);
-                    }}>{">"}</Text>
+                    </View>
+                    <MaterialIcons 
+                        name="navigate-next" 
+                        size={30} 
+                        onPress={() => {
+                            let new_range = updateDateRange(dates, false);
+                            setDates(new_range);
+                            generateRandomData();
+                        }}
+                    />
                 </View>
             </View>
             {/* Third Row with BarChart */}
@@ -195,6 +224,12 @@ function makeRoute(type: string) {
                     xAxisThickness={25}
                     xAxisColor={'white'}
                     yAxisColor={'white'}
+                    formatYLabel={(value) => {
+                        if (value == "0"){
+                            return ""
+                        }
+                        return value
+                    }}
                 />
             </View>
         </View>
@@ -262,6 +297,13 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 425,
         margin: 10,
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 8
     },
     TabBar: {
         flex: 1,

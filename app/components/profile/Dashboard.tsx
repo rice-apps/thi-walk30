@@ -7,7 +7,7 @@ import { Text } from 'react-native-paper';
 export default function Dashboard() {
     const [dashInfo, setDashInfo] = useState({ Steps: 130, Distance: "1.3 MI", Time: "40 MIN" });
     return (
-        <View style={{ paddingTop: 15 }}>
+        <View style={{ paddingTop: 15 ,shadowOffset: { width: 0, height: 4, }, shadowOpacity: 0.3, shadowRadius: 5, elevation: 8}}>
             <Text variant="titleLarge" style={styles.text}>Today</Text>
             <View style={styles.container}>
                 <View style={styles.subcontainer}>
