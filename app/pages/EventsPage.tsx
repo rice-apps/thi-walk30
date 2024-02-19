@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native';
-import { Card } from 'react-native-paper';
+import { Card, Searchbar } from 'react-native-paper';
 import { EventData } from '../types/EventData';
 import EventList from '../components/event/EventList';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -75,10 +75,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
     borderWidth: 1,
-    padding: 10,
-    borderRadius: 20,
     borderColor: '#ccc',
-    backgroundColor: '#fff',
+    backgroundColor: "white",
+    borderRadius: 10
   },
   searchIcon: {
     marginRight: 10,
@@ -176,8 +175,13 @@ export default function EventsPage(props: { navigator: any }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#00426D' }}>
-      <View style={{ flex: 1, backgroundColor: '#00426D', marginBottom: 30 }}>
-        <SearchBar value={searchQuery} onChangeText={onChangeSearch} />
+      <View style={{ flex: 1, backgroundColor: '#00426D' }}>
+        <Searchbar
+          placeholder="Search for events"
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+          style={styles.searchContainer}
+        />
         <View style={styles.container}>
           <EventList eventList={filteredEvents} navigator={props.navigator} />
         </View>
