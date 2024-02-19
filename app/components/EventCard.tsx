@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import CHALLENGE_ICON from "../assets/images/challenge_icon.png";
 import { EventData } from '../types/EventData';
 
 const window = Dimensions.get("window");
@@ -12,66 +13,97 @@ export default function EventCard(props: {container: object, eventData: EventDat
         <ScrollView contentContainerStyle={props.container}>
             <Image style={styles.img_container} source={{url: props.eventData.featureImage}}></Image>
             
+
             <View style={styles.description_container}>
                 <Text style={styles.titleText}>{props.eventData.title}</Text>
-                <Text style={{...styles.baseText, marginVertical: 6, color: "#3B7ECB"}}>Hosted by <Text style={{fontWeight:"700"}}>Rice University</Text></Text>
+                <Text style={{...styles.baseText, marginVertical: 10, color: "#3B7ECB"}}>Hosted by <Text style={{fontWeight:"700"}}>Rice University</Text></Text>
                 
                 <View style={styles.information_container}>
                     <View>
-                        <Text style={styles.baseText}>{props.eventData.date.toLocaleString()}</Text>
-                        <Text style={styles.baseText}>Rice University</Text>
+                        <Text style={styles.baseText}>{(new Date(props.eventData.date)).toLocaleDateString()}</Text>
+                        <Text style={{...styles.baseText, marginVertical: 3}}>Rice University</Text>
                         <Text style={styles.baseText}>{props.eventData.link}</Text>
                     </View>
                     <Pressable style={styles.registerBtn}>
-                        <Text style={{...styles.baseText, color: "white"}}>Register</Text>
+                        <Text style={{...styles.btnText, color: "white"}}>Register</Text>
                     </Pressable>
                 </View>
             </View>
 
+
             <View style={styles.participant_container}>
-                <Text>asd</Text>
-                <Text>abc</Text>
+                <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                    <Text style={styles.headerText}>23 Participating</Text>
+                    <Pressable><Text style={{fontSize: 14, fontWeight: "400", color: "#00426D"}}>See leaderboard</Text></Pressable>
+                    
+                </View>
+                <View style={{flexDirection: "row"}}>
+                    {[1,1,1,1,1,1,1].map((i) => {
+                        return (
+                            <View style={styles.circle_frame}></View>
+                        )
+                    })}
+                </View>
             </View>
-            <View style={styles.challenge_container}></View>
+
+
+            <View style={styles.challenge_container}>
+                <Text style={{...styles.headerText}}>Challenges</Text>
+                {["Run 5k under 25 minutes","Invite 4 friends"].map((challenge_text) => {
+                    return(
+                        <View style={styles.challenge_box}>
+                            <Image source={CHALLENGE_ICON} style={{marginLeft: 20}}></Image>
+                            <Text style={styles.challenge_text}>{challenge_text}</Text>
+                        </View>
+                    )
+                })}
+            </View>
+
+
+            <View style={styles.event_description_container}>
+                <Text style={styles.headerText}>Event Description</Text>
+                <Text style={styles.baseText}>{props.eventData.description}</Text>
+            </View>
         </ScrollView>
     );
 }
 const styles = StyleSheet.create({
     img_container: {
-        height: window.height * 0.20,
+        height: window.height * 0.23,
         width: window.width
     },
     description_container: {
         flexDirection: "column",
         height: "auto",
         width: window.width * 0.9,
-        marginVertical: 15,
-        backgroundColor: "green"
+        marginTop: 15,
+
     },
     information_container: {
         flexDirection: "row",
         justifyContent: "space-between",
-        bottom: 0
     },
     participant_container: {
-        height: 230,
+        height: "auto",
         width: window.width * 0.9,
-        backgroundColor: "yellow",
         flexDirection: "column",
+        marginVertical: 15,
     },
     challenge_container: {
-        height: 230,
+        height: "auto",
         width: window.width * 0.9,
-        backgroundColor: "red"
     },
     baseText: {
-        flex: 1,
         fontSize: 15, 
         fontWeight: "400", 
-        color: "#00426D"
+        color: "#00426D",
+        
     },
     headerText: {
-
+        fontSize: 18, 
+        fontWeight: "600", 
+        color: "#00426D", 
+        marginBottom: 10
     },
     titleText: {
         fontWeight: "600",
@@ -85,11 +117,51 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#00426D",
-        borderRadius: 7
-
+        borderRadius: 6,
+        bottom: -13
     },
     btnText: {
         fontWeight: "700",
-    }
+        fontSize: 18
+    },
+    circle_frame: {
+        width: (window.width*0.9)/7-7,
+        height: (window.width*0.9)/7-7,
+        borderRadius: ((window.width*0.9)/7-7)/2,
+        backgroundColor: "black",
+        marginRight: 8
+     },
+     challenge_text: {
+        fontWeight: "500",
+        fontSize: 18,
+        color: "#00426D",
+        marginLeft: 20
+     },
+     challenge_box: {
+        backgroundColor: "white",
+        marginBottom: 9,
+        flexDirection: "row",
+        alignItems: "center",
+        borderRadius: 4,
+        height: 67,
+        shadowColor: "#333",
+        shadowOffset: {
+            width: 4,
+            height: 4
+        },
+        shadowOpacity: 0.15,
+        shadowRadius: 5,
+     },
+     event_description_container: {
+        height: "auto",
+        width: window.width * 0.9,
+        marginTop: 10
+     },
+     description_text: {
+        fontSize: 20, 
+        fontWeight: "600", 
+        color: "#00426D",
+
+     }
 
 });
