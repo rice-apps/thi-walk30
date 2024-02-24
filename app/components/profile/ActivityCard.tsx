@@ -15,9 +15,17 @@ type Route = {
 type State = NavigationState<Route>;
 
 
-type DateRange = {
+type DateRange = WeeklyDateRange | MonthlyDateRange;
+
+type WeeklyDateRange = {
+    type: "Weekly",
     start_date: Date,
     end_date: Date
+}
+
+type MonthlyDateRange = {
+    type: "Monthly",
+    start_date: Date
 }
 
 /*
@@ -25,18 +33,17 @@ type DateRange = {
 */
 const daily_avg = 130;
 const Total = 1400;
-const steps_dta = [{ value: 380, label: "Mon" }, { value: 150, label: "Tue" }, { value: 300, label: "Wed" }, { value: 50, label: "Thu" }, { value: 360, label: "Fri" }, { value: 370, label: "Sat" }, { value: 230, label: "Sun" }]
-const other_steps_dta = [{ value: 230, label: "Mon" }, { value: 200, label: "Tue" }, { value: 470, label: "Wed" }, { value: 100, label: "Thu" }, { value: 30, label: "Fri" }, { value: 340, label: "Sat" }, { value: 500, label: "Sun" }]
+const steps_dta = [{ value: 380, label: "Tue" }, { value: 150, label: "Tue" }, { value: 300, label: "Wed" }, { value: 50, label: "Thu" }, { value: 360, label: "Fri" }, { value: 370, label: "Sat" }, { value: 230, label: "Sun" }]
+const other_steps_dta = [{ value: 230, label: "Tue" }, { value: 200, label: "Tue" }, { value: 470, label: "Wed" }, { value: 100, label: "Thu" }, { value: 30, label: "Fri" }, { value: 340, label: "Sat" }, { value: 500, label: "Sun" }]
 const weeks_data = [{ value: 3000, label: "Week 1" }, { value: 2500, label: "Week 2" }, { value: 2750, label: "Week 3" }, { value: 1000, label: "Week 4" }]
 let should_change = false
+let daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 /**
  * Generates random data for step data
  */
-
 function generateRandomData() {
-    let daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     for (let i = 0; i < 7; i++) {
-        steps_dta[i] = ({ value: Math.floor(Math.random() * 350)+50, label: daysOfWeek[i] });
+        steps_dta[i].value = Math.floor(Math.random() * 350)+50;
     }
 }
 
@@ -63,6 +70,16 @@ function getData(currentDateRange: DateRange): Map<string, barDataItem[][]> {
         )
     }
 
+    //Updating steps dta days
+    let start_day = currentDateRange.start_date.getDay();
+    for (let i = 0; i < 7; i++) {
+        steps_dta[i].label = daysOfWeek[start_day];
+        start_day = (start_day + 1) % 7;
+    }
+
+    
+    generateRandomData();
+
 
     return activity_to_data;
 }
@@ -72,12 +89,29 @@ function getData(currentDateRange: DateRange): Map<string, barDataItem[][]> {
  * @returns 
  */
 function initDateRange(): DateRange {
+    return initWeeklyDateRange();
+}
+
+/**
+ * Initializes our DateRange as a one week interval ending on the current day
+ * @returns 
+ */
+function initWeeklyDateRange(): WeeklyDateRange  {
     let start_date: Date = new Date()
     let end_date = new Date();
     start_date.setDate(end_date.getDate() - 7);
     return {
+        type: "Weekly",
         start_date,
         end_date
+    }
+}
+
+function initMonthlyDateRange(): MonthlyDateRange  {
+    let start_date: Date = new Date()
+    return {
+        type: "Monthly",
+        start_date,
     }
 }
 
@@ -90,11 +124,13 @@ function initDateRange(): DateRange {
 function updateDateRange(currentDate: DateRange, back: boolean): DateRange {
     let start_date = new Date();
     let end_date = new Date();
+    //using milliseconds as JS dates use milliseconds under the hood and thus ensures we don't run into any timezone/date issues with other methods of updating dates
     let one_week_in_milli_sec = back ? (-1.0 * 604800000) : (604800000);
     start_date.setTime(currentDate.start_date.getTime() + one_week_in_milli_sec);
     end_date.setTime(currentDate.end_date.getTime() + one_week_in_milli_sec);
 
     return {
+        type: "Weekly",
         start_date,
         end_date
     }
@@ -132,7 +168,7 @@ function makeRoute(type: string) {
         return (<View>Could not Load Data!</View>);
     }
     let data: barDataItem[] = [];
-    const [dates, setDates] = useState(current_date_range);
+    const [dates, setDates] = useState<DateRange>(current_date_range);
 
     let bar_width: number = 0;
 
@@ -187,7 +223,6 @@ function makeRoute(type: string) {
                         onPress={() => {
                             let new_range = updateDateRange(dates, true);
                             setDates(new_range);
-                            generateRandomData();
                         }}
                     />
                     {/* make it so that the dates are centered and it is fixed with  */}
@@ -206,7 +241,6 @@ function makeRoute(type: string) {
                         onPress={() => {
                             let new_range = updateDateRange(dates, false);
                             setDates(new_range);
-                            generateRandomData();
                         }}
                     />
                 </View>
