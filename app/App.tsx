@@ -6,14 +6,22 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { constants } from "./Style";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ResourcesPage } from "./pages/ResourcesPage";
+import EventsPage from "./pages/EventsPage";
+import { EventPage } from "./pages/EventPage";
+import { Button } from "react-native-paper";
+import { EventData } from "./types/EventData";
+import ProfilePage from "./pages/ProfilePage";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 function Home() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <View style={styles.center}>
       <StatusBar style="auto" />
+      <Text>Not implemented yet!</Text>
     </View>
   );
 }
@@ -35,19 +43,19 @@ function Tabs() {
       }} >
       <Tab.Screen
         name="Home"
-        component={Home}
+        children={ProfilePage}
         options={{
           tabBarIcon: ({ color }) => TabIcon("home", color)
         }} />
       <Tab.Screen
         name="Events"
-        component={Home}
+        children={(navigator) => <EventsPage navigator={navigator} />}
         options={{
           tabBarIcon: ({ color }) => TabIcon("calendar", color)
         }} />
       <Tab.Screen
         name="Resources"
-        component={Home}
+        component={ResourcesPage}
         options={{
           tabBarIcon: ({ color }) => TabIcon("information", color)
         }} />
@@ -61,13 +69,24 @@ function Tabs() {
   );
 }
 
-export default function App() {
+function App() {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <Tabs />
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <Tabs />
+  );
+}
+
+export default function AppStack() {
+  return (
+    <NavigationContainer>
+      <SafeAreaProvider>
+        <Stack.Navigator>
+          <Stack.Screen name="Tabs" component={App} options={{
+            headerShown: false
+          }} />
+          <Stack.Screen name="Event" children={(navigator) => <EventPage navigator={navigator} />} />
+        </Stack.Navigator>
+      </SafeAreaProvider>
+    </NavigationContainer>
   );
 }
 
@@ -75,5 +94,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  center: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

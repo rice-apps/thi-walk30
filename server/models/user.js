@@ -9,18 +9,20 @@ const userSchema = new mongoose.Schema({
     name: {
         required: true,
         type: String
-         
+
     },
-    imgURL: {
+    img: {
         required: true,
         type: String
     },
 
     dailyActivities: {
-        type: [DailyActivity.ObjectId]
+        type: ObjectId,
+        ref: 'DailyActivity'
     },
     upcomingEvents: {
-        type: [Event.ObjectId]
+        type: ObjectId,
+        ref: 'Events'
     },
 
     dateJoined: {

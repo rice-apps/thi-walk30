@@ -13,7 +13,7 @@ module.exports = router
 router.post('/create', async (req, res) => {
     const data = new User({
         name: req.body.name,
-        imgURL: req.body.imgURL,
+        img: req.body.img,
         adminStatus: req.body.adminStatus
     });
 
@@ -53,15 +53,18 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-
         const data = await User.findByIdAndDelete(id);
 
-        res.send(`User '${data.name}' (id ${id}) has been deleted.`);
+        if (!data) {
+            return res.status(404).json({ message: `User with id ${id} not found.` });
+        }
+
+        res.json({ message: `User '${data.name}' (id ${id}) has been deleted.` });
 
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).json({ message: error.message });
     }
-})
+});

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const organization = require("./organization");
+const { ObjectId } = require("mongodb");
 
 const resourceSchema = new mongoose.Schema({
   title: {
@@ -10,13 +10,13 @@ const resourceSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
-  featured_img: {
+  img: {
     required: true,
     type: String,
   },
   organization: {
+    type: ObjectId,
     required: true,
-    type: organization.schema,
   },
 });
 module.exports = mongoose.model("Resource", resourceSchema);
