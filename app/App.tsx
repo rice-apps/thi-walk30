@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import EventCard from './components/EventCard';
-// import EventSearchBar from './components/EventSearchBar';
-// import MapDisplay from "./components/MapDisplay";
-// import TabNavigation from './components/TabNavigation';
+// import EventCard from './components/EventCard';
+import EventSearchBar from './components/EventSearchBar';
+import MapDisplay from "./components/MapDisplay";
+import TabNavigation from './components/TabNavigation';
 
 const dummy_event = {
   "id": "65cfe6e096a2d6a316f46e70",
@@ -27,10 +27,10 @@ const dummy_event = {
 export default function App() {
   return (
     <View style={styles.container}>
-      {/* <EventSearchBar container={styles.searchBarContainer}></EventSearchBar>
+      <EventSearchBar container={styles.searchBarContainer}></EventSearchBar>
       <MapDisplay container={styles.mapContainer}></MapDisplay>
-      <TabNavigation container={styles.tabNavigationContainer}></TabNavigation> */}
-      <EventCard container={styles.FullEventContainer} eventData={dummy_event}></EventCard>
+      <TabNavigation container={styles.tabNavigationContainer}></TabNavigation>
+      {/* <EventCard container={styles.FullEventContainer} eventData={dummy_event}></EventCard> */}
     </View>
   );
 }
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
   mapContainer: {
       width: '100%',
       height: '72%',
-      flexDirection: "column"
   },
   searchBarContainer: {
     width: '100%',
