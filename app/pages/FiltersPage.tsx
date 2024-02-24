@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {ScrollView, Text, View, StyleSheet, Switch} from "react-native";
+import {ScrollView, Text, View, StyleSheet, Switch, TextInput} from "react-native";
+import { AntDesign } from '@expo/vector-icons';
 
 export function FiltersPage() {
         // filters box below
@@ -14,20 +15,27 @@ export function FiltersPage() {
         // date filter box below
         const [fromDate, setFromDate] = useState(null);
         const [toDate, setToDate] = useState(null);
+
+        //organization search box below
+        const [searchTerm, setSearchTerm] = useState('');
+        const [organizationTerm, setOrganizationTerm] = useState([])
         
 
         const styles = StyleSheet.create({
-                container: {
-                        flexDirection: "column",
-                        
+                
+                fullPage: {
+                  backgroundColor: "#F0F8FF",
                 },
-                filterText: {
-                        fontSize: 20,
-                        marginBottom: 20,       
+                filtercomponents: {
+                  marginLeft: 30,
+                  marginRight: 30,
                 },
-                switchbox: {
-                        flexDirection: "row"
-                }
+                MainText: {
+                  fontSize: 25,
+                  marginBottom: 10,       
+          },
+
+
                 
 
         })
@@ -36,22 +44,64 @@ export function FiltersPage() {
         const Filterbox = () => {
                 const togglemyEvent = () => setMyEvent(previousState => !previousState);
                 const toggleopenReg = () => setOpenReg(previousState => !previousState);
+                const styles = StyleSheet.create({
+                  container: {
+                          flexDirection: "column",
+                  },
+                  container1: {
+                    flexDirection: "row",
+            },
+                  
+                  switchbox: {
+                          flexDirection: "column",
+                          backgroundColor: "white",
+                          paddingBottom: 10,
+                          paddingTop: 10,
+                          
+                          borderRadius:10,
+                  },
+                  colorText: {
+                    fontSize: 20,
+                    marginBottom: 10,
+                    marginTop: 10,
+                    paddingLeft: 20,
+                    
+                  },
+                  switch : {
+                    position: "absolute",
+                    right: 20,
+                    top:8,
+                    
+  
+                  },
+                  fullPage: {
+                    backgroundColor: "#F0F8FF",
+                  }
+  
+  
+                  
+  
+          })
                 return (
                         <View style = {styles.container}>
-                           <Text style = {styles.filterText}>Filter</Text>
+                           
                            
                            <View style = {styles.switchbox}>
-                                <Text>Only My Events</Text>
-                                <Switch
-                                onValueChange={togglemyEvent}
-                                value = {myEvent}/>
-                           </View> 
-                           <View style = {styles.switchbox}>
-                                <Text>Registration Open</Text>
-                                <Switch
-                                onValueChange={toggleopenReg}
-                                value = {openReg}
-                                />
+                                <View style = {styles.container}>
+                                  <Text style = {styles.colorText}>Only My Events</Text>
+                                  <Switch
+                                  style = {styles.switch}
+                                  onValueChange={togglemyEvent}
+                                  value = {myEvent}/>
+                                </View>
+                                <View style = {styles.container}>
+                                  <Text style = {styles.colorText}>Registration Open</Text>
+                                  <Switch
+                                  style = {styles.switch}
+                                  onValueChange={toggleopenReg}
+                                  value = {openReg}
+                                  />
+                                </View>
 
                            </View>  
                         </View>
@@ -106,10 +156,75 @@ export function FiltersPage() {
             }
           })
         }
+
+        const OrgFilter = () => {
+          const togglemyEvent = () => setMyEvent(previousState => !previousState);
+          const toggleopenReg = () => setOpenReg(previousState => !previousState);
+          const styles = StyleSheet.create({
+
+            InboxTitle: {
+              fontSize: 28,
+              marginBottom: 20,
+          },
+          container: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: '#FFFFFF', // Background color for the search box
+            borderRadius: 5,
+            // paddingHorizontal: 10,
+            // marginHorizontal: 10,
+            marginTop: 10,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+          },
+          icon: {
+            marginRight: 10,
+          },
+          input: {
+            flex: 1,
+            fontSize: 16,
+            paddingVertical: 10,
+          },
+          searchResult: {
+            marginTop: 20,
+            marginBottom: 15,
+            fontSize: 18,
+            marginLeft: 10,
+            fontWeight: 'bold',
+           
+          }})
+          return (
+                  <View>
+                    
+                  
+                  <View style = {styles.container}>
+                    
+                     <AntDesign name="search1" size={24} color="black" style={styles.icon} />
+                  <TextInput
+                    placeholder="Search for announcement"
+                    value={searchTerm}
+                    onChangeText={(text) => setSearchTerm(text)}
+                    style={styles.input}
+                  />
+                  </View>
+                  </View>
+          )
+          
+  }
+
         return (
-                <ScrollView>
-                        <Text>Open up App.tsx to start working on your app!</Text>
-                        <Filterbox/>
+                <ScrollView style = {styles.fullPage}>
+                  <View style = {styles.filtercomponents}>
+                    <Text style = {styles.MainText}>Filter</Text>
+                    <Filterbox/>
+                    <Text style = {styles.MainText}>Organizer</Text>
+                    <OrgFilter/>
+
+                  </View>
+                        
                 </ScrollView>
         )
 
