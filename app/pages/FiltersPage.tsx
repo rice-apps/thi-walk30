@@ -19,6 +19,10 @@ export function FiltersPage() {
         const [toDate, setToDate] = useState(null);
         
 
+        const [distanceAway, setDistanceAway] = useState("0");
+        const [distanceFrom, setDistanceFrom] = useState("current location");
+        
+
         const styles = StyleSheet.create({
                 
                 fullPage: {
@@ -155,22 +159,27 @@ export function FiltersPage() {
           })
         }
 
+        const DistanceFilter = () => {
+          return (
+          <View>
+            <TextInput
+                placeholder="0"
+                value={distanceAway}
+                onChangeText={(distance)=>setDistanceAway(distance)}
+            />
+            <Text>miles away from </Text>
+          </View>
+        )}
+
         const OrgFilter = () => {
-          const togglemyEvent = () => setMyEvent(previousState => !previousState);
-          const toggleopenReg = () => setOpenReg(previousState => !previousState);
+          
           const styles = StyleSheet.create({
 
-            InboxTitle: {
-              fontSize: 28,
-              marginBottom: 20,
-          },
           container: {
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#FFFFFF', // Background color for the search box
+            backgroundColor: '#FFFFFF', 
             borderRadius: 5,
-            // paddingHorizontal: 10,
-            // marginHorizontal: 10,
             marginTop: 10,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
@@ -187,41 +196,21 @@ export function FiltersPage() {
             fontSize: 16,
             paddingVertical: 10,
           },
-          searchResult: {
-            marginTop: 20,
-            marginBottom: 15,
-            fontSize: 18,
-            marginLeft: 10,
-            fontWeight: 'bold',
-           
-          },
-          termItem: {
-            backgroundColor: '#eee',
-            padding: 10,
-            margin: 5,
-            borderRadius: 5,
-          },
         })
 
           
           const [searchTerm, setSearchTerm] = useState("");
           return (
                   <View>
-                    
-                  
-                  <View style = {styles.container}>
-                    
+                    <View style = {styles.container}>
                      <AntDesign name="search1" size={24} color="black" style={styles.icon} />
-                  <TextInput
-                    placeholder="Search for organizer"
-                    value={searchTerm}
-                    onChangeText={(text) => setSearchTerm(text)}
-                    
-                    style={styles.input}
-
-                  />
-                  
-                  </View>
+                      <TextInput
+                        placeholder="Search for organizer"
+                        value={searchTerm}
+                        onChangeText={(text) => setSearchTerm(text)}                       
+                        style={styles.input}
+                      />
+                    </View>
                   </View>
           )
           
@@ -234,7 +223,6 @@ export function FiltersPage() {
                     <Filterbox/>
                     <Text style = {styles.MainText}>Organizer</Text>
                     <OrgFilter/>
-
                   </View>
                         
                 </ScrollView>
