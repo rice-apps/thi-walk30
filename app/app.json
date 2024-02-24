@@ -11,9 +11,17 @@
       "resizeMode": "contain",
       "backgroundColor": "#F6FAFF"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSMotionUsageDescription": "Used to track workouts.",
+        "NSHealthUpdateUsageDescription": "Used to import health data for workouts.",
+        "NSHealthShareUsageDescription": "Used to share health data for workouts."
+      },
+      "bundleIdentifier": "com.riceapps.cardiocrew"
     },
     "android": {
       "adaptiveIcon": {

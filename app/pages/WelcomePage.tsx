@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import AppleHealthKit, {
+    HealthValue,
+    HealthKitPermissions,
+} from 'react-native-health';
 
 type props = {
     profile: string,
@@ -34,6 +38,37 @@ const styles = StyleSheet.create({
 
 
 function WelcomePage(props: props) {
+    useEffect(() => {
+        /* Permission options */
+        const permissions = {
+            permissions: {
+                read: [AppleHealthKit.Constants.Permissions.Steps]
+            },
+        } as HealthKitPermissions;
+
+        AppleHealthKit.initHealthKit(permissions, (error: string) => {
+            /* Called after we receive a response from the system */
+
+            if (error) {
+                console.log('[ERROR] Cannot grant permissions!')
+            }
+
+            /* Can now read or write to HealthKit */
+
+            const options = {
+                startDate: new Date(2020, 1, 1).toISOString(),
+            }
+
+            AppleHealthKit.getDailyStepCountSamples(
+                options,
+                (callbackError: string, results: HealthValue[]) => {
+                    /* Samples are now collected from HealthKit */
+                    console.log(callbackError, results);
+                },
+            )
+        })
+    }, []);
+
     return (
         <View>
             <View></View>
