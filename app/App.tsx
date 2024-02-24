@@ -13,6 +13,8 @@ import { EventPage } from "./pages/EventPage";
 import { Button } from "react-native-paper";
 import { EventData } from "./types/EventData";
 import ProfilePage from "./pages/ProfilePage";
+import { AnnouncementsPage } from "./pages/AnnouncementsPage";
+import { AnnouncementPage } from "./pages/AnnouncementPage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -61,7 +63,7 @@ function Tabs() {
         }} />
       <Tab.Screen
         name="Updates"
-        component={Home}
+        children={(navigator) => <AnnouncementsPage navigator={navigator} />}
         options={{
           tabBarIcon: ({ color }) => TabIcon("bell", color)
         }} />
@@ -84,6 +86,7 @@ export default function AppStack() {
             headerShown: false
           }} />
           <Stack.Screen name="Event" children={(navigator) => <EventPage navigator={navigator} />} />
+          <Stack.Screen name="Announcement" children={(navigator) => <AnnouncementPage navigator={navigator} />} />
         </Stack.Navigator>
       </SafeAreaProvider>
     </NavigationContainer>
