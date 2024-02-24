@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {ScrollView, Text, View, StyleSheet, Switch, TextInput} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
+import { NativeSyntheticEvent, TextInputKeyPressEventData  } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 export function FiltersPage() {
         // filters box below
@@ -15,10 +17,6 @@ export function FiltersPage() {
         // date filter box below
         const [fromDate, setFromDate] = useState(null);
         const [toDate, setToDate] = useState(null);
-
-        //organization search box below
-        const [searchTerm, setSearchTerm] = useState('');
-        const [organizationTerm, setOrganizationTerm] = useState([])
         
 
         const styles = StyleSheet.create({
@@ -181,6 +179,7 @@ export function FiltersPage() {
             elevation: 5,
           },
           icon: {
+            marginLeft: 10,
             marginRight: 10,
           },
           input: {
@@ -195,7 +194,17 @@ export function FiltersPage() {
             marginLeft: 10,
             fontWeight: 'bold',
            
-          }})
+          },
+          termItem: {
+            backgroundColor: '#eee',
+            padding: 10,
+            margin: 5,
+            borderRadius: 5,
+          },
+        })
+
+          
+          const [searchTerm, setSearchTerm] = useState("");
           return (
                   <View>
                     
@@ -204,11 +213,14 @@ export function FiltersPage() {
                     
                      <AntDesign name="search1" size={24} color="black" style={styles.icon} />
                   <TextInput
-                    placeholder="Search for announcement"
+                    placeholder="Search for organizer"
                     value={searchTerm}
                     onChangeText={(text) => setSearchTerm(text)}
+                    
                     style={styles.input}
+
                   />
+                  
                   </View>
                   </View>
           )
@@ -227,6 +239,7 @@ export function FiltersPage() {
                         
                 </ScrollView>
         )
+
 
 }
 
