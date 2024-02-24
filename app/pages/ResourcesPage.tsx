@@ -31,8 +31,6 @@ export function ResourcesPage() {
       flexDirection: 'row',
       alignItems: 'center',
       margin: 10,
-      borderWidth: 1,
-      borderColor: '#ccc',
       backgroundColor: "white",
       borderRadius: 10
     },
@@ -84,8 +82,8 @@ export function ResourcesPage() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#00426D' }}>
-      <View style={{ flex: 1, backgroundColor: '#00426D' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F6F7FD' }}>
+      <View style={{ flex: 1, backgroundColor: '#F6F7FD' }}>
         <Searchbar
           placeholder="Search for resources"
           onChangeText={onChangeSearch}
