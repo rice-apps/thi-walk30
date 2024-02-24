@@ -31,26 +31,38 @@ type MonthlyDateRange = {
 /*
  Hardcoded Dummy Data, will be replaced by API calls
 */
-const daily_avg = 130;
-const Total = 1400;
 const steps_dta = [{ value: 380, label: "Tue" }, { value: 150, label: "Tue" }, { value: 300, label: "Wed" }, { value: 50, label: "Thu" }, { value: 360, label: "Fri" }, { value: 370, label: "Sat" }, { value: 230, label: "Sun" }]
 const other_steps_dta = [{ value: 230, label: "Tue" }, { value: 200, label: "Tue" }, { value: 470, label: "Wed" }, { value: 100, label: "Thu" }, { value: 30, label: "Fri" }, { value: 340, label: "Sat" }, { value: 500, label: "Sun" }]
-const weeks_data = [{ value: 3000, label: "Week 1" }, { value: 2500, label: "Week 2" }, { value: 2750, label: "Week 3" }, { value: 1000, label: "Week 4" }]
+let weeks_data = [{ value: 3000, label: "Week 1" }, { value: 2500, label: "Week 2" }, { value: 2750, label: "Week 3" }, { value: 1000, label: "Week 4" }]
 let should_change = false
 let daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 /**
  * Generates random data for step data
  */
-function generateRandomData() {
-    for (let i = 0; i < 7; i++) {
+function generateRandomData(currentDateRange: DateRange[]) {
+    let i;
+    for (i = 0; i < 7; i++) {
         steps_dta[i].value = Math.floor(Math.random() * 350)+50;
     }
+
+    weeks_data = []
+    let current_date = currentDateRange[1].start_date;
+    current_date.setDate(1);
+    let month = current_date.getMonth();
+
+    while (current_date.getMonth() === month) {
+        weeks_data.push({ value: Math.floor(Math.random() * 3000) + 1000, label: "Week " + (weeks_data.length + 1) });
+
+        // Increment the date by one week
+        current_date.setDate(current_date.getDate() + 7);
+    }
+
 }
 
 /**
  * Returns the data for each of the three segments of data (Steps, Distance, Time) that we collect
  */
-function getData(currentDateRange: DateRange): Map<string, barDataItem[][]> {
+function getData(currentDateRange: DateRange[]): Map<string, barDataItem[][]> {
     let activity_to_data = new Map<string, barDataItem[][]>(
         [
             ["steps", [steps_dta, weeks_data]],
@@ -71,14 +83,14 @@ function getData(currentDateRange: DateRange): Map<string, barDataItem[][]> {
     }
 
     //Updating steps dta days
-    let start_day = currentDateRange.start_date.getDay();
+    let start_day = currentDateRange[0].start_date.getDay();
     for (let i = 0; i < 7; i++) {
         steps_dta[i].label = daysOfWeek[start_day];
         start_day = (start_day + 1) % 7;
     }
 
     
-    generateRandomData();
+    generateRandomData(currentDateRange);
 
 
     return activity_to_data;
@@ -88,8 +100,8 @@ function getData(currentDateRange: DateRange): Map<string, barDataItem[][]> {
  * Initializes our DateRange as a one week interval ending on the current day
  * @returns 
  */
-function initDateRange(): DateRange {
-    return initWeeklyDateRange();
+function initDateRange(): DateRange[] {
+    return [initWeeklyDateRange(), initMonthlyDateRange()];
 }
 
 /**
@@ -122,18 +134,117 @@ function initMonthlyDateRange(): MonthlyDateRange  {
  * @returns 
  */
 function updateDateRange(currentDate: DateRange, back: boolean): DateRange {
-    let start_date = new Date();
-    let end_date = new Date();
-    //using milliseconds as JS dates use milliseconds under the hood and thus ensures we don't run into any timezone/date issues with other methods of updating dates
-    let one_week_in_milli_sec = back ? (-1.0 * 604800000) : (604800000);
-    start_date.setTime(currentDate.start_date.getTime() + one_week_in_milli_sec);
-    end_date.setTime(currentDate.end_date.getTime() + one_week_in_milli_sec);
+    if (currentDate.type === "Weekly") {
+        let start_date = new Date();
+        let end_date = new Date();
+        //using milliseconds as JS dates use milliseconds under the hood and thus ensures we don't run into any timezone/date issues with other methods of updating dates
+        let one_week_in_milli_sec = back ? (-1.0 * 604800000) : (604800000);
+        start_date.setTime(currentDate.start_date.getTime() + one_week_in_milli_sec);
+        end_date.setTime(currentDate.end_date.getTime() + one_week_in_milli_sec);
 
-    return {
-        type: "Weekly",
-        start_date,
-        end_date
+        return {
+            type: "Weekly",
+            start_date,
+            end_date
+        }
+    } else {
+        let start_date = new Date();
+        if (back) {
+            start_date.setMonth(currentDate.start_date.getMonth() - 1);
+        } else {
+            start_date.setMonth(currentDate.start_date.getMonth() + 1);
+        }
+        return {
+            type: "Monthly",
+            start_date
+        }
+    
     }
+}
+
+
+function makeWeeklySelector(date: WeeklyDateRange) {
+    {/* make it so that the dates are centered and it is fixed with  */}
+    return (
+        <View style = {{ width: '50%' , justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
+                <Text style={{ fontWeight: "bold", fontSize: 25}}>{extractDayAndMonth(date.start_date)}</Text>
+                <FontAwesome 
+                    name="minus" 
+                        size={10} 
+                        style={{ marginHorizontal: 10, transform: [{ scaleY: 1.25 }] }} 
+                    />
+                <Text style={{ fontWeight: "bold", fontSize: 25 }}>{extractDayAndMonth(date.end_date)}</Text>
+         </View>
+    )
+}
+
+function makeMonthlySelector(date: MonthlyDateRange) {
+    return (
+        <View style = {{ width: '50%' , justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>{date.start_date.toLocaleString("en-US", { month: "long", year: "numeric" })}</Text>
+        </View>
+    )
+}
+
+function computeDailyAvg(data: barDataItem[]): number {
+    let sum = 0;
+    for (let i = 0; i < data.length; i++) {
+        sum += data[i].value;
+    }
+    return Math.floor(sum / data.length);
+}
+
+function computeTotal(data: barDataItem[]): number {
+    let sum = 0;
+    for (let i = 0; i < data.length; i++) {
+        sum += data[i].value;
+    }
+    return sum;
+}
+
+
+/**
+ * Creates the interactive row that users can use to select which dates they want to use for their charts
+ * @param rangeType - either "Weekly" or "Monthly"
+ * @param dates - the current date range being used
+ * @param setDates - callback function to update the date range
+ * @returns 
+ */
+function makeDateRow(rangeType: string, dates: DateRange[], setDates: Function) {
+    return (
+            <View style={{ margin: 20 }}>
+                <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
+                    <MaterialIcons 
+                        name="navigate-before" 
+                        size={30} 
+                        onPress={() => {
+                            if (rangeType === "Weekly") {
+                                let new_range = updateDateRange(dates[0], true);
+                                setDates([new_range, dates[1]]);
+                            } else {
+                                let new_range = updateDateRange(dates[1], true);
+                                setDates([dates[0], new_range]);
+                            };
+                        }}
+                    />
+                    {/* make it so that the dates are centered and it is fixed with  */}
+                    {rangeType === "Weekly" ? makeWeeklySelector(dates[0] as WeeklyDateRange) : makeMonthlySelector(dates[1] as MonthlyDateRange)}
+                    <MaterialIcons 
+                        name="navigate-next" 
+                        size={30} 
+                        onPress={() => {
+                            if (rangeType === "Weekly") {
+                                let new_range = updateDateRange(dates[0], false);
+                                setDates([new_range, dates[1]]);
+                            } else {
+                                let new_range = updateDateRange(dates[1], false);
+                                setDates([dates[0], new_range]);
+                            }
+                        }}
+                    />
+                </View>
+            </View>
+    )
 }
 
 /**
@@ -158,7 +269,7 @@ function makeRoute(type: string) {
         { label: 'Monthly', value: 'Monthly' }
     ]);
 
-    let current_date_range: DateRange = initDateRange();
+    let current_date_range: DateRange[] = initDateRange();
     let activity_to_data = getData(current_date_range);
     if (activity_to_data === undefined) {
         return <View>No Data</View>
@@ -168,7 +279,7 @@ function makeRoute(type: string) {
         return (<View>Could not Load Data!</View>);
     }
     let data: barDataItem[] = [];
-    const [dates, setDates] = useState<DateRange>(current_date_range);
+    const [dates, setDates] = useState<DateRange[]>(current_date_range);
 
     let bar_width: number = 0;
 
@@ -180,7 +291,7 @@ function makeRoute(type: string) {
             break;
         case "Monthly":
             data = data_list[1];
-            bar_width = 50;
+            bar_width = 40;
             break;
     }
 
@@ -206,45 +317,16 @@ function makeRoute(type: string) {
 
                 />
                 <Text style={{ marginRight: 30, marginLeft: 30 }}>
-                    <Text variant="bodySmall">Daily Avg. </Text>
-                    <Text style={{ fontWeight: "bold", marginRight: 40 }} variant="bodyLarge">{daily_avg}</Text>
+                    <Text variant="bodySmall">Average:  </Text>
+                    <Text style={{ fontWeight: "bold", marginRight: 40 }} variant="bodyLarge">{value == "Weekly" ? computeDailyAvg(data_list[0]) : computeDailyAvg(data_list[1])}</Text>
                 </Text>
                 <Text>
                     <Text variant="bodySmall">Total </Text>
-                    <Text style={{ fontWeight: "bold" }} variant="bodyLarge">{Total}</Text>
+                    <Text style={{ fontWeight: "bold" }} variant="bodyLarge">{value == "Weekly" ? computeTotal(data_list[0]) : computeTotal(data_list[1])}</Text>
                 </Text>
             </View>
             {/* Second Row with interactive dates */}
-            <View style={{ margin: 20 }}>
-                <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
-                    <MaterialIcons 
-                        name="navigate-before" 
-                        size={30} 
-                        onPress={() => {
-                            let new_range = updateDateRange(dates, true);
-                            setDates(new_range);
-                        }}
-                    />
-                    {/* make it so that the dates are centered and it is fixed with  */}
-                    <View style = {{ width: '50%' , justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
-                    <Text style={{ fontWeight: "bold", fontSize: 25}}>{extractDayAndMonth(dates.start_date)}</Text>
-                    <FontAwesome 
-                        name="minus" 
-                        size={10} 
-                        style={{ marginHorizontal: 10, transform: [{ scaleY: 1.25 }] }} 
-                    />
-                    <Text style={{ fontWeight: "bold", fontSize: 25 }}>{extractDayAndMonth(dates.end_date)}</Text>
-                    </View>
-                    <MaterialIcons 
-                        name="navigate-next" 
-                        size={30} 
-                        onPress={() => {
-                            let new_range = updateDateRange(dates, false);
-                            setDates(new_range);
-                        }}
-                    />
-                </View>
-            </View>
+            {makeDateRow(value, dates, setDates)}
             {/* Third Row with BarChart */}
             <View style={{ marginTop: 20 }}>
                 <BarChart
