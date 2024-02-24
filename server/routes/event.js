@@ -11,9 +11,12 @@ router.post("/create", async (req, res, next) => {
     _id: new mongodb.ObjectId(),
     title: req.body.title,
     description: req.body.description,
-    featured_img: req.body.featured_img,
+    img: req.body.img,
     link: req.body.link,
     location: req.body.location,
+    date: new Date(req.body.date),
+    duration: req.body.duration,
+    organization: req.body.organization,
   });
   try {
     const savedData = await event.save();
@@ -45,6 +48,17 @@ router.patch("/:id", async (req, res, next) => {
     const result = await Event.findByIdAndUpdate(id, updateData, options);
     if (!result) res.send("No such event to update");
     else res.send(result);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// Get recent and upcoming events
+router.get("/recent", async (req, res) => {
+  try {
+    // TODO: Add pagination for recent events. Right now, returns all events.
+    const events = await Event.find();
+    res.json(events);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

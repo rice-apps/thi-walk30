@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const TLocation = require("./location");
+const Organization = require("./organization");
+const { ObjectId } = require("mongodb");
 
 const dataSchema = new mongoose.Schema({
   _id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: ObjectId,
   },
   title: {
     type: String,
@@ -13,7 +15,7 @@ const dataSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  featured_img: {
+  img: {
     type: String,
     required: true,
   },
@@ -23,12 +25,22 @@ const dataSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
+    required: true,
     default: Date.now(),
+  },
+  // Duration in minutes
+  duration: {
+    type: Number,
+    required: true,
   },
   location: {
     type: TLocation.schema,
     required: true,
   },
+  organization: {
+    type: ObjectId,
+    required: true,
+  }
 });
 
 module.exports = mongoose.model("Events", dataSchema);

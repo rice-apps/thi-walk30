@@ -13,9 +13,12 @@ import { EventData } from "../types/EventData";
 import Icon from "@expo/vector-icons/Entypo";
 import LocationPin from "@expo/vector-icons/MaterialIcons";
 
-export function EventPage(props: { event: EventData }) {
+export function EventPage(props: { navigator: any, event?: EventData }) {
+  let event = props.navigator.route.params;
+
   const [registerText, setRegisterText] = useState("Register");
   const [showRegister, setShowRegister] = useState(false);
+  const [orgName, setOrgName] = useState("");
 
   const handleButtonClick = () => {
     setShowRegister(!showRegister);
@@ -60,13 +63,18 @@ export function EventPage(props: { event: EventData }) {
     },
   });
 
+  props.navigator.navigation.setOptions({ title: event.title });
+  fetch(`http://localhost:3000/api/organization/${event.organization}`)
+    .then((res) => res.json())
+    .then((data) => setOrgName(data.name));
+
   return (
     <ScrollView style={{ backgroundColor: "#f8f4fc" }}>
       {/* Event image */}
       <Image
         style={{ width: "100%", height: 250 }}
         source={{
-          uri: props.event.featureImage,
+          uri: event.img,
         }}
       />
       {/* Title and host */}
@@ -81,11 +89,11 @@ export function EventPage(props: { event: EventData }) {
           }}
           numberOfLines={1}
         >
-          {props.event.title}
+          {event.title}
         </Text>
         <Text style={{ fontSize: 15, color: "#407ccc", marginBottom: 15 }}>
           Hosted by{" "}
-          <Text style={{ fontWeight: "700" }}>{props.event.host}</Text>
+          <Text style={{ fontWeight: "700" }}>{orgName}</Text>
         </Text>
 
         {/* Logistics box: date, location, link, register button */}
@@ -94,7 +102,7 @@ export function EventPage(props: { event: EventData }) {
             <View style={styles.iconTextPair}>
               <Icon name="calendar" size={20} color="#00426e"></Icon>
               <Text style={styles.iconText} numberOfLines={1}>
-                {props.event.date.toLocaleDateString(undefined, {
+                {new Date(event.date).toLocaleDateString(undefined, {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
@@ -108,14 +116,14 @@ export function EventPage(props: { event: EventData }) {
                 size={20}
                 color="#00426e"
               ></LocationPin>
-              <Text style={styles.iconText} numberOfLines={1}>
-                {props.event.location.address}
+              <Text style={styles.iconText} numberOfLines={1} onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${event.location.address}`)}>
+                {event.location.address}
               </Text>
             </View>
 
             <View style={styles.iconTextPair}>
               <Icon name="link" size={20} color="#407ccc"></Icon>
-              <TouchableHighlight onPress={() => onLinkPress(props.event.link)}>
+              <TouchableHighlight onPress={() => Linking.openURL(event.link)}>
                 <Text
                   style={{
                     fontSize: 15,
@@ -125,7 +133,7 @@ export function EventPage(props: { event: EventData }) {
                   }}
                   numberOfLines={1}
                 >
-                  {props.event.link}
+                  {event.link}
                 </Text>
               </TouchableHighlight>
             </View>
@@ -145,11 +153,12 @@ export function EventPage(props: { event: EventData }) {
             </Pressable>
           </View>
         </View>
-
-        <Text style={styles.header}>23 participating</Text>
+        
+        <Text style={styles.header}>{/* TODO: Update with actual attendance */ Math.floor(Math.random() * 100)} participating</Text>
         <Text style={styles.header}>Challenges</Text>
+        <Text>Coming soon!</Text>
         <Text style={styles.header}>Event Description</Text>
-        <Text>{props.event.description}</Text>
+        <Text>{event.description}</Text>
       </View>
     </ScrollView>
   );

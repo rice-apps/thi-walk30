@@ -13,7 +13,7 @@ module.exports = router
 router.post('/create', async (req, res) => {
     const data = new User({
         name: req.body.name,
-        imgURL: req.body.imgURL,
+        img: req.body.img,
         adminStatus: req.body.adminStatus
     });
 
