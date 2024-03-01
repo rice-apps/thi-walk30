@@ -8,6 +8,10 @@ import ActivityCard from "../components/profile/ActivityCard";
 
 
 const EVENTS_ROUTE = "http://localhost:3000/api/event/events";
+/**
+ * TODO: Replace with API call to fetch current user rather than rely on default
+ */
+const DEFAULT_ID = "65d112c8f3fc8e4210e4ee9c"
 
 function ProfilePage(props: { navigator: any }) {
     const [eventData, setEventData] = useState<EventData[]>([]);
@@ -33,7 +37,7 @@ function ProfilePage(props: { navigator: any }) {
                 <Dashboard />
             </View>
             <View style={styles.activity_card}>
-                <ActivityCard />
+                <ActivityCard ID = {DEFAULT_ID} />
             </View>
             <View style={styles.dashboard}>
                 <EventList eventList={eventData} navigator={undefined}></EventList>

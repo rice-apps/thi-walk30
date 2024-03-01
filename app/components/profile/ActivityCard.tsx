@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, useWindowDimensions, ScrollView, SafeAreaView, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from 'react-native';
 import { Text } from 'react-native-paper';
 import { TabView, SceneMap, TabBar, NavigationState, SceneRendererProps } from 'react-native-tab-view';
-import { BarChart, barDataItem } from "react-native-gifted-charts";
-import DropDownPicker from 'react-native-dropdown-picker';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ActivityCardChart from './ActivityCardChart';
 
 type Route = {
     key: string;
@@ -14,366 +11,9 @@ type Route = {
 
 type State = NavigationState<Route>;
 
-
-type DateRange = WeeklyDateRange | MonthlyDateRange;
-
-type WeeklyDateRange = {
-    type: "Weekly",
-    start_date: Date,
-    end_date: Date
+type props = {
+    ID: string
 }
-
-type MonthlyDateRange = {
-    type: "Monthly",
-    start_date: Date
-}
-
-/*
- Hardcoded Dummy Data, will be replaced by API calls
-*/
-const steps_dta = [{ value: 380, label: "Tue" }, { value: 150, label: "Tue" }, { value: 300, label: "Wed" }, { value: 50, label: "Thu" }, { value: 360, label: "Fri" }, { value: 370, label: "Sat" }, { value: 230, label: "Sun" }]
-const other_steps_dta = [{ value: 230, label: "Tue" }, { value: 200, label: "Tue" }, { value: 470, label: "Wed" }, { value: 100, label: "Thu" }, { value: 30, label: "Fri" }, { value: 340, label: "Sat" }, { value: 500, label: "Sun" }]
-let weeks_data = [{ value: 3000, label: "Week 1" }, { value: 2500, label: "Week 2" }, { value: 2750, label: "Week 3" }, { value: 1000, label: "Week 4" }]
-let should_change = false
-let daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-/**
- * Generates random data for step data
- */
-function generateRandomData(currentDateRange: DateRange[]) {
-    let i;
-    for (i = 0; i < 7; i++) {
-        steps_dta[i].value = Math.floor(Math.random() * 350)+50;
-    }
-
-    weeks_data = []
-    let current_date = currentDateRange[1].start_date;
-    current_date.setDate(1);
-    let month = current_date.getMonth();
-
-    while (current_date.getMonth() === month) {
-        weeks_data.push({ value: Math.floor(Math.random() * 3000) + 1000, label: "Week " + (weeks_data.length + 1) });
-
-        // Increment the date by one week
-        current_date.setDate(current_date.getDate() + 7);
-    }
-
-}
-
-/**
- * Returns the data for each of the three segments of data (Steps, Distance, Time) that we collect
- */
-function getData(currentDateRange: DateRange[]): Map<string, barDataItem[][]> {
-    let activity_to_data = new Map<string, barDataItem[][]>(
-        [
-            ["steps", [steps_dta, weeks_data]],
-            ["distance", [steps_dta, weeks_data]],
-            ["time", [steps_dta, weeks_data]],
-        ]
-    );
-
-    // trying to introduce some random behavior
-    if (should_change) {
-        activity_to_data = new Map<string, barDataItem[][]>(
-            [
-                ["steps", [other_steps_dta, weeks_data]],
-                ["distance", [other_steps_dta, weeks_data]],
-                ["time", [other_steps_dta, weeks_data]],
-            ]
-        )
-    }
-
-    //Updating steps dta days
-    let start_day = currentDateRange[0].start_date.getDay();
-    for (let i = 0; i < 7; i++) {
-        steps_dta[i].label = daysOfWeek[start_day];
-        start_day = (start_day + 1) % 7;
-    }
-
-    
-    generateRandomData(currentDateRange);
-
-
-    return activity_to_data;
-}
-
-/**
- * Initializes our DateRange as a one week interval ending on the current day
- * @returns 
- */
-function initDateRange(): DateRange[] {
-    return [initWeeklyDateRange(), initMonthlyDateRange()];
-}
-
-/**
- * Initializes our DateRange as a one week interval ending on the current day
- * @returns 
- */
-function initWeeklyDateRange(): WeeklyDateRange  {
-    let start_date: Date = new Date()
-    let end_date = new Date();
-    start_date.setDate(end_date.getDate() - 7);
-    return {
-        type: "Weekly",
-        start_date,
-        end_date
-    }
-}
-
-function initMonthlyDateRange(): MonthlyDateRange  {
-    let start_date: Date = new Date()
-    return {
-        type: "Monthly",
-        start_date,
-    }
-}
-
-/**
- * Callback function that gets called whenever a user queries a different date range
- * @param currentDate - currentDateRange object being used on the screen
- * @param back true if the user wants to go back one week, false otherwise
- * @returns 
- */
-function updateDateRange(currentDate: DateRange, back: boolean): DateRange {
-    if (currentDate.type === "Weekly") {
-        let start_date = new Date();
-        let end_date = new Date();
-        //using milliseconds as JS dates use milliseconds under the hood and thus ensures we don't run into any timezone/date issues with other methods of updating dates
-        let one_week_in_milli_sec = back ? (-1.0 * 604800000) : (604800000);
-        start_date.setTime(currentDate.start_date.getTime() + one_week_in_milli_sec);
-        end_date.setTime(currentDate.end_date.getTime() + one_week_in_milli_sec);
-
-        return {
-            type: "Weekly",
-            start_date,
-            end_date
-        }
-    } else {
-        let start_date = new Date();
-        if (back) {
-            start_date.setMonth(currentDate.start_date.getMonth() - 1);
-        } else {
-            start_date.setMonth(currentDate.start_date.getMonth() + 1);
-        }
-        return {
-            type: "Monthly",
-            start_date
-        }
-    
-    }
-}
-
-
-function makeWeeklySelector(date: WeeklyDateRange) {
-    {/* make it so that the dates are centered and it is fixed with  */}
-    return (
-        <View style = {{ width: '50%' , justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
-                <Text style={{ fontWeight: "bold", fontSize: 25}}>{extractDayAndMonth(date.start_date)}</Text>
-                <FontAwesome 
-                    name="minus" 
-                        size={10} 
-                        style={{ marginHorizontal: 10, transform: [{ scaleY: 1.25 }] }} 
-                    />
-                <Text style={{ fontWeight: "bold", fontSize: 25 }}>{extractDayAndMonth(date.end_date)}</Text>
-         </View>
-    )
-}
-
-function makeMonthlySelector(date: MonthlyDateRange) {
-    return (
-        <View style = {{ width: '50%' , justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>{date.start_date.toLocaleString("en-US", { month: "long", year: "numeric" })}</Text>
-        </View>
-    )
-}
-
-function computeDailyAvg(data: barDataItem[]): number {
-    let sum = 0;
-    for (let i = 0; i < data.length; i++) {
-        sum += data[i].value;
-    }
-    return Math.floor(sum / data.length);
-}
-
-function computeTotal(data: barDataItem[]): number {
-    let sum = 0;
-    for (let i = 0; i < data.length; i++) {
-        sum += data[i].value;
-    }
-    return sum;
-}
-
-
-/**
- * Creates the interactive row that users can use to select which dates they want to use for their charts
- * @param rangeType - either "Weekly" or "Monthly"
- * @param dates - the current date range being used
- * @param setDates - callback function to update the date range
- * @returns 
- */
-function makeDateRow(rangeType: string, dates: DateRange[], setDates: Function) {
-    return (
-            <View style={{ margin: 20 }}>
-                <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
-                    <MaterialIcons 
-                        name="navigate-before" 
-                        size={30} 
-                        onPress={() => {
-                            if (rangeType === "Weekly") {
-                                let new_range = updateDateRange(dates[0], true);
-                                setDates([new_range, dates[1]]);
-                            } else {
-                                let new_range = updateDateRange(dates[1], true);
-                                setDates([dates[0], new_range]);
-                            };
-                        }}
-                    />
-                    {/* make it so that the dates are centered and it is fixed with  */}
-                    {rangeType === "Weekly" ? makeWeeklySelector(dates[0] as WeeklyDateRange) : makeMonthlySelector(dates[1] as MonthlyDateRange)}
-                    <MaterialIcons 
-                        name="navigate-next" 
-                        size={30} 
-                        onPress={() => {
-                            if (rangeType === "Weekly") {
-                                let new_range = updateDateRange(dates[0], false);
-                                setDates([new_range, dates[1]]);
-                            } else {
-                                let new_range = updateDateRange(dates[1], false);
-                                setDates([dates[0], new_range]);
-                            }
-                        }}
-                    />
-                </View>
-            </View>
-    )
-}
-
-/**
- * Extracts the date and month from a Date String (i.e. 12/31/2024 -> 12/31)
- * @param date_str - the date string to extract from
- * @returns 
- */
-function extractDayAndMonth(date_str: Date) {
-    return date_str.toLocaleDateString().substring(0, date_str.toLocaleDateString().lastIndexOf("/"))
-}
-
-/**
- * Creates components for each of the tabs 
- * @param type - can either be steps, distance, or time. This is used to indicate which data to use when generating the charts
- * @returns The component that is displayed within one of the tabs
- */
-function makeRoute(type: string) {
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState("Weekly");
-    const [items, setItems] = useState([
-        { label: 'Weekly', value: 'Weekly' },
-        { label: 'Monthly', value: 'Monthly' }
-    ]);
-
-    let current_date_range: DateRange[] = initDateRange();
-    let activity_to_data = getData(current_date_range);
-    if (activity_to_data === undefined) {
-        return <View>No Data</View>
-    }
-    let data_list: barDataItem[][] = activity_to_data.get(type)!;
-    if (data_list === undefined) {
-        return (<View>Could not Load Data!</View>);
-    }
-    let data: barDataItem[] = [];
-    const [dates, setDates] = useState<DateRange[]>(current_date_range);
-
-    let bar_width: number = 0;
-
-    //TODO abstractify all of the setup into one function 
-    switch (value) {
-        case 'Weekly':
-            data = data_list[0];
-            bar_width = 22;
-            break;
-        case "Monthly":
-            data = data_list[1];
-            bar_width = 40;
-            break;
-    }
-
-    return (
-        <View>
-            {/* First Row with BarChart */}
-            <View style={{ flexDirection: 'row', alignItems: "flex-start", justifyContent: "center", alignContent: "center", margin: 20, paddingTop: 10, zIndex: 9999 }}>
-                <DropDownPicker
-                    style={styles.dropDown}
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                    listMode="SCROLLVIEW"
-                    containerStyle={{
-                        width: "33%",
-                        alignContent: "center",
-                        justifyContent: "center",
-                        zIndex: 9999,
-                    }}
-
-                />
-                <Text style={{ marginRight: 30, marginLeft: 30 }}>
-                    <Text variant="bodySmall">Average:  </Text>
-                    <Text style={{ fontWeight: "bold", marginRight: 40 }} variant="bodyLarge">{value == "Weekly" ? computeDailyAvg(data_list[0]) : computeDailyAvg(data_list[1])}</Text>
-                </Text>
-                <Text>
-                    <Text variant="bodySmall">Total </Text>
-                    <Text style={{ fontWeight: "bold" }} variant="bodyLarge">{value == "Weekly" ? computeTotal(data_list[0]) : computeTotal(data_list[1])}</Text>
-                </Text>
-            </View>
-            {/* Second Row with interactive dates */}
-            {makeDateRow(value, dates, setDates)}
-            {/* Third Row with BarChart */}
-            <View style={{ marginTop: 20 }}>
-                <BarChart
-                    data={data}
-                    backgroundColor={"white"}
-                    height={162}
-                    noOfSections={2}
-                    barWidth={bar_width}
-                    barBorderRadius={4}
-                    frontColor={"#00426D"}
-                    xAxisThickness={25}
-                    xAxisColor={'white'}
-                    yAxisColor={'white'}
-                    formatYLabel={(value) => {
-                        if (value == "0"){
-                            return ""
-                        }
-                        return value
-                    }}
-                />
-            </View>
-        </View>
-    )
-};
-
-/**
- * Functions to create each of the Tabs. The TabView documentation indicated that using arrow functions results in 
- * undefined behavior, so this is the workaround. 
- * @returns 
- */
-function StepsRoute() {
-    return makeRoute('steps');
-};
-
-function DistanceRoute() {
-    return makeRoute('distance');
-};
-
-function TimeRoute() {
-    return makeRoute('time');
-};
-
-const renderScene = SceneMap({
-    steps: StepsRoute,
-    distance: DistanceRoute,
-    time: TimeRoute
-});
 
 const renderTabBar = (
     props: SceneRendererProps & { navigationState: State }
@@ -385,7 +25,7 @@ const renderTabBar = (
     />
 );
 
-export default function Dashboard() {
+export default function ActivityCard(props: props) {
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
@@ -393,6 +33,13 @@ export default function Dashboard() {
         { key: 'distance', title: 'Distance' },
         { key: 'time', title: 'Time' }
     ])
+
+    const renderScene = SceneMap({
+        steps: () => <ActivityCardChart type = {"steps"} ID = {props.ID}/>,
+        distance: () => <ActivityCardChart type = {"distance"} ID = {props.ID}/>,
+        time: () => <ActivityCardChart type = {"time"} ID = {props.ID}/>
+    });
+
 
     return (
         <View style={styles.container}>
