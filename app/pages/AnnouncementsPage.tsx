@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AnnouncementList from "../components/announcement/AnnouncementList";
 import { AnnouncementData } from "../types/AnnouncementData";
 import { Searchbar } from "react-native-paper";
-import { StyleSheet, SafeAreaView, View } from "react-native";
+import { StyleSheet, SafeAreaView, View, Text } from "react-native";
 
 const a1: AnnouncementData = {
   _id: "dlkjdfdfdf",
@@ -35,11 +35,13 @@ const a2: AnnouncementData = {
 }
 
 const announcementList: AnnouncementData[] = [a1, a2];
+type DisplayMode = "none" | "flex" | undefined
 
 export function AnnouncementsPage(props: { navigator: any }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredAnnouncements, setFilteredAnnouncements] = useState(announcementList);
   const [announcementData, setAnnouncementData] = useState<AnnouncementData[]>(announcementList);
+  const [displayToggle, setDisplayToggle] = useState<DisplayMode>("none");
 
   const ANNOUNCEMENTS_ROUTE = "http://localhost:3000/api/announcement/recent"
 
@@ -59,6 +61,12 @@ export function AnnouncementsPage(props: { navigator: any }) {
       backgroundColor: "white",
       borderRadius: 10
     },
+    results: {
+      margin: 10,
+      fontSize: 20,
+      fontWeight: '600',
+      display: displayToggle,
+    }
   });
 
   useEffect(() => {
@@ -87,6 +95,12 @@ export function AnnouncementsPage(props: { navigator: any }) {
       });
       setFilteredAnnouncements(filteredData);
     }
+
+    if (query === "") {
+      setDisplayToggle("none")
+    } else {
+        setDisplayToggle("flex")
+    }
   };
 
   return (
@@ -98,6 +112,7 @@ export function AnnouncementsPage(props: { navigator: any }) {
           value={searchQuery}
           style={styles.searchContainer}
         />
+        <Text style={styles.results}>{filteredAnnouncements.length} results for "{searchQuery}"</Text>
         <View style={styles.container}>
           <AnnouncementList announcementList={filteredAnnouncements} navigator={props.navigator}/>
         </View>

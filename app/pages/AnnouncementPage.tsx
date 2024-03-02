@@ -11,10 +11,13 @@ import {
 import Icon from "@expo/vector-icons/Entypo";
 import { AnnouncementData } from "../types/AnnouncementData";
 
-export function AnnouncementPage(props: { navigator: any, announcement?: AnnouncementData }) {
+export function AnnouncementPage(props: {
+  navigator: any;
+  announcement?: AnnouncementData;
+}) {
   let announcement = props.navigator.route.params;
 
-  const [orgName, setOrgName] = useState("");
+  const [orgName, setOrgName] = useState(announcement.organization.name);
 
   const styles = StyleSheet.create({
     header: {
@@ -36,10 +39,7 @@ export function AnnouncementPage(props: { navigator: any, announcement?: Announc
     },
   });
 
-  props.navigator.navigation.setOptions({ title: announcement.title });
-  fetch(`http://localhost:3000/api/organization/${announcement.organization}`)
-    .then((res) => res.json())
-    .then((data) => setOrgName(data.name));
+  props.navigator.navigation.setOptions({ title: "" });
 
   return (
     <ScrollView style={{ backgroundColor: "#f8f4fc" }}>
@@ -50,11 +50,11 @@ export function AnnouncementPage(props: { navigator: any, announcement?: Announc
           uri: announcement.featuredImage,
         }}
       />
-      {/* Title and host */}
+      {/* Host and title */}
       <View style={{ margin: 20 }}>
         <Text
           style={{
-            fontSize: 30,
+            fontSize: 28,
             fontWeight: "600",
             color: "#00426e",
             marginBottom: 10,
@@ -64,30 +64,43 @@ export function AnnouncementPage(props: { navigator: any, announcement?: Announc
         >
           {orgName}
         </Text>
-        <Text style={{ fontSize: 15, color: "#407ccc", marginBottom: 15 }}>
+        <Text
+          style={{
+            fontSize: 25,
+            fontWeight: "600",
+            color: "#00426e",
+            marginBottom: 10,
+          }}
+        >
           {announcement.title}
         </Text>
 
         {announcement.links.map((link: URL) => {
-            return <View style={styles.iconTextPair}>
-                <Icon name="link" size={20} color="#407ccc"></Icon>
-                <TouchableHighlight onPress={() => Linking.openURL(link.toString())}>
+          return (
+            <View style={styles.iconTextPair}>
+              <Icon name="link" size={20} color="#407ccc"></Icon>
+              <TouchableHighlight
+                onPress={() => Linking.openURL(link.toString())}
+              >
                 <Text
-                    style={{
+                  style={{
                     fontSize: 15,
                     marginLeft: 10,
                     color: "#407ccc",
-                    width: 180,
-                    }}
-                    numberOfLines={1}
+                    width: 300,
+                  }}
+                  numberOfLines={1}
                 >
-                    {link.toString()}
+                  {link.toString()}
                 </Text>
-                </TouchableHighlight>
+              </TouchableHighlight>
             </View>
+          );
         })}
-        
-        <Text>{announcement.description}</Text>
+
+        <Text style={{ marginTop: 10, fontSize: 17 }}>
+          {announcement.description}
+        </Text>
       </View>
     </ScrollView>
   );

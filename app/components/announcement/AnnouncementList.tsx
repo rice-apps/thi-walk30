@@ -10,7 +10,7 @@ const AnnouncementList = (props: { announcementList: AnnouncementData[], navigat
         <ScrollView>
             {props.announcementList.map(announcement => {
                 return <AnnouncementCard announcementData={announcement} key={announcement._id} onPress={() => {
-                    props.navigator.navigation.navigate("Anouncement", announcement)}}/>
+                    props.navigator.navigation.navigate("Announcement", announcement)}}/>
             })}
         </ScrollView>
     )
