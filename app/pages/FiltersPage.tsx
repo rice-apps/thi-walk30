@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import {ScrollView, Text, View, StyleSheet, Switch, TextInput} from "react-native";
+import {ScrollView, Text, View, StyleSheet, Switch, TextInput, Button, Pressable} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { NativeSyntheticEvent, TextInputKeyPressEventData  } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+
 
 export function FiltersPage() {
         // filters box below
@@ -15,9 +15,8 @@ export function FiltersPage() {
         const [participantsSort, setParticipantsSort] = useState(false);
 
         // date filter box below
-        const [fromDate, setFromDate] = useState(null);
-        const [toDate, setToDate] = useState(null);
-        
+        const [fromDate, setFromDate] = useState(new Date());
+        const [toDate, setToDate] = useState(new Date());
 
         const [distanceAway, setDistanceAway] = useState("0");
         const [distanceFrom, setDistanceFrom] = useState("current location");
@@ -112,6 +111,22 @@ export function FiltersPage() {
         }
 
         const SortByBox = () => {
+          const changeDateSort = () => {
+            setDateSort(true);
+            setDistanceSort(false);
+            setParticipantsSort(false);
+          };
+          const changeDistanceSort = () => {
+            setDateSort(false);
+            setDistanceSort(true);
+            setParticipantsSort(false);
+          };
+          const changeParticipantsSort = () => {
+            setDateSort(false);
+            setDistanceSort(false);
+            setParticipantsSort(true);
+          };
+
           const styles = StyleSheet.create({
             title: {
               fontSize: 21,
@@ -123,17 +138,28 @@ export function FiltersPage() {
               flexDirection: "column"
             },
 
-            sortOptions: {
+            sortOptionsBox: {
               display: "flex",
               width: "100%",
               flexDirection: "row",
               justifyContent: "space-between"
-            }
+            },
           })
 
           return (
             <View style = {styles.parentBox}>
-              
+              <Text> Sort by </Text>
+              <View style = {styles.sortOptionsBox}>
+                <Pressable onPress={changeDateSort} style={{ backgroundColor: dateSort ? "red" : "gray" }}>
+                  <Text>Date</Text>
+                </Pressable> 
+                <Pressable onPress={changeDistanceSort} style={{ backgroundColor: distanceSort ? "red" : "gray" }}>
+                  <Text>Distance</Text>
+                </Pressable> 
+                <Pressable onPress={changeParticipantsSort} style={{ backgroundColor: participantsSort ? "red" : "gray" }}>
+                  <Text>Distance</Text>
+                </Pressable> 
+              </View>
             </View>
           )
         }
@@ -150,19 +176,39 @@ export function FiltersPage() {
               flexDirection: "column"
             },
 
-            sortOptions: {
+            rangeBox: {
               display: "flex",
               width: "100%",
               flexDirection: "row",
               justifyContent: "space-between"
             }
           })
+          return (
+            <View style = {styles.parentBox}>
+              <Text>Date</Text>
+              <View>
+                <Text>From</Text>
+                <Text>to</Text>
+              </View>
+            </View>
+          )
         }
 
         const DistanceFilter = () => {
           const styles = StyleSheet.create({
             mainView: {
               flexDirection: "row",
+            },
+            textInput : {
+              backgroundColor: '#FFFFFF', 
+              borderRadius: 5,
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingBottom: 10,
+              paddingTop:10,
+            },
+            text : {
+              marginTop:10,
             }
 
           })
@@ -172,9 +218,9 @@ export function FiltersPage() {
                 placeholder="0"
                 value={distanceAway}
                 onChangeText={(distance)=>setDistanceAway(distance)}
-                
+                style = {styles.textInput}
             />
-            <Text> miles away from </Text>
+            <Text style = {styles.text}>  miles away from current location</Text>
           </View>
         )}
 
@@ -228,14 +274,16 @@ export function FiltersPage() {
                   <View style = {styles.filtercomponents}>
                     <Text style = {styles.MainText}>Filter</Text>
                     <Filterbox/>
-                    <Text style = {styles.MainText}>Organizer</Text>
+                    <SortByBox/>
+                    <DateBox/>
+                    <Text style = {styles.MainText}>Distance</Text>
                     <DistanceFilter/>
+                    <Text style = {styles.MainText}>Organizer</Text>
+                    
                     <OrgFilter/>
                   </View>
                         
                 </ScrollView>
         )
-
-
 }
 
