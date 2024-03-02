@@ -43,7 +43,7 @@ export function AnnouncementsPage(props: { navigator: any }) {
   const [filteredAnnouncements, setFilteredAnnouncements] = useState(announcementList);
   const [announcementData, setAnnouncementData] = useState<AnnouncementData[]>(announcementList);
   const [displayToggle, setDisplayToggle] = useState<DisplayMode>("none");
-  const ANNOUNCEMENTS_ROUTE = "http://[IP]/api/announcement/"
+  const ANNOUNCEMENTS_ROUTE = "http://[Server host IP]:3000/api/announcement/"
 
   const styles = StyleSheet.create({
     container: {
