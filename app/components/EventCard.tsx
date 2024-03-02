@@ -13,7 +13,9 @@ export default function EventCard(props: {container: object, eventData: EventDat
     return (
         <ScrollView contentContainerStyle={props.container}>
             <Image style={styles.img_container} source={{url: props.eventData.featureImage}}></Image>
-            <Pressable style={styles.back_btn}><Image source={BACK_BTN}></Image></Pressable>
+            <Pressable style={styles.back_btn} onPress={() => {}}>
+                <Image source={BACK_BTN}></Image>
+            </Pressable>
 
             <View style={styles.description_container}>
                 <Text style={styles.titleText}>{props.eventData.title}</Text>

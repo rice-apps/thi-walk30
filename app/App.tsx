@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 // import EventCard from './components/EventCard';
-import EventSearchBar from './components/EventSearchBar';
-import MapDisplay from "./components/MapDisplay";
-import TabNavigation from './components/TabNavigation';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Tabs from "./components/tabs";
 
 const dummy_event = {
   "id": "65cfe6e096a2d6a316f46e70",
@@ -24,14 +25,16 @@ const dummy_event = {
   "organization": "65cfda3383058492e13dba01",
   "__v": 0
 }
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+
 export default function App() {
   return (
-    <View style={styles.container}>
-      <EventSearchBar container={styles.searchBarContainer}></EventSearchBar>
-      <MapDisplay container={styles.mapContainer}></MapDisplay>
-      <TabNavigation container={styles.tabNavigationContainer}></TabNavigation>
-      {/* <EventCard container={styles.FullEventContainer} eventData={dummy_event}></EventCard> */}
-    </View>
+    <NavigationContainer>
+      <Tabs></Tabs>
+    </NavigationContainer>
   );
 }
 
@@ -43,30 +46,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  mapContainer: {
-      width: '100%',
-      height: '72%',
-  },
   searchBarContainer: {
     width: '100%',
     height: "19%",
     flexDirection: "column",
     backgroundColor: "#00426E",
     alignItems: "center"
-  },
-  tabNavigationContainer: {
-    width: '100%',
-    height: "9%",
-    flexDirection: "row",
-    backgroundColor: "white",
-    justifyContent: "space-around",
-    marginHorizontal: 10,
-  },
-  FullEventContainer: {
-
-    flexDirection: "column",
-    flexGrow: 1, 
-    alignItems: "center",
   },
   PartialEventContainer: {
     width: '100%',

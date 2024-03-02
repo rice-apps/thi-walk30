@@ -148,9 +148,7 @@ export default function MapDisplay(props: {container: object}) {
                 coordinate={{latitude: event.location.latitude, longitude: event.location.longitude}}
                 onPress={(e) => {
                   selectEvent(event);
-                  console.log(selectEvent)
-                  console.log(event);
-                  setHeight("35%");
+                  setHeight("40%");
                   e.stopPropagation();
                   }}>
                   <Image source={MARKERICON}/>

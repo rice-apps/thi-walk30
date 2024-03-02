@@ -6,7 +6,7 @@ import { EventData } from '../types/EventData';
 
 
 
-export default function ShortEventCard(props: { container: object; eventData: EventData; navigation}) {
+export default function ShortEventCard(props: { container: object; eventData: EventData}) {
     const [eventData, setEventData] = useState<string[]>([]);
     const {width, height} = Dimensions.get("window");
     const date = new Date(props.eventData.date)
