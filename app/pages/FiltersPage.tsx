@@ -160,14 +160,21 @@ export function FiltersPage() {
         }
 
         const DistanceFilter = () => {
+          const styles = StyleSheet.create({
+            mainView: {
+              flexDirection: "row",
+            }
+
+          })
           return (
-          <View>
+          <View style = {styles.mainView} >
             <TextInput
                 placeholder="0"
                 value={distanceAway}
                 onChangeText={(distance)=>setDistanceAway(distance)}
+                
             />
-            <Text>miles away from </Text>
+            <Text> miles away from </Text>
           </View>
         )}
 
@@ -222,6 +229,7 @@ export function FiltersPage() {
                     <Text style = {styles.MainText}>Filter</Text>
                     <Filterbox/>
                     <Text style = {styles.MainText}>Organizer</Text>
+                    <DistanceFilter/>
                     <OrgFilter/>
                   </View>
                         
