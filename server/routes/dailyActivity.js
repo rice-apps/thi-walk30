@@ -32,10 +32,11 @@ router.post('/create/:id', async (req, res) => {
 router.get('/in-range/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
-        var start_date = new Date(req.body.start);
+
+        var start_date = new Date(req.query.start);
 
         // Setting end_date to start_date if activities on particular day are being searched
-        var end_date = req.body.end === undefined ? end_date = new Date(start_date) : end_date = new Date(req.body.end);
+        var end_date = req.query.end === undefined ? end_date = new Date(start_date) : end_date = new Date(req.query.end);
 
         // Set end date to end of day to include all events on selected end date
         start_date.setUTCHours(0, 0, 0, 0);

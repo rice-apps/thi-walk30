@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, useWindowDimensions, ScrollView, SafeAreaView, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from 'react-native';
+import { StyleSheet, View, useWindowDimensions} from 'react-native';
 import { Text } from 'react-native-paper';
 import { TabView, SceneMap, TabBar, NavigationState, SceneRendererProps } from 'react-native-tab-view';
 import ActivityCardChart from './ActivityCardChart';
@@ -25,6 +25,7 @@ const renderTabBar = (
     />
 );
 
+
 export default function ActivityCard(props: props) {
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
@@ -34,10 +35,15 @@ export default function ActivityCard(props: props) {
         { key: 'time', title: 'Time' }
     ])
 
+    // These are constant as to not unnesscesarily rerender component on state change
+    const stepsRoute = () => <ActivityCardChart type = {"steps"} ID = {props.ID}/>
+    const distanceRoute = () => <ActivityCardChart type = {"distance"} ID = {props.ID}/>
+    const timeRoute = () => <ActivityCardChart type = {"time"} ID = {props.ID}/>
+
     const renderScene = SceneMap({
-        steps: () => <ActivityCardChart type = {"steps"} ID = {props.ID}/>,
-        distance: () => <ActivityCardChart type = {"distance"} ID = {props.ID}/>,
-        time: () => <ActivityCardChart type = {"time"} ID = {props.ID}/>
+        steps: stepsRoute,
+        distance: distanceRoute,
+        time: timeRoute
     });
 
 
@@ -73,31 +79,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "white"
     },
-    chart: {
-        backgroundColor: "white",
-        marginTop: 55,
-    },
     tabElement: {
         backgroundColor: '#00426D',
     },
     title: {
         fontWeight: "600",
         marginBottom: 10
-    },
-    dropDown: {
-        borderRadius: 10,
-        backgroundColor: "#D8D9DC",
-        height: 0,
-        paddingHorizontal: 10,
-        minHeight: 30,
-        zIndex: 1000,
-        borderWidth: 0
-    },
-    selectRow: {
-
-    },
-    basicStats: {
-
     }
-
 })

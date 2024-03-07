@@ -223,7 +223,11 @@ function updateDateRange(currentDate: DateRange, back: boolean): DateRange {
     }
 }
 
-
+/**
+ * Helper functions to create scrollable date selectors based on the currently selected dates
+ * @param date 
+ * @returns 
+ */
 function makeWeeklySelector(date: WeeklyDateRange) {
     {/* make it so that the dates are centered and it is fixed with  */}
     return (
@@ -245,18 +249,6 @@ function makeMonthlySelector(date: MonthlyDateRange) {
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>{date.start_date.toLocaleString("en-US", { month: "long", year: "numeric" })}</Text>
         </View>
     )
-}
-
-function computeDailyAvg(data: barDataItem[]): number {
-    return Math.floor(computeTotal(data) / data.length);
-}
-
-function computeTotal(data: barDataItem[]): number {
-    let sum = 0;
-    for (let i = 0; i < data.length; i++) {
-        sum += data[i].value;
-    }
-    return sum;
 }
 
 /**
@@ -304,6 +296,29 @@ function makeDateRow(rangeType: string, dates: DateRange[], setDates: Function) 
 }
 
 /**
+ * Helper functions for computing the average and total of the data. Returns 0 if the data is empty as the data may sometimes be undefined while waiting on the API call
+ * @param data 
+ * @returns 
+ */
+function computeDailyAvg(data: barDataItem[]): number {
+    if (data.length === 0) {
+        return 0;
+    }
+    return Math.floor(computeTotal(data) / data.length);
+}
+
+function computeTotal(data: barDataItem[]): number {
+    let sum = 0;
+    if (data.length === 0) {
+        return sum;
+    }
+    for (let i = 0; i < data.length; i++) {
+        sum += data[i].value;
+    }
+    return sum;
+}
+
+/**
  * Extracts the date and month from a Date String (i.e. 12/31/2024 -> 12/31)
  * @param date_str - the date string to extract from
  * @returns 
@@ -319,7 +334,9 @@ function extractDayAndMonth(date_str: Date) {
  */
 export default function ActivityCardChart(props: props) {
     const [open, setOpen] = useState(false);
+    //Starts off with weekly data
     const [value, setValue] = useState("Weekly");
+    //Set to false when before first API call, set to true after first API call. This is used so we know when to only query either Weekly or Monthly data
     const [hasLoaded, setHasLoaded] = useState(false);
     const [items, setItems] = useState([
         { label: 'Weekly', value: 'Weekly' },
@@ -438,30 +455,6 @@ export default function ActivityCardChart(props: props) {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        height: 425,
-        margin: 10,
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 8
-    },
-    TabBar: {
-        flex: 1,
-        borderRadius: 10,
-        backgroundColor: "white"
-    },
-    chart: {
-        backgroundColor: "white",
-        marginTop: 55,
-    },
-    tabElement: {
-        backgroundColor: '#00426D',
-    },
     title: {
         fontWeight: "600",
         marginBottom: 10
@@ -474,12 +467,5 @@ const styles = StyleSheet.create({
         minHeight: 30,
         zIndex: 1000,
         borderWidth: 0
-    },
-    selectRow: {
-
-    },
-    basicStats: {
-
     }
-
 })
