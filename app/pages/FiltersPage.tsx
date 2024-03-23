@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import {ScrollView, Text, View, StyleSheet, Switch, TextInput, Button, Pressable} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { NativeSyntheticEvent, TextInputKeyPressEventData  } from 'react-native';
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 
 export function FiltersPage() {
@@ -148,16 +150,16 @@ export function FiltersPage() {
 
           return (
             <View style = {styles.parentBox}>
-              <Text> Sort by </Text>
+              <Text style={styles.title}> Sort by </Text>
               <View style = {styles.sortOptionsBox}>
-                <Pressable onPress={changeDateSort} style={{ backgroundColor: dateSort ? "red" : "gray" }}>
-                  <Text>Date</Text>
+                <Pressable onPress={changeDateSort} style={{ backgroundColor: dateSort ? "red" : "gray", borderRadius: 10 }}>
+                  <Text style={{ fontSize: 16 }}>Date</Text>
                 </Pressable> 
-                <Pressable onPress={changeDistanceSort} style={{ backgroundColor: distanceSort ? "red" : "gray" }}>
-                  <Text>Distance</Text>
+                <Pressable onPress={changeDistanceSort} style={{ backgroundColor: distanceSort ? "red" : "gray", borderRadius: 10 }}>
+                  <Text style={{ fontSize: 16 }}>Distance</Text>
                 </Pressable> 
-                <Pressable onPress={changeParticipantsSort} style={{ backgroundColor: participantsSort ? "red" : "gray" }}>
-                  <Text>Distance</Text>
+                <Pressable onPress={changeParticipantsSort} style={{ backgroundColor: participantsSort ? "red" : "gray", borderRadius: 10 }}>
+                  <Text style={{ fontSize: 16 }}>Participatns</Text>
                 </Pressable> 
               </View>
             </View>
@@ -183,12 +185,17 @@ export function FiltersPage() {
               justifyContent: "space-between"
             }
           })
+          const [startDate, setStartDate] = useState(new Date());
+          const [endDate, setEndDate] = useState(new Date());
+
           return (
             <View style = {styles.parentBox}>
               <Text>Date</Text>
               <View>
                 <Text>From</Text>
+                {/* <DatePicker selected={startDate} onChange={(date: React.SetStateAction<Date>) => setStartDate(date)} /> */}
                 <Text>to</Text>
+                {/* <DatePicker selected={endDate} onChange={(date: React.SetStateAction<Date>) => setEndDate(date)} /> */}
               </View>
             </View>
           )
