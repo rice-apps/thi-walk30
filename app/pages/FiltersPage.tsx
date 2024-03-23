@@ -159,7 +159,7 @@ export function FiltersPage() {
                   <Text style={{ fontSize: 16 }}>Distance</Text>
                 </Pressable> 
                 <Pressable onPress={changeParticipantsSort} style={{ backgroundColor: participantsSort ? "red" : "gray", borderRadius: 10 }}>
-                  <Text style={{ fontSize: 16 }}>Participatns</Text>
+                  <Text style={{ fontSize: 16 }}>Participants</Text>
                 </Pressable> 
               </View>
             </View>
@@ -193,6 +193,20 @@ export function FiltersPage() {
               justifyContent: "space-between"
             }
           })
+          const handleDateFromChange = (date: Date | null) => {
+            if (date) {
+              setFromDate(date);
+          
+              
+            }
+          };
+
+          const handleDateToChange = (date: Date | null) => {
+            if (date) {
+              setToDate(date);
+              
+            }
+          };
           
 
           return (
@@ -201,15 +215,15 @@ export function FiltersPage() {
               <View>
                 <Text>From</Text>
                       <DatePicker
-        style={{ position: 'absolute', zIndex: 60 }}
+        
         selected={fromDate}
-        onChange={(date: React.SetStateAction<Date>) => setFromDate(date)}
+        onChange={handleDateFromChange}
       /> 
       <Text>to</Text>
       <DatePicker
-        style={{ position: 'absolute', zIndex: 60 }}
+       
         selected={toDate}
-        onChange={(date: React.SetStateAction<Date>) => setToDate(date)}
+        onChange={handleDateToChange}
       />  
               </View>
             </View>
