@@ -193,8 +193,7 @@ export function FiltersPage() {
               justifyContent: "space-between"
             }
           })
-          const [startDate, setStartDate] = useState(new Date());
-          const [endDate, setEndDate] = useState(new Date());
+          
 
           return (
             <View style = {styles.parentDateBox}>
@@ -203,14 +202,14 @@ export function FiltersPage() {
                 <Text>From</Text>
                       <DatePicker
         style={{ position: 'absolute', zIndex: 60 }}
-        selected={startDate}
-        onChange={(date: React.SetStateAction<Date>) => setStartDate(date)}
+        selected={fromDate}
+        onChange={(date: React.SetStateAction<Date>) => setFromDate(date)}
       /> 
       <Text>to</Text>
       <DatePicker
         style={{ position: 'absolute', zIndex: 60 }}
-        selected={endDate}
-        onChange={(date: React.SetStateAction<Date>) => setEndDate(date)}
+        selected={toDate}
+        onChange={(date: React.SetStateAction<Date>) => setToDate(date)}
       />  
               </View>
             </View>
