@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {ScrollView, Text, View, StyleSheet, Switch, TextInput, Button, Pressable} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { NativeSyntheticEvent, TextInputKeyPressEventData  } from 'react-native';
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 export function FiltersPage() {
@@ -175,7 +175,15 @@ export function FiltersPage() {
             parentBox: {
               display: "flex",
               width: "100%",
-              flexDirection: "column"
+              flexDirection: "column",
+            
+            },
+
+            parentDateBox: {
+              display: "flex",
+              width: "100%",
+              flexDirection: "column",
+              zIndex: 40
             },
 
             rangeBox: {
@@ -189,13 +197,21 @@ export function FiltersPage() {
           const [endDate, setEndDate] = useState(new Date());
 
           return (
-            <View style = {styles.parentBox}>
+            <View style = {styles.parentDateBox}>
               <Text>Date</Text>
               <View>
                 <Text>From</Text>
-                {/* <DatePicker selected={startDate} onChange={(date: React.SetStateAction<Date>) => setStartDate(date)} /> */}
-                <Text>to</Text>
-                {/* <DatePicker selected={endDate} onChange={(date: React.SetStateAction<Date>) => setEndDate(date)} /> */}
+                      <DatePicker
+        style={{ position: 'absolute', zIndex: 60 }}
+        selected={startDate}
+        onChange={(date: React.SetStateAction<Date>) => setStartDate(date)}
+      /> 
+      <Text>to</Text>
+      <DatePicker
+        style={{ position: 'absolute', zIndex: 60 }}
+        selected={endDate}
+        onChange={(date: React.SetStateAction<Date>) => setEndDate(date)}
+      />  
               </View>
             </View>
           )
