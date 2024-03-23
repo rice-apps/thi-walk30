@@ -2,7 +2,7 @@ import { OrganizationData } from "./OrganizationData";
 
 export interface AnnouncementData {
     _id: string,
-    organization: OrganizationData,
+    organization: string,
     title: string,
     description: string,
     links: URL[],

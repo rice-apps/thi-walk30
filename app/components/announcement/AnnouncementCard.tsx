@@ -4,7 +4,7 @@ import { AnnouncementData } from "../../types/AnnouncementData";
 import React from 'react'; 
 import { View } from 'react-native';
 
-const AnnouncementCard = (props: { announcementData: AnnouncementData, onPress: () => void }) => {
+const AnnouncementCard = (props: { announcementData: AnnouncementData, org_name: string | undefined, onPress: () => void }) => {
     const styles = StyleSheet.create({
         announcementCard: {
             display: "flex",
@@ -54,7 +54,7 @@ const AnnouncementCard = (props: { announcementData: AnnouncementData, onPress: 
                 />
                 <View>
                     <Text style={styles.orgName} numberOfLines={1}>
-                        {props.announcementData.organization.name}
+                        {props.org_name}
                     </Text>
                     <Text style={styles.title} numberOfLines={1}>{props.announcementData.title}</Text>
                     <Text style={styles.description} numberOfLines={3}>{props.announcementData.description}</Text>
