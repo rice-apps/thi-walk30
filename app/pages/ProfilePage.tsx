@@ -5,6 +5,7 @@ import WelcomePage from './WelcomePage';
 import Dashboard from '../components/profile/Dashboard';
 import EventList from "../components/event/EventList";
 import ActivityCard from "../components/profile/ActivityCard";
+import HealthTestPage from "./HealthTestPage";
 
 
 const EVENTS_ROUTE = "http://localhost:3000/api/event/events";
@@ -29,6 +30,7 @@ function ProfilePage(props: { navigator: any }) {
     return (
         <ScrollView style={styles.profilePage}>
             <WelcomePage profile={"Rebecca"} image={"https://www.familydentalcampbellstation.com/blog/wp-content/uploads/2020/02/woman-beautiful-smile1.jpeg"}></WelcomePage>
+            <HealthTestPage />
             <View style={styles.dashboard}>
                 <Dashboard />
             </View>
