@@ -32,6 +32,7 @@ export function FiltersPage() {
              
                 fullPage: {
                   backgroundColor: "#F0F8FF",
+                  paddingTop: 20
                 },
                 filtercomponents: {
                   marginLeft: 30,
@@ -41,7 +42,10 @@ export function FiltersPage() {
                   fontSize: 25,
                   marginBottom: 10, 
                   color: "#004260",      
-          },
+          },    Button: {
+              marginTop: 20,
+              backgroundColor: "red",
+          }
 
 
                 
@@ -55,6 +59,7 @@ export function FiltersPage() {
                 const styles = StyleSheet.create({
                   container: {
                           flexDirection: "column",
+                          
                   },
                   container1: {
                     flexDirection: "row",
@@ -85,6 +90,7 @@ export function FiltersPage() {
                   },
                   fullPage: {
                     backgroundColor: "#F0F8FF",
+                    
                   }
   
   
@@ -138,6 +144,7 @@ export function FiltersPage() {
           const styles = StyleSheet.create({
             title: {
               fontSize: 21,
+              textAlign: "center"
             },
 
             parentBox: {
@@ -150,6 +157,7 @@ export function FiltersPage() {
               display: "flex",
               width: "100%",
               flexDirection: "row",
+              
               justifyContent: "space-between"
             },
             pressableStyle: {
@@ -188,6 +196,7 @@ export function FiltersPage() {
           const styles = StyleSheet.create({
             title: {
               fontSize: 21,
+              textAlign: "center"
             },
 
             parentBox: {
@@ -308,6 +317,11 @@ export function FiltersPage() {
             fontSize: 16,
             paddingVertical: 10,
           },
+
+          button: {
+            marginTop: 10,
+            backgroundColor: "red"
+          }
         })
         
 
@@ -344,6 +358,29 @@ export function FiltersPage() {
                     <Text style = {styles.MainText}>Organizer</Text>
                     
                     <OrgFilter/>
+
+                    <Button
+                      title = "Apply Filters" 
+                      onPress = {()=>{
+
+                        let userPrefs = {
+                          onlyMyEvents: myEvent, 
+                          openRegistration: openReg, 
+                          doDateSort: dateSort,
+                          doParticipantSort: participantsSort ,
+                          doDistanceSort: distanceSort,
+                          doDistanceAway: distanceAway,
+                          doToDate: toDate,
+                          doFromDate: fromDate
+                        }
+
+                        
+                        
+
+                        console.log(userPrefs);
+                      }
+                      }
+                        />
                   </View>
                         
                 </ScrollView>
