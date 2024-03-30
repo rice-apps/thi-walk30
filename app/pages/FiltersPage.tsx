@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {ScrollView, Text, View, StyleSheet, Switch, TextInput, Button, Pressable} from "react-native";
+import {ScrollView, Text, View, StyleSheet, Switch, TextInput, Button, Pressable, TouchableOpacity} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { NativeSyntheticEvent, TextInputKeyPressEventData  } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -27,12 +27,12 @@ export function FiltersPage(props: {navigator: any}) {
         
         
         const styles = StyleSheet.create({
-
-
-             
                 fullPage: {
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  justifyContent: "center",
                   backgroundColor: "#F0F8FF",
-                  paddingTop: 20
                 },
                 filtercomponents: {
                   marginLeft: 30,
@@ -42,16 +42,12 @@ export function FiltersPage(props: {navigator: any}) {
                   fontSize: 25,
                   marginBottom: 10, 
                   color: "#004260",      
-          },    Button: {
-              marginTop: 20,
-              backgroundColor: "red",
-          }
-
-
-                
-
+                },
+                Button: {
+                  marginTop: 20,
+                  backgroundColor: "red",
+                }
         })
-
 
         const Filterbox = () => {
                 const togglemyEvent = () => setMyEvent(previousState => !previousState);
@@ -59,11 +55,10 @@ export function FiltersPage(props: {navigator: any}) {
                 const styles = StyleSheet.create({
                   container: {
                           flexDirection: "column",
-                          
                   },
                   container1: {
                     flexDirection: "row",
-            },
+                  },
                   
                   switchbox: {
                           flexDirection: "column",
@@ -91,17 +86,10 @@ export function FiltersPage(props: {navigator: any}) {
                   },
                   fullPage: {
                     backgroundColor: "#F0F8FF",
-                    
                   }
-  
-  
-                  
-  
-          })
+                })
                 return (
                         <View style = {styles.container}>
-                           
-                           
                            <View style = {styles.switchbox}>
                                 <View style = {styles.container}>
                                   <Text style = {styles.colorText}>Only My Events</Text>
@@ -120,7 +108,6 @@ export function FiltersPage(props: {navigator: any}) {
                                   value = {openReg}
                                   />
                                 </View>
-
                            </View>  
                         </View>
                 )
@@ -143,16 +130,16 @@ export function FiltersPage(props: {navigator: any}) {
             setDistanceSort(false);
             setParticipantsSort(true);
           };
+          const clearSorts = () => {
+            setDateSort(false);
+            setDistanceSort(false);
+            setParticipantsSort(false);
+          }
 
           const styles = StyleSheet.create({
-            title: {
-              fontSize: 21,
-              textAlign: "center"
-            },
-
             parentBox: {
               display: "flex",
-              width: "100%",
+              justifyContent: "center",
               flexDirection: "column"
             },
 
@@ -160,7 +147,6 @@ export function FiltersPage(props: {navigator: any}) {
               display: "flex",
               width: "100%",
               flexDirection: "row",
-              
               justifyContent: "space-between"
             },
             pressableStyle: {
@@ -174,14 +160,21 @@ export function FiltersPage(props: {navigator: any}) {
               fontSize:16,
               color: "#004260",   
 
-            }
+            },
+
+            textContainer: {
+              alignItems: 'center', // center aligns the text horizontally
+              justifyContent: 'center', // center aligns the text vertically
+              padding: 10,
+              borderRadius: 5,
+              backgroundColor: "rgba(128, 128, 128, 0.8)"
+          },
           })
 
           return (
             <View style = {styles.parentBox}>
-              <Text style={styles.title}> Sort by </Text>
               <View style = {styles.sortOptionsBox}>
-              <Pressable onPress={changeDateSort} style={{ ...styles.pressableStyle, backgroundColor:dateSort ? "#004260" : "rgba(128, 128, 128, 0.8)"}}>
+                <Pressable onPress={changeDateSort} style={{ ...styles.pressableStyle, backgroundColor:dateSort ? "#004260" : "rgba(128, 128, 128, 0.8)"}}>
                   <Text style={{...styles.textBox, color: dateSort ? "white" : "#004260"}}>Date</Text>
                 </Pressable> 
                 <Pressable onPress={changeDistanceSort} style={{ ...styles.pressableStyle, backgroundColor: distanceSort ? "#004260" : "rgba(128, 128, 128, 0.8)"}}>
@@ -191,75 +184,43 @@ export function FiltersPage(props: {navigator: any}) {
                   <Text style={{...styles.textBox, color: participantsSort ? "white" : "#004260"}}>Participants</Text>
                 </Pressable> 
               </View>
+              <Text onPress={clearSorts} style={{fontSize:16, color: "#004260", padding: 10, alignSelf: 'flex-start'}}>Clear</Text>
             </View>
           )
         }
 
         const DateBox = () => {
           const styles = StyleSheet.create({
-            title: {
-              fontSize: 21,
-              textAlign: "center"
-            },
-
-            parentBox: {
-              display: "flex",
-              width: "100%",
-              flexDirection: "column",
-            
-            },
-
             parentDateBox: {
               display: "flex",
               width: "100%",
-              flexDirection: "column",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
               zIndex: 40
             },
-
-            rangeBox: {
-              display: "flex",
-              width: "100%",
-              flexDirection: "row",
-              justifyContent: "space-between"
-            }
+            textBox: {
+              fontSize:15,
+              color: "#004260",   
+            },
           })
           const handleDateFromChange = (event: any, date: Date | undefined) => {
             if (date) {
-                
                 setFromDate(date);
             }
-        };
-
+          };
           const handleDateToChange = (event: any, date: Date | undefined) => {
             if (date) {
-             
               setToDate(date);
-              
             }
           };
-          
 
           return (
             <View style = {styles.parentDateBox}>
-              <Text style = {styles.title}>Date</Text>
-              <View style = {{flexDirection: 'row'}}>
-                <Text>From</Text>
-                <RNDateTimePicker
-          value={fromDate}
-          mode="date"
-          onChange={handleDateFromChange}
-        
-          minimumDate={new Date()}
-          />
-                <Text>to</Text>
-                <RNDateTimePicker
-          value={toDate}
-          mode="date"
-          onChange={handleDateToChange}
-        
-          minimumDate={new Date()}
-          />
-              </View>
+              <Text style={styles.textBox}>From</Text>
+              <RNDateTimePicker value={fromDate} mode="date" onChange={handleDateFromChange} minimumDate={new Date()}/>
+              <Text style={styles.textBox}>, To</Text>
+              <RNDateTimePicker value={toDate} mode="date" onChange={handleDateToChange} minimumDate={new Date()}/>
             </View>
           )
         }
@@ -280,6 +241,7 @@ export function FiltersPage(props: {navigator: any}) {
             text : {
               marginTop:10,
               fontSize: 15,
+              color: "#004260"
             }
 
           })
@@ -296,9 +258,7 @@ export function FiltersPage(props: {navigator: any}) {
         )}
 
         const OrgFilter = () => {
-          
           const styles = StyleSheet.create({
-
           container: {
             flexDirection: 'row',
             alignItems: 'center',
@@ -320,14 +280,7 @@ export function FiltersPage(props: {navigator: any}) {
             fontSize: 16,
             paddingVertical: 10,
           },
-
-          button: {
-            marginTop: 10,
-            backgroundColor: "red"
-          }
         })
-        
-
           const [searchTerm, setSearchTerm] = useState("");
           useEffect(() => {
             setGlobalSearchTerm(searchTerm);
@@ -346,22 +299,21 @@ export function FiltersPage(props: {navigator: any}) {
                     </View>
                   </View>
           )
-          
   }
 
         return (
-                <ScrollView style = {styles.fullPage}>
+                <View style = {styles.fullPage}>
                   <View style = {styles.filtercomponents}>
+                    <Text style = {styles.MainText}>Sort By</Text>
+                    <SortByBox/>
                     <Text style = {styles.MainText}>Filter</Text>
                     <Filterbox/>
-                    <SortByBox/>
+                    <Text style = {styles.MainText}>Date</Text>
                     <DateBox/>
                     <Text style = {styles.MainText}>Distance</Text>
                     <DistanceFilter/>
                     <Text style = {styles.MainText}>Organizer</Text>
-                    
                     <OrgFilter/>
-
                     <Button
                       title = "Apply Filters" 
                       onPress = {()=>{
@@ -385,8 +337,8 @@ export function FiltersPage(props: {navigator: any}) {
                       }
                         />
                   </View>
-                        
-                </ScrollView>
+                </View>
         )
 }
+
 
