@@ -1,49 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableHighlight, TextInput, StyleSheet, Image, SafeAreaView, FlatList } from 'react-native';
-import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
+import { Calendar, DateData } from 'react-native-calendars';
+import { EventData } from '../types/EventData';
 
-
-const SearchBar = ({ value, onChangeText }) => {
+const SearchBar = (props: {
+    value: string,
+    onChangeText: (text: string) => void
+}) => {
     return (
-      <View style={styles.searchContainer}>
-        <Image
-          source={require('../assets/searchicon.png')}
-          style={styles.searchIcon}
-        />
-        <TextInput
-          style={styles.searchInput}
-          onChangeText={onChangeText}
-          value={value}
-          placeholder="Search for events"
-        />
-      </View>
+        <View style={styles.searchContainer}>
+            <Image
+                source={require('../assets/searchicon.png')}
+                style={styles.searchIcon}
+            />
+            <TextInput
+                style={styles.searchInput}
+                onChangeText={props.onChangeText}
+                value={props.value}
+                placeholder="Search for events"
+            />
+        </View>
     );
 };
 
 function getCurrentDateFormatted(): string {
     const currentDate = new Date();
-  
+
     const year = currentDate.getFullYear();
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
     const day = currentDate.getDate().toString().padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
 }
-  
+
 
 export function EventCalendar() {
     const [searchQuery, setSearchQuery] = useState('');
-    const [eventData, setEventData] = useState([
+    const [eventData, setEventData] = useState<EventData[]>([
         //dummy data
-        { key: '1', title: 'Montrose Halloween Run', date: '2024-02-10', time: '9:00 AM - 11:30 AM' },
-        { key: '2', title: 'Bike Ride @ The Heights', date: '2024-02-10', time: '9:30 AM - 10:30 AM' },
-        { key: '3', title: 'Rice Bayou Run', date: '2024-02-03', time: '11:30 AM - 2:00 PM' },
-        { key: '4', title: 'Houston Food Bank 5K', date: '2024-02-10', time: '3:00 PM - 9:00 PM' },
+        {
+            _id: "0",
+            organization: "Texas Heart Institute",
+            title: "Summer Run",
+            description: "Join us for a summer run!",
+            img: "",
+            link: "https://thi.org",
+            date: new Date("2024-1-1 9:00").toString(),
+            duration: 60,
+            location: {
+                latitude: 0,
+                longitude: 0,
+                address: "Hermann Park"
+            }
+        },
         // ... more events
     ]);
     const [filteredEvents, setFilteredEvents] = useState(eventData);
 
-    const onChangeSearch = (query) => {
+    const onChangeSearch = (query: string) => {
         setSearchQuery(query);
         if (query.trim() === '') {
             setFilteredEvents(eventData);
@@ -51,71 +65,75 @@ export function EventCalendar() {
             const lowercasedQuery = query.toLowerCase();
             const filteredData = eventData.filter((event) =>
                 event.title.toLowerCase().includes(lowercasedQuery) ||
-                event.date.includes(query)
+                event.date.toString().includes(query)
             );
             setFilteredEvents(filteredData);
         }
     };
-    
+
 
     const [activeButton, setActiveButton] = useState('');
 
     const [selectedDay, setSelectedDay] = useState(() => {
         const today = new Date();
-        return today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        return today;
     });
 
-    const filterEventsForSelectedDay = (selectedDate) => {
-        const filteredData = eventData.filter((event) =>
-            event.date === selectedDate
-        );
+    const filterEventsForSelectedDay = (selectedDate: Date) => {
+        const filteredData = eventData.filter((event) => {
+            const eventDate = new Date(event.date);
+            return eventDate.getDay() == selectedDate.getDay() &&
+                eventDate.getMonth() == selectedDate.getMonth() &&
+                eventDate.getFullYear() == selectedDate.getFullYear();
+        });
         setFilteredEvents(filteredData);
     };
 
-    const onDayPress = (day) => {
-        setSelectedDay(day.dateString);
-        filterEventsForSelectedDay(day.dateString);
+    const onDayPress = (day: DateData) => {
+        const dayDate = new Date();
+        dayDate.setDate(day.day);
+        dayDate.setMonth(day.month - 1);
+        dayDate.setFullYear(day.year);
+        setSelectedDay(dayDate);
+        filterEventsForSelectedDay(dayDate);
     };
 
     useEffect(() => {
         filterEventsForSelectedDay(selectedDay);
     }, []);
 
-    const formatDateDisplay = (dateString) => {
+    const formatDateDisplay = (date: Date) => {
         // Create a date object using the dateString, setting the time to noon to avoid any issues with daylight saving time changes
-        const date = new Date(dateString + 'T12:00:00'); // This sets the time to noon
-    
-        // Options to pass to toLocaleDateString for desired format
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    
+        // const date = new Date(dateString + 'T12:00:00'); // This sets the time to noon
+
         // Format the date
-        return date.toLocaleDateString('en-US', options);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     };
 
-    const renderEventItem = ({ item }) => {
+    const renderEventItem = (props: { item: EventData }) => {
         return (
             <View style={styles.eventItemContainer}>
-                <Text style={styles.eventTitle}>{item.title}</Text>
-                <Text style={styles.eventTime}>{item.time}</Text>
+                <Text style={styles.eventTitle}>{props.item.title}</Text>
+                <Text style={styles.eventTime}>{new Date(props.item.date).toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric" })}</Text>
             </View>
         );
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#00426D'}}>
-            <View style={{backgroundColor: '#00426D'}}>
-                <View style={{borderWidth: 0, marginBottom: 10}}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#00426D' }}>
+            <View style={{ backgroundColor: '#00426D' }}>
+                <View style={{ borderWidth: 0, marginBottom: 10 }}>
                     <SearchBar value={searchQuery} onChangeText={onChangeSearch} />
                 </View>
-                <View style={{flexDirection: 'row', paddingHorizontal: 10,justifyContent: 'center', height: 45, marginBottom: 20}}>
-                    <TouchableHighlight underlayColor="#FFFFFF" style={{backgroundColor: activeButton == 'Calendar' ? '#C5DFFF' : '#00426D', borderWidth: 2, borderColor: '#C5DFFF', borderRadius: 10, paddingHorizontal: 20, justifyContent: 'center', marginRight: 20}} onPress={() => setActiveButton('Calendar')}>
-                        <Text style={{color: activeButton == 'Calendar' ? '#000000' : '#C5DFFF'}}>Calendar</Text>
+                <View style={{ flexDirection: 'row', paddingHorizontal: 10, justifyContent: 'center', height: 45, marginBottom: 20 }}>
+                    <TouchableHighlight underlayColor="#FFFFFF" style={{ backgroundColor: activeButton == 'Calendar' ? '#C5DFFF' : '#00426D', borderWidth: 2, borderColor: '#C5DFFF', borderRadius: 10, paddingHorizontal: 20, justifyContent: 'center', marginRight: 20 }} onPress={() => setActiveButton('Calendar')}>
+                        <Text style={{ color: activeButton == 'Calendar' ? '#000000' : '#C5DFFF' }}>Calendar</Text>
                     </TouchableHighlight>
-                    <TouchableHighlight underlayColor="#FFFFFF" style={{backgroundColor: activeButton == 'List' ? '#C5DFFF' : '#00426D', borderWidth: 2, borderColor: '#C5DFFF', borderRadius: 10, paddingHorizontal: 35, justifyContent: 'center'}} onPress={() => setActiveButton('List')}>
-                        <Text style={{color: activeButton == 'List' ? '#000000' : '#C5DFFF'}}>List</Text>
+                    <TouchableHighlight underlayColor="#FFFFFF" style={{ backgroundColor: activeButton == 'List' ? '#C5DFFF' : '#00426D', borderWidth: 2, borderColor: '#C5DFFF', borderRadius: 10, paddingHorizontal: 35, justifyContent: 'center' }} onPress={() => setActiveButton('List')}>
+                        <Text style={{ color: activeButton == 'List' ? '#000000' : '#C5DFFF' }}>List</Text>
                     </TouchableHighlight>
-                    <TouchableHighlight underlayColor="#FFFFFF" style={{backgroundColor: activeButton == 'Map' ? '#C5DFFF' : '#00426D', borderWidth: 2, borderColor: '#C5DFFF', borderRadius: 10, paddingHorizontal: 35, justifyContent: 'center', marginLeft: 20}} onPress={() => setActiveButton('Map')}>
-                        <Text style={{color: activeButton == 'Map' ? '#000000' : '#C5DFFF'}}>Map</Text>
+                    <TouchableHighlight underlayColor="#FFFFFF" style={{ backgroundColor: activeButton == 'Map' ? '#C5DFFF' : '#00426D', borderWidth: 2, borderColor: '#C5DFFF', borderRadius: 10, paddingHorizontal: 35, justifyContent: 'center', marginLeft: 20 }} onPress={() => setActiveButton('Map')}>
+                        <Text style={{ color: activeButton == 'Map' ? '#000000' : '#C5DFFF' }}>Map</Text>
                     </TouchableHighlight>
                 </View>
                 <Calendar
@@ -146,17 +164,16 @@ export function EventCalendar() {
                         textDayHeaderFontSize: 16
                     }}
                     markedDates={{
-                        [selectedDay]: {selected: true, marked: true, selectedColor: '#00426D', textColor: '#ffffff'},
+                        [selectedDay.toISOString().split('T')[0]]: { selected: true, marked: true, selectedColor: '#00426D', textColor: '#ffffff' },
                     }}
                 />
-                <View style={{backgroundColor: '#F4F4F4', height: 75, justifyContent: 'center', alignItems:'center'}}>
-                    <Text style={{color: '#00426D', fontWeight: '600', fontSize: '22'}}>{formatDateDisplay(selectedDay)}</Text>
+                <View style={{ backgroundColor: '#F4F4F4', height: 75, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: '#00426D', fontWeight: "600", fontSize: 22 }}>{formatDateDisplay(selectedDay)}</Text>
                 </View>
                 <FlatList
                     data={filteredEvents}
                     renderItem={renderEventItem}
-                    keyExtractor={item => item.key}
-                    // ...other props
+                // ...other props
                 />
             </View>
         </SafeAreaView>
@@ -173,13 +190,13 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderColor: '#ccc',
         backgroundColor: '#fff',
-      },
-      searchIcon: {
+    },
+    searchIcon: {
         marginRight: 10,
         width: 24,
         height: 24,
-      },
-      searchInput: {
+    },
+    searchInput: {
         flex: 1,
         height: 35,
     },
@@ -195,4 +212,4 @@ const styles = StyleSheet.create({
     eventTime: {
         color: '#666',
     },
-  });
+});
