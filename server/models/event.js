@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const TLocation = require("./location");
-const Organization = require("./organization");
+const User = require("./user");
 const { ObjectId } = require("mongodb");
 
 const dataSchema = new mongoose.Schema({
@@ -40,6 +40,10 @@ const dataSchema = new mongoose.Schema({
   organization: {
     type: ObjectId,
     required: true,
+  },
+  participants: {
+    type: [User.ObjectId],
+    required: false,
   }
 });
 
