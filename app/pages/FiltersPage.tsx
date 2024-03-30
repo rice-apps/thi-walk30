@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import {ScrollView, Text, View, StyleSheet, Switch, TextInput, Button, Pressable} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { NativeSyntheticEvent, TextInputKeyPressEventData  } from 'react-native';
-
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 
 
-export function FiltersPage() {
+export function FiltersPage(props: {navigator: any}) {
         // filters box below
         const [globalsearchTerm, setGlobalSearchTerm] = useState("");
         const [myEvent, setMyEvent] = useState(false);
@@ -86,6 +86,7 @@ export function FiltersPage() {
                     right: 20,
                     top:8,
                     
+                    
   
                   },
                   fullPage: {
@@ -107,6 +108,7 @@ export function FiltersPage() {
                                   <Switch
                                   style = {styles.switch}
                                   onValueChange={togglemyEvent}
+                                  trackColor = {{true: "blue",false: "white"}}
                                   value = {myEvent}/>
                                 </View>
                                 <View style = {styles.container}>
@@ -114,6 +116,7 @@ export function FiltersPage() {
                                   <Switch
                                   style = {styles.switch}
                                   onValueChange={toggleopenReg}
+                                  trackColor = {{true: "blue",false: "white"}}
                                   value = {openReg}
                                   />
                                 </View>
@@ -374,9 +377,9 @@ export function FiltersPage() {
                           doFromDate: fromDate
                         }
 
+                        let ev = props.navigator.route.params;
                         
                         
-
                         console.log(userPrefs);
                       }
                       }
