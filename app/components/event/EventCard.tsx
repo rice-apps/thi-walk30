@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Image } from 'react-native';
 import { EventData } from "../../types/EventData";
 
-const EventCard = (props: { eventData: EventData }) => {
+const EventCard = (props: { eventData: EventData, onPress: () => void }) => {
     const styles = StyleSheet.create({
         eventCard: {
             display: "flex",
@@ -12,7 +12,8 @@ const EventCard = (props: { eventData: EventData }) => {
             flexDirection: 'row',
             gap: 10,
             alignItems: 'center',
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            borderRadius: 5,
         },
 
         eventImage: {
@@ -45,21 +46,33 @@ const EventCard = (props: { eventData: EventData }) => {
         }
     });
 
+    let date = new Date(props.eventData.date);
+    let dateString = date.toLocaleDateString(undefined, { month: "numeric", day: "numeric" });
+    let timeString = date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: true});
+
+    let endTime = new Date(date);
+    endTime.setMinutes(endTime.getMinutes() + props.eventData.duration);
+    timeString += " - " + endTime.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: true});
 
     return (
-        <Card style={{margin : 10}}>
+        <Card style={{
+            margin: 10,
+            backgroundColor: 'white',
+            borderRadius: 5,
+        }}
+        onPress={props.onPress}>
             <Card.Content style={styles.eventCard}>
-                <Image style={styles.eventImage} source={{ uri: props.eventData.featureImage}}/>
+                <Image style={styles.eventImage} source={{ uri: props.eventData.img}}/>
                 <View style={styles.eventDetails}>
                     <Text style={styles.eventTitle} numberOfLines={1} >
                         {props.eventData.title}
                     </Text>
                     <View style={styles.eventDateTime}>
                         <Text style={styles.eventLogistics}>
-                            {props.eventData.startTime} - {props.eventData.endTime}
+                            {timeString}
                         </Text>
                         <Text style={styles.eventLogistics}>
-                            {props.eventData.date.toLocaleDateString(undefined, {month: "numeric", day: "numeric"})}
+                            {dateString}
                         </Text>
                     </View>
                 </View>    

@@ -1,12 +1,12 @@
 export interface EventData {
-    id: string, // mongodb.ObjectId()
+    _id: string,
+    organization: string,
     title: string,
     description: string,
-    featureImage: string,
+    img: string,
     link: string,
-    date: Date,
-    startTime: string,
-    endTime: string,
+    date: Date | string,
+    duration: number,
     location: {
         latitude: number,
         longitude: number,
