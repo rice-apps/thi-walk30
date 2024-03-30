@@ -20,6 +20,17 @@ const SearchBar = ({ value, onChangeText }) => {
     );
 };
 
+function getCurrentDateFormatted(): string {
+    const currentDate = new Date();
+  
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+}
+  
+
 export function EventCalendar() {
     const [searchQuery, setSearchQuery] = useState('');
     const [eventData, setEventData] = useState([
@@ -109,7 +120,7 @@ export function EventCalendar() {
                 </View>
                 <Calendar
                     // Initial date to set the calendar to a specific month
-                    current={'2024-02-03'}
+                    current={getCurrentDateFormatted()}
                     // Handler which gets executed on day press
                     onDayPress={onDayPress}
                     // Customize the appearance of the calendar
