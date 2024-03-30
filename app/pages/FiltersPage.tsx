@@ -25,7 +25,9 @@ export function FiltersPage() {
         
 
         const styles = StyleSheet.create({
-                
+
+
+             
                 fullPage: {
                   backgroundColor: "#F0F8FF",
                 },
@@ -35,7 +37,8 @@ export function FiltersPage() {
                 },
                 MainText: {
                   fontSize: 25,
-                  marginBottom: 10,       
+                  marginBottom: 10, 
+                  color: "#004260",      
           },
 
 
@@ -64,6 +67,7 @@ export function FiltersPage() {
                           borderRadius:10,
                   },
                   colorText: {
+                    color: "#004260",
                     fontSize: 20,
                     marginBottom: 10,
                     marginTop: 10,
@@ -146,20 +150,39 @@ export function FiltersPage() {
               flexDirection: "row",
               justifyContent: "space-between"
             },
+            pressableStyle: {
+              backgroundColor: participantsSort ? "rgba(255, 0, 0, 0.8)" : "rgba(128, 128, 128, 0.8)",
+              borderRadius: 10,
+              padding: 10,
+              margin: 5,
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            },
+            textBox: {
+              fontSize:16,
+              color: "#004260",   
+
+            }
           })
 
           return (
             <View style = {styles.parentBox}>
               <Text style={styles.title}> Sort by </Text>
               <View style = {styles.sortOptionsBox}>
-                <Pressable onPress={changeDateSort} style={{ backgroundColor: dateSort ? "red" : "gray", borderRadius: 10 }}>
-                  <Text style={{ fontSize: 16 }}>Date</Text>
+                <Pressable onPress={changeDateSort} style={styles.pressableStyle}>
+                  <Text style={styles.textBox}>Date</Text>
                 </Pressable> 
-                <Pressable onPress={changeDistanceSort} style={{ backgroundColor: distanceSort ? "red" : "gray", borderRadius: 10 }}>
-                  <Text style={{ fontSize: 16 }}>Distance</Text>
+                <Pressable onPress={changeDistanceSort} style={styles.pressableStyle}>
+                  <Text style={styles.textBox}>Distance</Text>
                 </Pressable> 
-                <Pressable onPress={changeParticipantsSort} style={{ backgroundColor: participantsSort ? "red" : "gray", borderRadius: 10 }}>
-                  <Text style={{ fontSize: 16 }}>Participants</Text>
+                <Pressable onPress={changeParticipantsSort} style={styles.pressableStyle}>
+                  <Text style={styles.textBox}>Participants</Text>
                 </Pressable> 
               </View>
             </View>
@@ -211,20 +234,20 @@ export function FiltersPage() {
 
           return (
             <View style = {styles.parentDateBox}>
-              <Text>Date</Text>
-              <View>
+              <Text style = {styles.title}>Date</Text>
+              <View style = {{flexDirection: 'row'}}>
                 <Text>From</Text>
-                      <DatePicker
-        
-        selected={fromDate}
-        onChange={handleDateFromChange}
-      /> 
-      <Text>to</Text>
-      <DatePicker
+                <DatePicker
+            
+                    selected={fromDate}
+                    onChange={handleDateFromChange}
+                  /> 
+                <Text>to</Text>
+                <DatePicker
        
-        selected={toDate}
-        onChange={handleDateToChange}
-      />  
+                  selected={toDate}
+                  onChange={handleDateToChange}
+                />  
               </View>
             </View>
           )
@@ -245,6 +268,7 @@ export function FiltersPage() {
             },
             text : {
               marginTop:10,
+              fontSize: 15,
             }
 
           })
