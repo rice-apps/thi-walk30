@@ -9,16 +9,26 @@ module.exports = router;
 
 router.post("/create", async (req, res, next) => {
   try {
-    const organization = await Organization.findById(req.body.organization._id);
+    const organization = await Organization.findById(req.body.organization);
     if (!organization) throw new Error("No such organization");
     const data = new Resource({
       title: req.body.title,
       link: req.body.link,
-      featured_img: req.body.featured_img,
-      organization: organization,
+      img: req.body.img,
+      organization: organization._id,
     });
     const dataToSave = await data.save();
     res.status(200).json(dataToSave);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+router.get("/recent", async (req, res) => {
+  try {
+    // TODO: Add pagination for recent resources. Right now, returns all events.
+    const resources = await Resource.find();
+    res.json(resources);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
