@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {ScrollView, Text, View, StyleSheet, Switch, TextInput, Button, Pressable} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { NativeSyntheticEvent, TextInputKeyPressEventData  } from 'react-native';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+
 
 
 export function FiltersPage() {
         // filters box below
+        const [globalsearchTerm, setGlobalSearchTerm] = useState("");
         const [myEvent, setMyEvent] = useState(false);
         const [openReg, setOpenReg] = useState(false);
 
@@ -23,7 +25,7 @@ export function FiltersPage() {
         const [distanceAway, setDistanceAway] = useState("0");
         const [distanceFrom, setDistanceFrom] = useState("current location");
         
-
+        
         const styles = StyleSheet.create({
 
 
@@ -151,18 +153,11 @@ export function FiltersPage() {
               justifyContent: "space-between"
             },
             pressableStyle: {
-              backgroundColor: participantsSort ? "rgba(255, 0, 0, 0.8)" : "rgba(128, 128, 128, 0.8)",
+              
               borderRadius: 10,
               padding: 10,
               margin: 5,
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
+              
             },
             textBox: {
               fontSize:16,
@@ -175,14 +170,14 @@ export function FiltersPage() {
             <View style = {styles.parentBox}>
               <Text style={styles.title}> Sort by </Text>
               <View style = {styles.sortOptionsBox}>
-                <Pressable onPress={changeDateSort} style={styles.pressableStyle}>
-                  <Text style={styles.textBox}>Date</Text>
+              <Pressable onPress={changeDateSort} style={{ ...styles.pressableStyle, backgroundColor:dateSort ? "#004260" : "rgba(128, 128, 128, 0.8)"}}>
+                  <Text style={{...styles.textBox, color: dateSort ? "white" : "#004260"}}>Date</Text>
                 </Pressable> 
-                <Pressable onPress={changeDistanceSort} style={styles.pressableStyle}>
-                  <Text style={styles.textBox}>Distance</Text>
+                <Pressable onPress={changeDistanceSort} style={{ ...styles.pressableStyle, backgroundColor: distanceSort ? "#004260" : "rgba(128, 128, 128, 0.8)"}}>
+                  <Text style={{...styles.textBox, color: distanceSort ? "white" : "#004260"}}>Distance</Text>
                 </Pressable> 
-                <Pressable onPress={changeParticipantsSort} style={styles.pressableStyle}>
-                  <Text style={styles.textBox}>Participants</Text>
+                <Pressable onPress={changeParticipantsSort} style={{ ...styles.pressableStyle, backgroundColor: participantsSort ? "#004260" : "rgba(128, 128, 128, 0.8)"}}>
+                  <Text style={{...styles.textBox, color: participantsSort ? "white" : "#004260"}}>Participants</Text>
                 </Pressable> 
               </View>
             </View>
@@ -216,16 +211,16 @@ export function FiltersPage() {
               justifyContent: "space-between"
             }
           })
-          const handleDateFromChange = (date: Date | null) => {
+          const handleDateFromChange = (event: any, date: Date | undefined) => {
             if (date) {
-              setFromDate(date);
-          
-              
+                
+                setFromDate(date);
             }
-          };
+        };
 
-          const handleDateToChange = (date: Date | null) => {
+          const handleDateToChange = (event: any, date: Date | undefined) => {
             if (date) {
+             
               setToDate(date);
               
             }
@@ -237,17 +232,21 @@ export function FiltersPage() {
               <Text style = {styles.title}>Date</Text>
               <View style = {{flexDirection: 'row'}}>
                 <Text>From</Text>
-                <DatePicker
-            
-                    selected={fromDate}
-                    onChange={handleDateFromChange}
-                  /> 
+                <RNDateTimePicker
+          value={fromDate}
+          mode="date"
+          onChange={handleDateFromChange}
+        
+          minimumDate={new Date()}
+          />
                 <Text>to</Text>
-                <DatePicker
-       
-                  selected={toDate}
-                  onChange={handleDateToChange}
-                />  
+                <RNDateTimePicker
+          value={toDate}
+          mode="date"
+          onChange={handleDateToChange}
+        
+          minimumDate={new Date()}
+          />
               </View>
             </View>
           )
@@ -310,9 +309,13 @@ export function FiltersPage() {
             paddingVertical: 10,
           },
         })
+        
 
-          
           const [searchTerm, setSearchTerm] = useState("");
+          useEffect(() => {
+            setGlobalSearchTerm(searchTerm);
+          }, [searchTerm]);
+          
           return (
                   <View>
                     <View style = {styles.container}>
