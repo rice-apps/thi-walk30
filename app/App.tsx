@@ -13,6 +13,7 @@ import { EventPage } from "./pages/EventPage";
 import { Button } from "react-native-paper";
 import { EventData } from "./types/EventData";
 import ProfilePage from "./pages/ProfilePage";
+import { CreateEventPage } from "./pages/CreateEventPage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -61,7 +62,7 @@ function Tabs() {
         }} />
       <Tab.Screen
         name="Updates"
-        component={Home}
+        component={CreateEventPage}
         options={{
           tabBarIcon: ({ color }) => TabIcon("bell", color)
         }} />
