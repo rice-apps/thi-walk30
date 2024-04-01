@@ -26,7 +26,7 @@ export default function UploadOrganizationButton() {
   const uploadImage = async () => {
     console.log("Pressed Upload Image button");
   }
-  
+
   return (
         <View>
             <TouchableOpacity onPress={addImage}>
@@ -37,7 +37,7 @@ export default function UploadOrganizationButton() {
                     {
                     !image && <AntDesign name="camerao" size={image ? 20 : 50} color="blue" />
                     }
-                    <Text>{image ? 'Change' : 'Upload An'} Event Image</Text>
+                    <Text>{image ? 'Change' : 'Upload An'} Organization Photo</Text>
                 </View>
             </TouchableOpacity>
             <View style = {imageUploaderStyles.button_row}>
@@ -65,13 +65,14 @@ const imageUploaderStyles=StyleSheet.create({
         display:'flex',
         alignItems:"center",
         justifyContent:'center',
-        verticalAlign: 'middle'
+        verticalAlign: 'middle',
+        borderSize: 10
     },
     button: {
       width: 153.01,
       height: 39.49,
       borderRadius: 5,
-      backgroundColor: "#006983",
+      backgroundColor: "rgb(75, 121, 192)",
     },
     button_row: {
       flexDirection: 'row',
@@ -84,6 +85,7 @@ const imageUploaderStyles=StyleSheet.create({
       textAlign: 'center',
       alignItems: 'center',
       flexDirection: 'row',
-      marginTop: 10
+      marginTop: 10,
+      fontSize: 17
     },
 })

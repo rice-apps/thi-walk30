@@ -21,11 +21,13 @@ function OrganizationRegistration() {
         <ScrollView>
             <View style = {styles.container}>
                 {/* Title*/}
-                <View style = {{marginTop: 20}}>
+                <View style = {{marginTop: 10}}>
                     <Text style = {styles.title} >Register your organization</Text>
                 </View>
                 {/*Form to upload image*/}
+                <View style = {{marginBottom: 10}}>
                     <UploadOrganizationButton/>
+                </View>
                 {/* Forms for organization metadata */}
                 <View>
                     {/* Organization Name */}
@@ -39,7 +41,7 @@ function OrganizationRegistration() {
                                     placeholderTextColor="#00426e"
                                     autoCapitalize="none"
                                 />
-                            <Icon name="user" size={24} color="black" style = {{marginRight: 10, marginTop: 5}}/>
+                            <Icon name="user" size={24} color="#00426D" style = {{marginRight: 10, marginTop: 5}}/>
                         </View>
                     </View>
                     {/* Phone Number */}
@@ -53,7 +55,7 @@ function OrganizationRegistration() {
                                     placeholderTextColor="#00426e"
                                     autoCapitalize="none"
                                 />
-                            <Icon name="phone" size={24} color="black" style = {{marginRight: 10, marginTop: 5}}/>
+                            <Icon name="phone" size={24} color="#00426D" style = {{marginRight: 10, marginTop: 5}}/>
                         </View>
                     </View>
                     <View style={styles.block}>
@@ -66,14 +68,14 @@ function OrganizationRegistration() {
                                     placeholderTextColor="#00426e"
                                     autoCapitalize="none"
                                 />
-                            <Icon name="envelope" size={24} color="black" style = {{marginRight: 10, marginTop: 5}}/>
+                            <Icon name="envelope" size={24} color="#00426D" style = {{marginRight: 10, marginTop: 5}}/>
                         </View>
                     </View>
                 </View>
                 {/* Register button */}
                 <View style = {{flex:1, justifyContent: 'center', alignItems: "center"}}>
                     <Pressable style={styles.submit} onPress = {registerOrganization}>
-                            <Text style = {styles.text}>Submit</Text>
+                            <Text style = {styles.text}>Register</Text>
                     </Pressable>
                 </View>
             </View>
@@ -102,12 +104,13 @@ const styles = StyleSheet.create({
     input: {
         padding: 10,
         borderRadius: 5,
+        opacity: .7
     },
     titleText: {
         color: "#00426e",
         marginBottom: 10,
         marginTop: 10,
-        fontSize: 17,
+        fontSize: 20,
         fontWeight: "500",
       },
     submit: {
@@ -115,7 +118,9 @@ const styles = StyleSheet.create({
         height: 44,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#006983",
+        backgroundColor: "rgb(25, 65, 106)",
+        borderRadius: 5,
+        marginTop: 30,
     },
     text: {
         color: 'white',
@@ -123,6 +128,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignItems: 'center',
         flexDirection: 'row',
+        fontSize: 17
       },
 });
 
