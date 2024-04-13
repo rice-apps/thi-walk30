@@ -2,7 +2,8 @@ import * as Location from 'expo-location';
 import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import MARKERICON from "../assets/images/event-icon.png";
+import location_icon from "../assets/images/event-icon.png";
+import selected_location_icon from "../assets/images/marker-icon-selected.png";
 import { EventData } from "../types/EventData";
 import ShortEventCard from './ShortEventCard';
 
@@ -93,12 +94,13 @@ let dummy_event = [
   },
 
 ]
-export default function MapDisplay(props: {container: object}) {
+export default function MapDisplay(props: {container: object, navigator: any}) {
   const mapRef = useRef<MapView>();
   const [eventData, setEventData] = useState<EventData[]>([]);
   const [selectedEvent, selectEvent] = useState<EventData>(dummy_event[0]);
   const [location, setLocation] = useState();
-  const [heightVal, setHeight] = useState("0%");
+  const [heightVal, setEventCardHeight] = useState("0%");
+  const [eventClicked, clickEvent] = useState(false);
     
   useEffect(() => {
     const fetchEventData = async () => {
@@ -140,7 +142,10 @@ export default function MapDisplay(props: {container: object}) {
         provider={PROVIDER_GOOGLE} 
         initialRegion={location}
         ref={mapRef}
-        onPress={() => {setHeight("0%")}}>
+        onPress={() => {
+          setEventCardHeight("0%")
+          clickEvent(false)
+        }}>
           {dummy_event.map((event,index) => {
             return (
               <Marker 
@@ -148,18 +153,21 @@ export default function MapDisplay(props: {container: object}) {
                 coordinate={{latitude: event.location.latitude, longitude: event.location.longitude}}
                 onPress={(e) => {
                   selectEvent(event);
-                  setHeight("40%");
+                  setEventCardHeight("40%");
                   e.stopPropagation();
+                  clickEvent(true)
                   }}>
-                  <Image source={MARKERICON}/>
+                  <Image source={(eventClicked && dummy_event.indexOf(selectedEvent) == index) ?  selected_location_icon : location_icon }/>
               </Marker>
             )
           })}
-
         </MapView>
+        
         <ShortEventCard 
-          container={{...styles.callout_container, height: heightVal}} 
-          eventData={selectedEvent}></ShortEventCard>
+          container={{...styles.callout_container, height: heightVal}}
+          navigator={props.navigator}
+          eventData={selectedEvent}>
+        </ShortEventCard>
     </View>
 
 

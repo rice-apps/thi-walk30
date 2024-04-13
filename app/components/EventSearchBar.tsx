@@ -1,8 +1,10 @@
+import { useNavigation } from '@react-navigation/native';
 import { SearchBar } from "@rneui/themed";
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function EventSearchBar(props: {container: object}) {
+    const navigation = useNavigation()
     return(
         <View style={props.container}>
             <SearchBar
@@ -14,9 +16,9 @@ export default function EventSearchBar(props: {container: object}) {
                 showCancel={false}>
             </SearchBar>
             <View style={styles.eventViewContainer}>
-                <View style={styles.displayMode}><Text style={styles.textMode}>Calendar</Text></View>
-                <View style={styles.displayMode}><Text style={styles.textMode}>List</Text></View>
-                <View style={styles.displayMode}><Text style={styles.textMode}>Map</Text></View>
+                <Pressable style={styles.displayMode} onPress={() => {}}><Text style={styles.textMode}>Calendar</Text></Pressable>
+                <Pressable style={styles.displayMode} onPress={() => {}}><Text style={styles.textMode}>List</Text></Pressable>
+                <Pressable style={styles.displayMode} onPress={() => {}}><Text style={styles.textMode}>Map</Text></Pressable>
             </View>
         </View>
     )
@@ -57,5 +59,13 @@ const styles = StyleSheet.create({
         color: "#D9D9D9",
         
 
-    }
+    },
+    tabNavigationContainer: {
+        width: '100%',
+        height: "9%",
+        flexDirection: "row",
+        backgroundColor: "white",
+        justifyContent: "space-around",
+        marginHorizontal: 10,
+      }
 });

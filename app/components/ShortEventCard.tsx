@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import VECTORICON from "../assets/images/Vector.png";
 import { EventData } from '../types/EventData';
@@ -6,16 +6,14 @@ import { EventData } from '../types/EventData';
 
 
 
-export default function ShortEventCard(props: { container: object; eventData: EventData}) {
-    const [eventData, setEventData] = useState<string[]>([]);
+export default function ShortEventCard(props: { container: object; eventData: EventData; navigator: any}) {
     const {width, height} = Dimensions.get("window");
     const date = new Date(props.eventData.date)
 
     return (
         <ScrollView 
             style={{...props.container}}
-            contentContainerStyle={{alignItems: "center"}}
-            onResponderRelease={() => {navigation.navigate("EventCard")}}>
+            contentContainerStyle={{alignItems: "center"}}>
             <Image source={{url: props.eventData.featureImage}} style={styles.img_style}></Image>
             
             <View 
@@ -35,7 +33,14 @@ export default function ShortEventCard(props: { container: object; eventData: Ev
                 </View>
                 <Text style={styles.h2}>{date.getMonth()}/{date.getDate()}</Text>
             </View>
-            <Pressable style={styles.btn_style}>
+            <Pressable style={styles.btn_style}
+                onPress={() => {
+                    props.navigator.navigation.navigate("EventCard", {
+                        container: props.container,
+                        eventData: props.eventData,
+                        navigator: props.navigator
+                    });
+                }}>
                 <Text style={{color: "#464646", fontWeight: "400", fontSize: 18}}>Register</Text>
             </Pressable>
             <View style={{height: 50}}></View>

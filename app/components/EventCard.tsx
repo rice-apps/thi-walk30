@@ -2,30 +2,29 @@ import React, { useState } from 'react';
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import BACK_BTN from "../assets/images/back_btn.png";
 import CHALLENGE_ICON from "../assets/images/challenge_icon.png";
-import { EventData } from '../types/EventData';
 
 const window = Dimensions.get("window");
 
 
-export default function EventCard(props: {container: object, eventData: EventData}) {
+export default function EventCard(props: {route: any}) {
     const [challengeData, setEventData] = useState<string[]>([]);
 
     return (
-        <ScrollView contentContainerStyle={props.container}>
-            <Image style={styles.img_container} source={{url: props.eventData.featureImage}}></Image>
-            <Pressable style={styles.back_btn} onPress={() => {}}>
+        <ScrollView contentContainerStyle={styles.container}>
+            <Image style={styles.img_container} source={{url: props.route.params.eventData.featureImage}}></Image>
+            <Pressable style={styles.back_btn} onPress={() => {props.route.params.navigator.navigation.navigate("Tabs")}}>
                 <Image source={BACK_BTN}></Image>
             </Pressable>
 
             <View style={styles.description_container}>
-                <Text style={styles.titleText}>{props.eventData.title}</Text>
+                <Text style={styles.titleText}>{props.route.params.eventData.title}</Text>
                 <Text style={{...styles.baseText, marginVertical: 10, color: "#3B7ECB"}}>Hosted by <Text style={{fontWeight:"700"}}>Rice University</Text></Text>
                 
                 <View style={styles.information_container}>
                     <View>
-                        <Text style={styles.baseText}>{(new Date(props.eventData.date)).toLocaleDateString()}</Text>
+                        <Text style={styles.baseText}>{(new Date(props.route.params.eventData.date)).toLocaleDateString()}</Text>
                         <Text style={{...styles.baseText, marginVertical: 3}}>Rice University</Text>
-                        <Text style={styles.baseText}>{props.eventData.link}</Text>
+                        <Text style={styles.baseText}>{props.route.params.eventData.link}</Text>
                     </View>
                     <Pressable style={styles.registerBtn}>
                         <Text style={{...styles.btnText, color: "white"}}>Register</Text>
@@ -65,12 +64,16 @@ export default function EventCard(props: {container: object, eventData: EventDat
 
             <View style={styles.event_description_container}>
                 <Text style={styles.headerText}>Event Description</Text>
-                <Text style={styles.baseText}>{props.eventData.description}</Text>
+                <Text style={styles.baseText}>{props.route.params.description}</Text>
             </View>
         </ScrollView>
     );
 }
 const styles = StyleSheet.create({
+    container: {
+        alignContent: "center",
+        alignItems: "center"
+    },
     img_container: {
         height: window.height * 0.23,
         width: window.width
