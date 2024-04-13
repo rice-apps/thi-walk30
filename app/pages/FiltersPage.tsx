@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {ScrollView, Text, View, StyleSheet, Switch, TextInput, Button, Pressable, TouchableOpacity} from "react-native";
+import {ScrollView, Text, View, StyleSheet, Switch, TextInput, Button, Pressable, TouchableOpacity, FlatList} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { NativeSyntheticEvent, TextInputKeyPressEventData  } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -7,9 +7,10 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 
 
+
 export function FiltersPage(props: {navigator: any}) {
         // filters box below
-        const [globalsearchTerm, setGlobalSearchTerm] = useState("");
+        const [globalsearchTerm, setGlobalSearchTerm] = useState('');
         const [myEvent, setMyEvent] = useState(false);
         const [openReg, setOpenReg] = useState(false);
 
@@ -245,18 +246,23 @@ export function FiltersPage(props: {navigator: any}) {
             }
 
           })
+          
+          const [localDistanceAway, setLocalDistanceAway] = useState('');
           return (
           <View style = {styles.mainView} >
             <TextInput
-                placeholder="0"
-                value={distanceAway}
-                onChangeText={(distance)=>setDistanceAway(distance)}
+                placeholder= "0"
+                
+                onChangeText={(distance)=>setLocalDistanceAway(distance)}
+                onEndEditing={(event) => setDistanceAway(event.nativeEvent.text)} 
+                value={localDistanceAway}     
                 style = {styles.textInput}
+                
             />
             <Text style = {styles.text}>  miles away from current location</Text>
           </View>
         )}
-
+        
         const OrgFilter = () => {
           const styles = StyleSheet.create({
           container: {
@@ -281,11 +287,8 @@ export function FiltersPage(props: {navigator: any}) {
             paddingVertical: 10,
           },
         })
-          const [searchTerm, setSearchTerm] = useState("");
-          useEffect(() => {
-            setGlobalSearchTerm(searchTerm);
-          }, [searchTerm]);
-          
+          const [searchTerm, setSearchTerm] = useState('');
+      
           return (
                   <View>
                     <View style = {styles.container}>
@@ -293,7 +296,8 @@ export function FiltersPage(props: {navigator: any}) {
                       <TextInput
                         placeholder="Search for organizer"
                         value={searchTerm}
-                        onChangeText={(text) => setSearchTerm(text)}                       
+                        onChangeText={(text) => setSearchTerm(text)}  
+                        onEndEditing={(event) => setGlobalSearchTerm(event.nativeEvent.text)}                   
                         style={styles.input}
                       />
                     </View>
