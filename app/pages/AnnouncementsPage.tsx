@@ -12,8 +12,8 @@ export function AnnouncementsPage(props: { navigator: any }) {
   const [announcementData, setAnnouncementData] = useState<AnnouncementData[]>([]);
   const [nameMapping, setNameMapping] = useState(new Map())
   const [displayToggle, setDisplayToggle] = useState<DisplayMode>("none");
-  const ANNOUNCEMENTS_ROUTE = "http://[Server Host IP]:3000/api/announcement/"
-  const ORGANIZATION_ROUTE = "http://[Server Host IP]:3000/api/organization/"
+  const ANNOUNCEMENTS_ROUTE = "http://localhost:3000/api/announcement/"
+  const ORGANIZATION_ROUTE = "http://localhost:3000/api/organization/"
 
   const styles = StyleSheet.create({
     container: {
