@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ResourceList from "../components/resource/ResourceList";
 import { ResourceData } from "../types/ResourceData";
 import { Searchbar } from "react-native-paper";
-import { ScrollView, Text, StyleSheet, SafeAreaView, View } from "react-native";
+import { StyleSheet, SafeAreaView, View } from "react-native";
 
 // get from backend ?
 const resourceList: ResourceData[] = [];

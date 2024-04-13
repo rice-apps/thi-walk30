@@ -1,8 +1,10 @@
+import { OrganizationData } from "./OrganizationData";
+
 export interface AnnouncementData {
-        id: string
-        authorPicture: string
-        type: string
-        organization: string
-        description: string
-        date: Date
-    }
+    _id: string,
+    organization: string,
+    title: string,
+    description: string,
+    links: URL[],
+    featuredImage: string,
+}
