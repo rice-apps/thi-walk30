@@ -141,7 +141,7 @@ export default function EventsPage(props: { navigator: any }) {
   const [eventData, setEventData] = useState<EventData[]>([]);
   const [filteredEvents, setFilteredEvents] = useState(eventData);
 
-  const EVENTS_ROUTE = "http://localhost:3000/api/event/recent";
+  const EVENTS_ROUTE = "http://[Server Host IP]:3000/api/event/recent";
 
   useEffect(() => {
     const fetchEventData = async () => {

@@ -64,7 +64,7 @@ export function EventPage(props: { navigator: any, event?: EventData }) {
   });
 
   props.navigator.navigation.setOptions({ title: event.title });
-  fetch(`http://localhost:3000/api/organization/${event.organization}`)
+  fetch(`http://[Server Host IP]:3000/api/organization/${event.organization}`)
     .then((res) => res.json())
     .then((data) => setOrgName(data.name));
 

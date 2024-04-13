@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, Button } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function UploadImage() {
+export default function UploadImage(props: {onChange: any}) {
   const [image, setImage] = useState('');
   const addImage = async () => {
     let _image = await ImagePicker.launchImageLibraryAsync({
@@ -13,20 +14,31 @@ export default function UploadImage() {
       quality: 1,
     });
     if (_image.canceled === false) {
+        props.onChange(_image.assets[0]['uri'])
         setImage(_image.assets[0]['uri']);
     }
   };
   return (
         <View>
             <TouchableOpacity onPress={addImage}>
-                <View style={imageUploaderStyles.container}>
+                <View>
                     {
-                    image  && <Image source={{ uri: image }} style={{ width: 300, height: 200 }} />
-                    } 
+                    image && (
+                        <View>
+                            <Image source={{ uri: image }} style={imageUploaderStyles.container} />
+                            <Button title='Delete Image' onPress={() => {
+                                props.onChange('');
+                                setImage('');
+                            }}/>
+                        </View>
+                    )} 
                     {
-                    !image && <AntDesign name="camerao" size={image ? 20 : 50} color="blue" />
-                    }
-                    <Text>{image ? 'Change' : 'Upload An'} Event Image</Text>
+                    !image && (
+                        <View style={imageUploaderStyles.container}>
+                            <AntDesign name="camerao" size={70} color='#103158' />
+                            <Text style={imageUploaderStyles.text}>Upload event image</Text>
+                        </View>
+                    )}
                 </View>
             </TouchableOpacity>
         </View>
@@ -34,20 +46,25 @@ export default function UploadImage() {
 }
 const imageUploaderStyles=StyleSheet.create({
     container:{
-        elevation:2,
-        height:220,
-        width:300,
-        backgroundColor:'#efefef',
-        position:'relative',
-        borderRadius:15,
-        overflow:'hidden',
+        width:330,
+        height: 187.25,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#4C4D4F',
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: '10%',
+        marginTop: 'auto',
         marginBottom: 'auto',
-        display:'flex',
+        backgroundColor:'white',
         alignItems:"center",
-        justifyContent:'center',
-        verticalAlign: 'middle'
+        justifyContent: 'center'
     },
+    text: {
+        paddingTop: 5,
+        fontSize: 15,
+        color: '#103158'
+    },
+    deleteButton: {
+
+    }
 })
