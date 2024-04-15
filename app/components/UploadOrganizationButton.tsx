@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { Pressable } from 'react-native';
 import Icon from '@expo/vector-icons/FontAwesome';
 
-export default function UploadOrganizationButton() {
-  const [image, setImage] = useState('');
+interface UploadOrganizationButtonProps {
+  image: string;
+  setImage: Dispatch<SetStateAction<string>>;
+}
+
+export default function UploadOrganizationButton({ image, setImage }: UploadOrganizationButtonProps) {
+  //image uri is the image within this component, image is the image within the parent that gets submitted to the backend
+  const [imageUri, setImageUri] = useState<string>(image);
   const addImage = async () => {
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -15,15 +21,18 @@ export default function UploadOrganizationButton() {
       quality: 1,
     });
     if (_image.canceled === false) {
-        setImage(_image.assets[0]['uri']);
+      setImage(_image.assets[0]['uri']);
+      setImageUri(_image.assets[0]['uri']);
     }
   };
 
   const clearImage = () => {
     setImage('');
+    setImageUri('');
   }
 
   const uploadImage = async () => {
+    //pass organization registration component
     console.log("Pressed Upload Image button");
   }
 
@@ -32,12 +41,12 @@ export default function UploadOrganizationButton() {
             <TouchableOpacity onPress={addImage}>
                 <View style={imageUploaderStyles.container}>
                     {
-                    image  && <Image source={{ uri: image }} style={{ width: 300, height: 200 }} />
+                    imageUri  && <Image source={{ uri: imageUri }} style={{ width: 300, height: 200 }} />
                     } 
                     {
-                    !image && <AntDesign name="camerao" size={image ? 20 : 50} color="blue" />
+                    !imageUri && <AntDesign name="camerao" size={imageUri ? 20 : 50} color="blue" />
                     }
-                    <Text>{image ? 'Change' : 'Upload An'} Organization Photo</Text>
+                    <Text>{imageUri ? 'Change' : 'Upload An'} Organization Photo</Text>
                 </View>
             </TouchableOpacity>
             <View style = {imageUploaderStyles.button_row}>
@@ -56,7 +65,6 @@ const imageUploaderStyles=StyleSheet.create({
         width:300,
         backgroundColor:'#efefef',
         position:'relative',
-        borderRadius:15,
         overflow:'hidden',
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -66,7 +74,9 @@ const imageUploaderStyles=StyleSheet.create({
         alignItems:"center",
         justifyContent:'center',
         verticalAlign: 'middle',
-        borderSize: 10
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 8
     },
     button: {
       width: 153.01,
@@ -78,6 +88,7 @@ const imageUploaderStyles=StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
+      marginTop: 10
     },
     text: {
       color: 'white',

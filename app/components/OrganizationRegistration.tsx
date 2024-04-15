@@ -4,18 +4,55 @@ import { StyleSheet } from 'react-native';
 import Icon from '@expo/vector-icons/FontAwesome';
 import UploadOrganizationButton from './UploadOrganizationButton';
 
-const uploadImage = () => {
-    console.log("Pressed Upload Image button");
-}
+//TODO change this to actual server url when that exists
+const SERVER_URL = 'http://localhost:3000';
 
-const registerOrganization = () => {
-    console.log("Pressed Register Organization button");
-}
+const createOrganization = async (name: string, img: string) => {
+    if (!name || !img) {
+        console.log('Please fill in all fields');
+        return;
+    }
+
+    try {
+      const response = await fetch(SERVER_URL + "/api/organization/create", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, img }),
+      });
+  
+      if (!response.ok) {
+        console.log("Error: ", response.statusText);
+      }
+  
+      const data = await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
 function OrganizationRegistration() {
     const [org_name, setOrgName] = useState("");
     const [org_phone, setOrgPhone] = useState("");
     const [org_email, setOrgEmail] = useState("");
+    const [image, setImage] = useState<string>('');
+    const [register, setRegister] = useState(false);
+
+    let registerOrganization = (org_name: string, org_phone: string, org_email: string, image: string) => {
+        console.log("Pressed Register Organization button");
+        console.log("Organization Name: " + org_name);
+        console.log("Organization Phone: " + org_phone);
+        console.log("Organization Email: " + org_email);
+        console.log("Image: " + image);
+    }
+
+    useEffect(() => {
+        if(register) {
+            createOrganization(org_name, image);
+        }
+        setRegister(false);
+      }, [register]);
 
     return (
         <ScrollView>
@@ -26,7 +63,7 @@ function OrganizationRegistration() {
                 </View>
                 {/*Form to upload image*/}
                 <View style = {{marginBottom: 10}}>
-                    <UploadOrganizationButton/>
+                    <UploadOrganizationButton image={image} setImage={setImage} />
                 </View>
                 {/* Forms for organization metadata */}
                 <View>
@@ -36,7 +73,9 @@ function OrganizationRegistration() {
                         <View style = {{flex: 1, flexDirection: 'row', justifyContent: "space-between", borderWidth: 1, borderRadius: 5}}>
                                 <TextInput
                                     style={styles.input}
-                                    onChangeText={(value) => setOrgName(value)}
+                                    onChangeText={(value) => {
+                                        setOrgName(value);
+                                    }}
                                     placeholder="Name"
                                     placeholderTextColor="#00426e"
                                     autoCapitalize="none"
@@ -74,7 +113,7 @@ function OrganizationRegistration() {
                 </View>
                 {/* Register button */}
                 <View style = {{flex:1, justifyContent: 'center', alignItems: "center"}}>
-                    <Pressable style={styles.submit} onPress = {registerOrganization}>
+                    <Pressable style={styles.submit} onPress = {() => setRegister(true)}>
                             <Text style = {styles.text}>Register</Text>
                     </Pressable>
                 </View>
@@ -114,7 +153,7 @@ const styles = StyleSheet.create({
         fontWeight: "500",
       },
     submit: {
-        width: 138.38,
+        width: 158.38,
         height: 44,
         justifyContent: 'center',
         alignItems: 'center',
