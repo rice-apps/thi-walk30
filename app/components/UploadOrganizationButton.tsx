@@ -30,12 +30,7 @@ export default function UploadOrganizationButton({ image, setImage }: UploadOrga
     setImage('');
     setImageUri('');
   }
-
-  const uploadImage = async () => {
-    //pass organization registration component
-    console.log("Pressed Upload Image button");
-  }
-
+  
   return (
         <View>
             <TouchableOpacity onPress={addImage}>
@@ -50,10 +45,7 @@ export default function UploadOrganizationButton({ image, setImage }: UploadOrga
                 </View>
             </TouchableOpacity>
             <View style = {imageUploaderStyles.button_row}>
-              <Pressable onPress={uploadImage} style = {imageUploaderStyles.button}>
-                      <Text style = {imageUploaderStyles.text}>Upload Image</Text>
-              </Pressable>
-              <Icon name="trash" size={24} color="black" onPress={clearImage} style = {{marginLeft: 10}}/>
+              <Icon name="trash" size={24} color="black" onPress={clearImage}/>
             </View>
         </View>
   );

@@ -7,10 +7,11 @@ import UploadOrganizationButton from './UploadOrganizationButton';
 //TODO change this to actual server url when that exists
 const SERVER_URL = 'http://localhost:3000';
 
-const createOrganization = async (name: string, img: string) => {
-    if (!name || !img) {
+const createOrganization = async (name: string, phone_number: string, email: string, img: string) => {
+    if (!name || !phone_number || !email || !img) {
         console.log('Please fill in all fields');
-        return;
+        console.log(`Name: ${name}, Phone: ${phone_number}, Email: ${email}, Image: ${img}`)
+        return false;
     }
 
     try {
@@ -19,16 +20,19 @@ const createOrganization = async (name: string, img: string) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, img }),
+        body: JSON.stringify({ name, phone_number, email, img }),
       });
   
       if (!response.ok) {
         console.log("Error: ", response.statusText);
+        return false;
       }
   
       const data = await response.json();
+      return true;
     } catch (error) {
       console.error('Error:', error);
+      return false;
     }
   };
 
@@ -38,18 +42,15 @@ function OrganizationRegistration() {
     const [org_email, setOrgEmail] = useState("");
     const [image, setImage] = useState<string>('');
     const [register, setRegister] = useState(false);
-
-    let registerOrganization = (org_name: string, org_phone: string, org_email: string, image: string) => {
-        console.log("Pressed Register Organization button");
-        console.log("Organization Name: " + org_name);
-        console.log("Organization Phone: " + org_phone);
-        console.log("Organization Email: " + org_email);
-        console.log("Image: " + image);
-    }
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        if(register) {
-            createOrganization(org_name, image);
+        if(register && !success) {
+            createOrganization(org_name, org_phone, org_email, image).then((success) => {
+                if(success) {
+                    setSuccess(true);
+                }
+            })
         }
         setRegister(false);
       }, [register]);
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         fontSize: 17
-      },
+     }
 });
 
 export default OrganizationRegistration;

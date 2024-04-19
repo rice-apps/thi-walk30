@@ -6,6 +6,8 @@ const mongodb = require("mongodb");
 router.post("/create", async (req, res, next) => {
   const org = new Organization({
     name: req.body.name,
+    phone_number: req.body.phone_number,
+    email: req.body.email,
     img: req.body.img,
   });
   try {
